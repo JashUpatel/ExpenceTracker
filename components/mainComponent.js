@@ -4,7 +4,12 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Main from './components/mainComponent';
+
+// import drawer navigation
+
+import DrawerNavigator from '../routes/drawerNavigator';
+import TabNavigator from '../routes/tabNavigator';
+
 
 function HomeScreen() {
   return (
@@ -16,10 +21,14 @@ function HomeScreen() {
 
 const Stack = createStackNavigator();
 
-function App() {
+function Main() {
   return (
-    <Main />
+    <NavigationContainer>
+      <DrawerNavigator />
+    {/* <TabNavigator /> */}
+
+    </NavigationContainer>
   );
 }
 
-export default App;
+export default Main;
