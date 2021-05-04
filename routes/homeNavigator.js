@@ -17,8 +17,8 @@ import HomeScreen from '../components/HomeScreen';
 
 // import common props for navigator
 import NavigatorProps from '../assets/props/navigatorProps';
-import AddExpence from '../components/AddExpence';
-
+// import AddExpence from '../components/AddExpence';
+import Insights from '../components/Insights';
 
 // function HomeScreen() {
 //   return (
@@ -28,8 +28,30 @@ import AddExpence from '../components/AddExpence';
 // }
 
 const Stack = createStackNavigator();
+// function HomeScreenWithProps(){
+//   return(
+//     <HomeScreen Expences={expences} />
+//   );
+// }
 
-export default function HomeNavigator() {
+export default class HomeNavigator extends React.Component {
+  // var expences=this.props.data
+  constructor(props){
+    super(props);
+    this.HomeScreenWithProps = this.HomeScreenWithProps.bind(this)
+
+  }
+
+  HomeScreenWithProps=()=>{
+    return(
+
+    <HomeScreen Expences={this.props.data} income={this.props.income} />
+
+    );
+
+  }
+
+  render(){
   return (
       <Stack.Navigator 
       initialRouteName="Home"
@@ -62,7 +84,7 @@ export default function HomeNavigator() {
                             marginTop:3,
                             marginRight:20
                       }}
-                        onPress={()=>navigation.navigate('AddExpence')}
+                        onPress={()=>navigation.navigate('Insights')}
                         />
         ),
 
@@ -73,12 +95,13 @@ export default function HomeNavigator() {
       }
       
 
-        component={HomeScreen} />
+        component={this.HomeScreenWithProps} />
 
         
       </Stack.Navigator>
    
   );
+    }
 }
 
  

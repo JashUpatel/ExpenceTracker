@@ -8,7 +8,7 @@ import AddExpence from './AddExpence';
 
 // import Expences Block
 import ExpenceBlock from './ExpenceBlock';
-import { DATA } from './data';
+// import { DATA } from './data';
 
 // var monthFlag1 = [0,0,0,0,0,0,0,0,0,0,0,0];
 var s;
@@ -210,8 +210,10 @@ class AllExpences extends Component{
         // this.props.expences.push(newExpence);
 
         // this.state.data.push(newExpence);
-        this.state.data.push(newExpence);
-        this.setState({refresh:"refresh"})
+        this.props.expences.push(newExpence);
+        // this.setState({modalVisible:true});
+
+        // this.setState({refresh:"refresh"})
         // this.setState({data:exp})
       //   this.props.expences.sort(function(a, b) {
       //     var c = new Date(a.date);
@@ -254,20 +256,25 @@ class AllExpences extends Component{
     }
 
    
-    componentDidMount(){
-      const data1 = this.props.expences;
-    // const addExpence () => (this.props.addExpence);
-    this.storeData(data1);
-    // this.forceUpdate();
+    // componentDidMount(){
+    //   const data1 = this.props.expences;
+    // // const addExpence () => (this.props.addExpence);
+    // this.storeData(data1);
+    // // this.forceUpdate();
 
 
-    }
+    // }
+
+    // componentWillReceiveProps(){
+    //   var exp = this.props.expences;
+    //   this.setState({data:exp});
+    // }
 
 
     render(){
         // const data = Data;
     
-    var expences = this.expenceFilter(this.state.data);
+    var expences = this.expenceFilter(this.props.expences);
     // var expences = this.expenceFilter(data);
 
     expences.sort(this.sortByDate);

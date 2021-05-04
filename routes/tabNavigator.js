@@ -75,7 +75,8 @@ const Tab = createBottomTabNavigator();
 export default class TabNavigator extends React.Component{
 
   render(){
-    const data = this.props.data;
+    var data = this.props.data;
+    var income = this.props.income;
     // const addExpence = this.props.addExpence;
     
 
@@ -94,7 +95,7 @@ export default class TabNavigator extends React.Component{
       return (
   
         // <LiSt/>
-        <Expences expences={data} />
+        <Expences expences={data} income={income} />
         // <ExpenceNavigator/>
         // <AddExpence/>
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

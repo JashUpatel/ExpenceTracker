@@ -17,7 +17,7 @@ import Expences from './Expences';
 
 //import Data
 // import Data from './data';
-import { DATA } from './data';
+// import { DATA } from './data';
 
 
 class HomeScreen extends Component{
@@ -25,7 +25,18 @@ class HomeScreen extends Component{
     constructor(props){
         super(props);
         this.state={
-            Expences:DATA,
+            // income:[
+            //     {
+            //         month:"05/2021",
+            //         income:"1000"
+            //     },
+            //     {
+            //         month:"04/2021",
+            //         income:"500"
+            //     }
+
+            // ]
+            // Expences:DATA,
 
             // Expences:[
             //     {
@@ -158,7 +169,7 @@ class HomeScreen extends Component{
                 // )
               
             // <TabNavigator expences={this.expenceFilter()} payables={this.payableFilter()} receivables={this.recievableFilter()}  data={this.state.Expences}  />
-            <TabNavigator  data={this.state.Expences}  />
+            <TabNavigator  data={this.props.Expences} income={this.props.income} />
 
         )}
 

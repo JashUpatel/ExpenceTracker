@@ -1,6 +1,7 @@
 export const DATA = [
+
     {
-        date:"07/03/2021",
+        date:"07/05/2021",
         // date:"03/07/2021",
         amount:'100',
         desc:'Lunch',
@@ -10,7 +11,7 @@ export const DATA = [
         status:"Paid"
     },
     {
-        date:"21/03/2021",
+        date:"21/05/2021",
         // date:"03/21/2021",
         amount:'100',
         desc:'Lunch',
@@ -20,7 +21,27 @@ export const DATA = [
         status:"Paid"
     },
     {
-        date:"21/03/2021",
+        date:"07/04/2021",
+        // date:"03/07/2021",
+        amount:'100',
+        desc:'Lunch',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/04/2021",
+        // date:"03/21/2021",
+        amount:'100',
+        desc:'Lunch',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/04/2021",
         //  date:"03/21/2021",
         amount:'100',
         desc:'Lunch',

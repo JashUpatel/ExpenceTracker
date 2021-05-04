@@ -1,11 +1,10 @@
 import React, {Component, useState} from 'react';
-import { Text,TextInput, View, StyleSheet, TouchableHighlight, Button,Modal,Alert,Pressable, DatePickerAndroid } from 'react-native';
+import { Text,TextInput, View, StyleSheet, TouchableHighlight, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddExpence from './AddExpence';
-// import Prompt from 'react-native-prompt';
 
 // import Expences Block
 import ExpenceBlock from './ExpenceBlock';
@@ -19,17 +18,17 @@ var yyyy = today.getFullYear();
 
 today = dd + '/' + mm + '/' + yyyy;
 
-class Expences extends Component{
+class Insights extends Component{
     
     constructor(props){
         super(props);
         this.state={
             modalVisible:false,
+            data:[],
             incModalVisible:false,
-            // data:[],
-             newIncome: '',
-             tempEl:"",
-            // promptVisible: false
+            newIncome: '',
+            tempEl:"",
+          
             // monthlyTotal:0,
             // dailyTotal:0,
             // monthlyFilterArr:[],
@@ -53,11 +52,9 @@ class Expences extends Component{
         // this.listener = this.listener.bind(this);
         this.getMonthTotal = this.getMonthTotal.bind(this);
         this.getDayTotal= this.getDayTotal.bind(this);
-        // this.showAlert = this.showAlert.bind(this)
         this.setIncome = this.setIncome.bind(this);
 
        }
-
 
 
        setIncome(){
@@ -89,28 +86,6 @@ class Expences extends Component{
               
 
        }
-
-  //       showAlert = () =>
-  //       //  Alert.prompt("Alert Title", "My Alert Msg", callbackOrButtons?, type?, defaultValue?, keyboardType?)
-  // Alert.prompt(
-  //   "Alert Title",
-  //   "My Alert Msg",
-  //   [
-  //     {
-  //       text: "Cancel",
-  //       onPress: () => Alert.alert("Cancel Pressed"),
-  //       style: "cancel",
-  //     },
-  //   ],
-  //   {
-  //     cancelable: true,
-  //     onDismiss: () =>
-  //       Alert.alert(
-  //         "This alert was dismissed by tapping outside of the alert dialog."
-  //       ),
-  //   }
-  // );
-
 
       
       //  componentWillUnmount() {
@@ -380,8 +355,9 @@ class Expences extends Component{
     }
 
     incsetModalVisible(){
-      this.setState({incModalVisible:!this.state.incModalVisible});
-  }
+        this.setState({incModalVisible:!this.state.incModalVisible});
+    }
+
 
     getMonthTotal(mArr,dt){
 
@@ -429,9 +405,6 @@ class Expences extends Component{
     expences.sort(this.sortByDate);
     
     var monthlyFilterArr = this.monthlyFilter(expences);
-    var thismonthlyFilterArrIndx = monthlyFilterArr.findIndex((e)=>(e.month==today.slice(3,10)));
-    var monthlyFilterArrDisp = [];
-    monthlyFilterArrDisp.push(monthlyFilterArr[thismonthlyFilterArrIndx])
     // this.setState({monthlyFilterArr:monthlyFilterArr})
     // this.monthlyTotal(monthlyFilterArr);
     // var distinctDateMapData = this.distinctDateExpences(expences);
@@ -446,8 +419,7 @@ class Expences extends Component{
     //   });
 
     // var MapKeys = [...distinctDateMapData.keys()]
-    
-    if(thismonthlyFilterArrIndx!=-1 && monthlyFilterArrDisp.length>0){
+
 
 
     return(
@@ -511,7 +483,7 @@ class Expences extends Component{
                 //  </View>
                 // )})
 
-                monthlyFilterArrDisp.map(el=>{
+                monthlyFilterArr.map(el=>{
                   var dateFilterArr=this.dateFilter(el.expences)
                   return(
                     <View>
@@ -521,18 +493,17 @@ class Expences extends Component{
 {/* montly insight chart start */}
 
 
-
-    <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
+<TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
     // accessibilityRole='button'
     activeOpacity={0.6}
     underlayColor="#DDDDDD"
     onPress={()=>this.setState({incModalVisible:true,tempEl:el})}
 
     >
-  <View>
-                 
+{/* <View style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}> */}
+                 <View>
                  <View style={{flex:1, alignSelf:'center'}}>
-       <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>{this.getMonthName(today)}, {today.split("/")[2]}</Text>
+       <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>{this.getMonthName('01/'+el.month)}, {el.month.split("/")[1]}</Text>
                  </View>
    
                  <View style={{flexDirection:'row',alignContent:'space-between'}}>
@@ -591,7 +562,8 @@ class Expences extends Component{
                      {/* </View> */} 
    
                    {/* <Text style={style.total,{flex:3,marginLeft:125,marginTop:5,fontWeight:'bold'}}>$500</Text> */}
-                   </View>
+               {/* </View> */}
+               </View>
                </TouchableHighlight>
 
 
@@ -609,20 +581,20 @@ class Expences extends Component{
                          </View> */}
                          {/* </View>:<View></View> */}
                          {/* } */}
-                         {dateFilterArr.map(d=>{
-                           return(
-                             <View>
-                            <View style={style.date}>
+                         {/* {dateFilterArr.map(d=>{ */}
+                        {/* //    return( */}
+                        {/* //      <View> */}
+                        {/* //     <View style={style.date}> */}
                             {/* <Text style={style.dateText}>{el}  </Text> */}
-                            <View style={style.date}>
+                            {/* <View style={style.date}>
                            <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
                            </View>
-                           </View>
-                            { d.expences.map(x=>(<ExpenceBlock expences={x}/>))}
+                           </View> */}
+                            {/* { d.expences.map(x=>(<ExpenceBlock expences={x}/>))} */}
 
-                          </View>
-                           )
-                         })}
+                          {/* </View> */}
+                        {/* //    ) */}
+                        {/* //  })} */}
 
                         {/* <View style={style.date}> */}
                         {/* <Text style={style.dateText}>{el}  </Text> */}
@@ -667,8 +639,23 @@ class Expences extends Component{
             {/* </View> */}
         </View>
         
+                
+    </ScrollView>
+    
+    {/* <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+    <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+        <View style={{alignItems:'center'}}>
+                <TouchableHighlight elevation style={style.button} underlayColor='#137863' onPress={() => this.setModalVisible(true)}>
+                <Text style={style.add}>+</Text>
+                </TouchableHighlight>
 
-        <Modal animationType = {"slide"} transparent = {true}
+        </View>
+
+    </View>
+  </View> */}
+
+
+<Modal animationType = {"slide"} transparent = {true}
                     visible = {this.state.incModalVisible}
                     onDismiss = {() => this.incsetModalVisible() }
                     onRequestClose = {() => this.incsetModalVisible() }>
@@ -702,30 +689,6 @@ class Expences extends Component{
                 </Modal>
 
 
-
-        {/* <Prompt
-            title="Add Income"
-            placeholder="000"
-            defaultValue="0"
-            visible={this.state.promptVisible}
-            onCancel={() => this.setState({ promptVisible: false})}
-            onSubmit={(value)=>this.setState({promptVisible:false,newIncome:value})}/> */}
-
-                
-    </ScrollView>
-    
-    <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
-    <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
-        <View style={{alignItems:'center'}}>
-                <TouchableHighlight elevation style={style.button} underlayColor='#137863' onPress={() => this.setModalVisible(true)}>
-                <Text style={style.add}>+</Text>
-                </TouchableHighlight>
-
-        </View>
-
-    </View>
-  </View>
-
   <Modal animationType = {"slide"} transparent = {false}
                     visible = {this.state.modalVisible}
                     onDismiss = {() => this.setModalVisible() }
@@ -741,22 +704,12 @@ class Expences extends Component{
                 </Modal>
 
 
-
-
 </View>
    
 )}
-else{
-  return(
-    <View style={style.container}>
-      <Text>No Record Found!</Text>
-</View>
-  )
-}
-}
 };
 
-export default Expences;
+export default Insights;
 
 const style = StyleSheet.create({
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{Component} from 'react';
 import { Button, View, Image, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator,DrawerItemList } from '@react-navigation/drawer';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -12,7 +12,11 @@ import AboutNavigator from './aboutNavigator';
 import AllExpencesNavigator from './AllExpencesNavigator';
 import { HeaderTitle } from '@react-navigation/stack';
 import AddExpence from '../components/AddExpence';
+import Insights from '../components/Insights';
 import AddExpenceNavigator from './addExpenceNavigator';
+import InsightsNavigator from './InsightsNavigator';
+//import data centralizing at one point  
+import { DATA } from '../components/data';
 
 const Drawer = createDrawerNavigator();
 
@@ -51,7 +55,53 @@ const CustomDrawer=(props)=>(
     </ScrollView>
 
 );
-export default function DrawerNavigator(){
+
+
+export default class DrawerNavigator extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            data:DATA,
+            income:[
+                {
+                    month:"05/2021",
+                    income:"1000"
+                },
+                {
+                    month:"04/2021",
+                    income:"500"
+                }
+
+            ]
+        }
+    this.homeNavigatorWithProps = this.homeNavigatorWithProps.bind(this)
+    this.allExpencesWithProps = this.allExpencesWithProps.bind(this)
+    // this.addFunc = this.addFunc.bind(this);
+        
+    }
+
+    // addFunc(newExpence){
+    //     let newState = this.state.data.push(newExpence);
+    //     this.setState({data:newState})
+    // }
+    allExpencesWithProps=()=>{
+        return(
+            <AllExpencesNavigator  data={this.state.data} />
+        );
+    }
+    insightsWithProps=()=>{
+        return(
+            <InsightsNavigator  data={this.state.data} income={this.state.income} />
+        );
+    }
+    homeNavigatorWithProps=()=>{
+        return(
+            <HomeNavigator data={this.state.data} income={this.state.income} />
+        );
+    }
+
+    render(){
+
 
     return(
 
@@ -62,14 +112,15 @@ export default function DrawerNavigator(){
         labelStyle:{fontWeight:'bold',fontSize:14.5}
     }}
     >
-        <Drawer.Screen name="Home" component={HomeNavigator} />
-        <Drawer.Screen name="AllExpences" options={{drawerLabel:"All Expences"}} component={AllExpencesNavigator} />
-        <Drawer.Screen name="AddExpence" options={{drawerLabel:"Add Expences"}} component={AddExpenceNavigator} />
+        <Drawer.Screen name="Home" component={this.homeNavigatorWithProps} />
+        <Drawer.Screen name="AllExpences" options={{drawerLabel:"All Expences"}} component={this.allExpencesWithProps}  />
+        <Drawer.Screen name="Insights" options={{drawerLabel:"Monthly Insights"}} component={this.insightsWithProps} />
         <Drawer.Screen name="About" component={AboutNavigator} />
         <Drawer.Screen name="Contact" component={ContactNavigator} />
 
     </Drawer.Navigator>
     );
+}
 
 }
 

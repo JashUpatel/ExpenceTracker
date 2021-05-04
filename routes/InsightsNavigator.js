@@ -1,3 +1,47 @@
+// import * as React from 'react';
+// import { View, Text } from 'react-native';
+// // import { NavigationContainer } from '@react-navigation/native';
+// import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+// import { Icon } from 'react-native-elements';
+
+// // import common props for navigator
+// import NavigatorProps from '../assets/props/navigatorProps';
+
+
+// //import Screen of Add Expences for rendering.
+// import Insights from '../components/Insights';
+
+
+// const Stack = createStackNavigator();
+
+// export default function InsightsNavigator() {
+//   return (
+//       <Stack.Navigator  screenOptions={NavigatorProps}> 
+//         <Stack.Screen name="Insights" component={Insights}
+//           options={
+//             ({navigation})=>({headerLeft: ()=>(
+//                             <Icon name='menu' size={32} color='#fff'
+//                               containerStyle={{marginHorizontal:20,fontWeight:'bold'}}
+//                               onPress={()=>navigation.toggleDrawer()}
+//                               />
+//               ),
+//             headerTitle:"Monthly Insights"
+
+//             })
+            
+//           } 
+          
+//          />
+
+//       </Stack.Navigator>
+   
+//   );
+// }
+
+ 
+
+
+
 import  React, {Component} from 'react';
 import { View, Text } from 'react-native';
 // import { NavigationContainer } from '@react-navigation/native';
@@ -9,7 +53,7 @@ import NavigatorProps from '../assets/props/navigatorProps';
 
 
 //import Screen of All Expences for rendering.
-import AllExpences from '../components/AllExpences';
+import Insights from '../components/Insights';
 import AddExpence from '../components/AddExpence';
 
 
@@ -30,7 +74,7 @@ import AddExpence from '../components/AddExpence';
 // const Stack = createStackNavigator();
 
 
-class AllExpencesNavigator extends Component{
+class InsightsNavigator extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -100,12 +144,12 @@ class AllExpencesNavigator extends Component{
       //   ]
     }
 
-    this.AllExpenceData = this.AllExpenceData.bind(this)
+    this.InsightsData = this.InsightsData.bind(this)
   }
 
-  AllExpenceData=()=>{
+  InsightsData=()=>{
     return(
-      <AllExpences  expences={this.props.data}/>
+      <Insights  expences={this.props.data} income={this.props.income}/>
     );
   }
   render(){
@@ -115,7 +159,7 @@ class AllExpencesNavigator extends Component{
     return(
 
       <Stack.Navigator  screenOptions={NavigatorProps}> 
-        <Stack.Screen name="AllExpences" component={this.AllExpenceData}
+        <Stack.Screen name="Insights" component={this.InsightsData}
           options={
             ({navigation})=>({headerLeft: ()=>(
                             <Icon name='menu' size={32} color='#fff'
@@ -123,7 +167,7 @@ class AllExpencesNavigator extends Component{
                               onPress={()=>navigation.toggleDrawer()}
                               />
               ),
-            headerTitle:"All Expences"
+            headerTitle:"Monthly Insights"
 
             })
             
@@ -136,7 +180,7 @@ class AllExpencesNavigator extends Component{
   }
 }
 
-export default AllExpencesNavigator;
+export default InsightsNavigator;
 
 
 // export default function AllExpencesNavigator() {

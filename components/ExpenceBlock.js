@@ -51,7 +51,7 @@ const ExpenceBlock=({expences})=>(
                             <Text>
                                 {expences.paidBy=='You'&& expences.splitWith=="None"?<Text>Paid by: </Text>: expences.paidBy!="You" && expences.status=="Unpaid"?<Text>To: </Text>:<Text>From: </Text>}
                             <Text style={style.from}>{expences.paidBy}</Text></Text>
-                                <Text>{expences.date}Status: <Text style={{fontWeight:'bold'}}>{expences.status}</Text></Text>
+                                <Text>Status: <Text style={{fontWeight:'bold'}}>{expences.status}</Text></Text>
                             </View>
 
                 </View>
