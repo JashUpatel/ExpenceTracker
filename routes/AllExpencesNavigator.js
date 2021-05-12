@@ -105,7 +105,7 @@ class AllExpencesNavigator extends Component{
 
   AllExpenceData=()=>{
     return(
-      <AllExpences  expences={this.props.data}/>
+      <AllExpences  expences={this.props.data} remove={(expence)=>this.props.remove(expence)}/>
     );
   }
   render(){

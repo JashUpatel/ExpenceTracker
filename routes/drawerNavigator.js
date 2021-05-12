@@ -76,17 +76,34 @@ export default class DrawerNavigator extends Component{
         }
     this.homeNavigatorWithProps = this.homeNavigatorWithProps.bind(this)
     this.allExpencesWithProps = this.allExpencesWithProps.bind(this)
+    this.remove = this.remove.bind(this);  
+
     // this.addFunc = this.addFunc.bind(this);
-        
     }
 
+    remove(expence){
+        var arr = this.state.data
+        for( var i = 0; i < arr.length; i++)
+        {
+          if ( arr[i].date == expence.date && arr[i].desc == expence.desc)
+           {
+             arr.splice(i, 1);
+           }
+         }//=> [1, 2, 3, 4, 6, 7, 8, 9, 0]
+
+        //  this.props.expences = arr
+        this.setState({data:arr});
+        // this.storeData(this.state.availableColors);
+    
+    
+      }
     // addFunc(newExpence){
     //     let newState = this.state.data.push(newExpence);
     //     this.setState({data:newState})
     // }
     allExpencesWithProps=()=>{
         return(
-            <AllExpencesNavigator  data={this.state.data} />
+            <AllExpencesNavigator remove={(expence)=>this.remove(expence)}  data={this.state.data} />
         );
     }
     insightsWithProps=()=>{
@@ -96,7 +113,7 @@ export default class DrawerNavigator extends Component{
     }
     homeNavigatorWithProps=()=>{
         return(
-            <HomeNavigator data={this.state.data} income={this.state.income} />
+            <HomeNavigator remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} />
         );
     }
 

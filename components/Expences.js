@@ -29,6 +29,7 @@ class Expences extends Component{
             // data:[],
              newIncome: '',
              tempEl:"",
+             refresh:false,
             // promptVisible: false
             // monthlyTotal:0,
             // dailyTotal:0,
@@ -55,8 +56,84 @@ class Expences extends Component{
         this.getDayTotal= this.getDayTotal.bind(this);
         // this.showAlert = this.showAlert.bind(this)
         this.setIncome = this.setIncome.bind(this);
+        this.delete = this.delete.bind(this);
+        this.swipe = this.swipe.bind(this);
 
        }
+
+
+      //  remove(expence){
+      //   var arr = this.props.expences
+      //   for( var i = 0; i < arr.length; i++)
+      //   {
+      //     if ( arr[i].date == expence.date && arr[i].desc == expence.desc)
+      //      {
+      //        arr.splice(i, 1);
+      //      }
+      //    }//=> [1, 2, 3, 4, 6, 7, 8, 9, 0]
+
+      //    this.props.expences = arr
+      //   // this.setState({availableColors:arr});
+      //   // this.storeData(this.state.availableColors);
+    
+    
+      // }
+
+
+      swipe(expence){
+        Alert.alert(
+          'Expence already Paid',
+                    'This Expence has already been Paid.',
+                    [
+                        {
+                            text: 'Okay',
+                            onPress: ()=>console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        },
+                        // {
+                        //     text:'Update',
+                        //     onPress:()=>{
+                        //       // this.props.remove(expence)
+                        //       // this.setState({refresh:!this.state.refresh});
+    
+                        //     }
+                        // }
+    
+                    ],
+    
+                    )
+    
+    
+        }
+
+
+
+      delete(expence){
+        Alert.alert(
+          'Delete Expence',
+                    'Are you sure you wish to delete this Expence ?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: ()=>console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        },
+                        {
+                            text:'Delete',
+                            onPress:()=>{
+                              this.props.remove(expence)
+                              this.setState({refresh:!this.state.refresh});
+    
+                            }
+                        }
+    
+                    ],
+    
+                    )
+    
+    
+        }
+    
 
 
 
@@ -323,7 +400,7 @@ class Expences extends Component{
     expenceFilter(data){
     var expences=[];
       data.forEach(element => {
-        if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
+        if((element.paidBy.slice(0,3)=="You" && element.splitWith!='None' && element.status=="Unpaid")||(element.paidBy.slice(0,3)=="You" && element.splitWith=='None' && element.status=="Paid")){
           expences.push(element);
           
       }
@@ -618,7 +695,7 @@ class Expences extends Component{
                            <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock expences={x}/>))}
+                            { d.expences.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
                           </View>
                            )
@@ -748,8 +825,34 @@ class Expences extends Component{
 )}
 else{
   return(
-    <View style={style.container}>
+    <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
       <Text>No Record Found!</Text>
+
+      <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+    <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+        <View style={{alignItems:'center'}}>
+                <TouchableHighlight elevation style={style.button} underlayColor='#137863' onPress={() => this.setModalVisible(true)}>
+                <Text style={style.add}>+</Text>
+                </TouchableHighlight>
+
+        </View>
+
+    </View>
+  </View>
+
+  <Modal animationType = {"slide"} transparent = {false}
+                    visible = {this.state.modalVisible}
+                    onDismiss = {() => this.setModalVisible() }
+                    onRequestClose = {() => this.setModalVisible() }>
+                    {/* <View style = {style.modal}> */}
+                        <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
+                        <Button 
+                            onPress = {() =>this.setModalVisible()}
+                            color="#137863"
+                            title="Close" 
+                            />
+                    {/* </View> */}
+                </Modal>
 </View>
   )
 }

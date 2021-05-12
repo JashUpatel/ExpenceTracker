@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet, TouchableHighlight,Modal,Button } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight,Modal,Button,Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
@@ -46,6 +46,8 @@ class Receivables extends Component{
         // const [modalVisible, setModalVisible] = useState(false);
         this.state={
             modalVisible:false,
+            refresh:false,
+
         }
 
         this.setModalVisible=this.setModalVisible.bind(this);
@@ -59,9 +61,127 @@ class Receivables extends Component{
         // this.monthYearDisp = this.monthYearDisp.bind(this);
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
+        this.delete = this.delete.bind(this);
+        this.swipe = this.swipe.bind(this);
+        this.update = this.update.bind(this);
 
 
     }
+
+    update(expence){
+        var arr = this.props.receivables;
+  
+        for( var i = 0; i < arr.length; i++)
+          {
+            if ( arr[i].status==expence.status&& arr[i].date == expence.date && arr[i].desc == expence.desc)
+             {
+              //  arr.splice(i, 1);
+              var exp = arr[i]
+             }
+           }
+  
+        if(exp.status==expence.status && exp.date==expence.date && exp.amount==expence.amount && exp.desc==expence.desc && exp.paidBy==expence.paidBy){
+          if(expence.status=="Unpaid" ){
+          exp.status="Paid";
+          let temp = exp.paidBy.slice(0,3)
+          exp.paidBy=temp;
+
+  
+          Alert.alert(
+            'Expence Paid',
+                      'This Expence has been Paid successfully.',
+                      [
+                          {
+                              text: 'Okay',
+                              onPress: ()=>console.log('Cancel Pressed'),
+                              style: 'cancel'
+                          },
+                          
+      
+                      ],
+      
+                      )
+  
+        }
+
+        else{
+  
+          Alert.alert(
+            'Expence already Paid',
+                      'This Expence has already been Paid.',
+                      [
+                          {
+                              text: 'Okay',
+                              onPress: ()=>console.log('Cancel Pressed'),
+                              style: 'cancel'
+                          },
+                          
+      
+                      ],
+      
+                      )
+  
+        }
+  
+      }
+    }
+  
+
+    swipe(expence){
+        Alert.alert(
+          'Update Status',
+                    'Are you sure you wish to change status of this Expence ?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: ()=>console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        },
+                        {
+                            text:'Update',
+                            onPress:()=>{
+                              // this.props.remove(expence)
+                              // this.setState({refresh:!this.state.refresh});
+                              
+                              this.update(expence)
+                              this.setState({refresh:!this.state.refresh});
+                           
+                            }
+                        }
+    
+                    ],
+    
+                    )
+    
+    
+        }
+
+    delete(expence){
+        Alert.alert(
+          'Delete Expence',
+                    'Are you sure you wish to delete this Expence ?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: ()=>console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        },
+                        {
+                            text:'Delete',
+                            onPress:()=>{
+                              this.props.remove(expence)
+                              this.setState({refresh:!this.state.refresh});
+    
+                            }
+                        }
+    
+                    ],
+    
+                    )
+    
+    
+        }
+
 
     monthlyFilter(expence){
         var monthArr = []
@@ -162,12 +282,28 @@ class Receivables extends Component{
 
         var receivables=[];
         data.forEach(element => {
-          if(element.paidBy=="You" && element.splitWith!="None" && element.status=="Unpaid"){
+          if(element.paidBy.slice(0,3)=="You" && element.splitWith!="None" && element.status=="Unpaid"){
             receivables.push(element);
           }
+          
         });
 
         return receivables;
+
+    }
+
+    paidReceivablesFilter(data){
+        var paidReceivables=[];
+        data.forEach(element => {
+            if(element.paidBy.slice(0,3)=="You" && element.splitWith!="None" && element.status=="Paid"){
+                paidReceivables.push(element);
+                
+            }
+            
+          });
+  
+          return paidReceivables;
+  
 
     }
 
@@ -209,12 +345,17 @@ class Receivables extends Component{
     render(){
     const data = this.props.receivables;
     var receivables = this.recievableFilter(data);
+    var paidReceivables = this.paidReceivablesFilter(data);
     receivables.sort(this.sortByDate);
+    paidReceivables.sort(this.sortByDate);
     // var distinctDateMapData = this.distinctDateExpences(receivables);
 
     var monthlyFilterArr = this.monthlyFilter(receivables);
 
     // var MapKeys = [...distinctDateMapData.keys()]
+    var paidReceivablesArr = this.monthlyFilter(paidReceivables)
+
+    if(monthlyFilterArr.length>0 || paidReceivablesArr.length>0){
 
     return(
     <View>
@@ -257,6 +398,7 @@ class Receivables extends Component{
             var dateFilterArr=this.dateFilter(el.expences)
             return(
                 <View>
+                    <View>
                     <View style={style.month}>
             <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)},<Text style={style.digit}>{el.month.split("/")[1]}</Text>  -  ${el.total}</Text>
                     </View>
@@ -264,22 +406,85 @@ class Receivables extends Component{
                     return(
                         <View>
                         <View style={style.date}>
-                        <View style={style.date}>
+                        {/* <View style={style.date}> */}
                     <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
+                    {/* </View> */}
                     </View>
-                    </View>
-                        { d.expences.map(x=>(<ExpenceBlock expences={x}/>))}
+                        { d.expences.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
                     </View>
                     )
                     })}
 
             </View>
+            
+            
+            </View>
             )
             })
 
 
             }
+
+{
+
+paidReceivablesArr.length>0?
+<View style={style.month}>
+<Text style={style.monthText}>Settled Expences<Text style={style.digit}></Text></Text>
+</View>
+:
+<View></View>
+    }
+            
+            {
+              
+
+// if(paidReceivablesArr.length>0){
+paidReceivablesArr.map(el=>{
+
+var paidDateFilterArr=this.dateFilter(el.expences)
+return(
+    <View>
+        <View>
+        <View style={style.month}>
+<Text style={style.monthText}>{this.getMonthName(el.expences[0].date)},<Text style={style.digit}>{el.month.split("/")[1]}</Text>  -  ${el.total}</Text>
+        </View>
+
+
+        {paidDateFilterArr.map(d=>{
+        return(
+            <View>
+            <View style={style.date}>
+            {/* <View style={style.date}> */}
+        <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
+        {/* </View> */}
+        </View>
+            { d.expences.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
+
+        </View>
+        )
+        })}
+
+</View>
+
+
+</View>
+)
+})
+}
+            
+            <View>
+
+            {/* <View style={style.month}>
+            <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>
+            </View> */}
+             {paidReceivablesArr.map(d=>{
+             d.expences.map(x => (<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))
+             
+             })
+            }
+          </View>
+
 
             
             {/* {
@@ -288,6 +493,8 @@ class Receivables extends Component{
 
                 ))
             } */}
+
+          
 
         </View>
         
@@ -322,7 +529,50 @@ class Receivables extends Component{
 
 </View>
    
-)}
+)
+}
+else{
+    return(
+      <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
+        <Text>No Record Found!</Text>
+
+        {/* <View style={style.month}>
+            <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>
+            </View>
+             {paidReceivablesArr.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
+
+            </View> */}
+            
+        <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+      <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+          <View style={{alignItems:'center'}}>
+                  <TouchableHighlight elevation style={style.button} underlayColor='#137863' onPress={() => this.setModalVisible(true)}>
+                  <Text style={style.add}>+</Text>
+                  </TouchableHighlight>
+  
+          </View>
+  
+      </View>
+    </View>
+  
+    <Modal animationType = {"slide"} transparent = {false}
+                      visible = {this.state.modalVisible}
+                      onDismiss = {() => this.setModalVisible() }
+                      onRequestClose = {() => this.setModalVisible() }>
+                      {/* <View style = {style.modal}> */}
+                          <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
+                          <Button 
+                              onPress = {() =>this.setModalVisible()}
+                              color="#137863"
+                              title="Close" 
+                              />
+                      {/* </View> */}
+                  </Modal>
+  </View>
+    )
+  }
+
+}
 };
 
 export default Receivables;

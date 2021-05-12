@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight,Alert, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
@@ -19,7 +19,8 @@ class AllExpences extends Component{
         this.state={
             modalVisible:false,
             data:[],
-            refresh:''
+            refresh:false,
+            
             // monthFlag : [0,0,0,0,0,0,0,0,0,0,0,0],
             // mmyyyy:[]
             // DateWiseData:new Map(),
@@ -40,9 +41,37 @@ class AllExpences extends Component{
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
         this.storeData = this.storeData.bind(this);
+        this.delete = this.delete.bind(this);
 
 
        }
+
+
+       delete(expence){
+        Alert.alert(
+          'Delete Expence',
+                    'Are you sure you wish to delete this Expence ?',
+                    [
+                        {
+                            text: 'Cancel',
+                            onPress: ()=>console.log('Cancel Pressed'),
+                            style: 'cancel'
+                        },
+                        {
+                            text:'Delete',
+                            onPress:()=>{
+                              this.props.remove(expence)
+                              this.setState({refresh:!this.state.refresh});
+    
+                            }
+                        }
+    
+                    ],
+    
+                    )
+    
+    
+        }
 
        storeData(data1){
         
@@ -197,7 +226,7 @@ class AllExpences extends Component{
     expenceFilter(data){
     var expences=[];
       data.forEach(element => {
-        if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
+        if((element.paidBy.slice(0,3)=="You" && element.splitWith!='None' && element.status=="Unpaid")||(element.paidBy.slice(0,3)=="You" && element.splitWith=='None' && element.status=="Paid")){
           expences.push(element);
           
       }
@@ -295,6 +324,7 @@ class AllExpences extends Component{
     // var MapKeys = [...distinctDateMapData.keys()]
 
 
+    if(monthlyFilterArr.length>0){
 
     return(
     <View>
@@ -374,7 +404,7 @@ class AllExpences extends Component{
                            <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock expences={x}/>))}
+                            { d.expences.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)}/>))}
 
                           </View>
                            )
@@ -455,7 +485,44 @@ class AllExpences extends Component{
 
 </View>
    
-)}
+)
+
+}
+else{
+    return(
+      <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
+        <Text>No Record Found!</Text>
+  
+        <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+      <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
+          <View style={{alignItems:'center'}}>
+                  <TouchableHighlight elevation style={style.button} underlayColor='#137863' onPress={() => this.setModalVisible(true)}>
+                  <Text style={style.add}>+</Text>
+                  </TouchableHighlight>
+  
+          </View>
+  
+      </View>
+    </View>
+  
+    <Modal animationType = {"slide"} transparent = {false}
+                      visible = {this.state.modalVisible}
+                      onDismiss = {() => this.setModalVisible() }
+                      onRequestClose = {() => this.setModalVisible() }>
+                      {/* <View style = {style.modal}> */}
+                          <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
+                          <Button 
+                              onPress = {() =>this.setModalVisible()}
+                              color="#137863"
+                              title="Close" 
+                              />
+                      {/* </View> */}
+                  </Modal>
+  </View>
+    )
+  }
+}
+
 };
 
 export default AllExpences;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View,Alert, StyleSheet, Animated,TouchableOpacity } from 'react-native';
+import { Text, View,Alert, StyleSheet, Animated,TouchableOpacity,Modal,Button } from 'react-native';
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
@@ -9,6 +9,9 @@ import Expences from './Expences';
 //import swipeables
 import { Swipeable } from 'react-native-gesture-handler';
 import Swipeout from 'react-native-swipeout';
+
+
+import Select2 from 'react-native-select-two';
 
 // const RightActions = (progress, dragX) => {
 //     const scale = dragX.interpolate({
@@ -104,9 +107,49 @@ import Swipeout from 'react-native-swipeout';
 
   
 
-// class ExpenceBlock extends Component{
-const ExpenceBlock=({expences,onDelete=f=>f,onSwipe=f=>f,onSelect=f=>f})=>{
+class ExpenceBlock extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      categoryModal:false,
+      selectedValue:''
+    }
+    this.csetModalVisible = this.csetModalVisible.bind(this);
+  }
+
+  csetModalVisible(){
+    this.setState({categoryModal:!this.state.categoryModal});
+
+  }
+  render({expences,onDelete=f=>f,onSwipe=f=>f,onSelect=f=>f}){
+// const ExpenceBlock=({expences,onDelete=f=>f,onSwipe=f=>f,onSelect=f=>f})=>{
   
+    // var expences = this.props.expences;
+    // var onDelete = this.props.onDelete(expences);
+    // var onSwipe = this.props.onSwipe(expences);
+    // var onSelect = this.props.onSelect(expences)
+
+  const mockData = [
+    { id: 'Rent', name: 'Rent' },
+    { id: 'Food', name: 'Food' },
+    { id: 'Clothing', name: 'Clothing' },
+    { id: 'Online/Offline Shopping', name: 'Online/Offline Shopping' },
+    { id: 'Groceries', name: 'Groceries' },
+    { id: 'Insurance/loan', name: 'Insurance/loan' },
+    { id: 'Recharge and bills', name: 'Recharge and bills' },
+    { id: 'Movies and entertainment', name: 'Movies and entertainment' },
+    { id: 'Traveling', name: 'Traveling' },
+    { id: 'Fuel', name: 'Fuel' },
+    { id: 'Occasions', name: 'Occasions' },
+    { id: 'Medical and Healthcare', name: 'Medical and Healthcare' },
+    { id: 'Education', name: 'Education' },
+    { id: 'Donation', name: 'Donation' },
+    { id: 'Snacks and drinks', name: 'Snacks and drinks' },
+    { id: 'Investment', name: 'Investment' },
+    { id: 'Products and repairs', name: 'Products and repairs' },
+    { id: 'Personal expenses', name: 'Personal expenses' },
+    { id: 'Others', name: 'Others' }
+];
   const rightButton = [
     {
         text: 'Paid', 
@@ -210,7 +253,10 @@ const optionsSelect=(expences)=>{
                                     // marginLeft:15
                                     // flex:'row'
                                 }}
-                                onPress={()=>navigation.toggleDrawer()}
+                                onPress={()=>
+                                  // this.csetModalVisible()
+                                  console.log("press")
+                                }
                                 />
 
                     </View>
@@ -247,11 +293,80 @@ const optionsSelect=(expences)=>{
                 </View>
                 </TouchableHighlight>
                  {/* // </Swipeable> */}
+
+                 <Modal animationType = {"slide"} transparent = {true}
+                    visible = {this.state.categoryModal}
+                    onDismiss = {() => this.csetModalVisible() }
+                    onRequestClose = {() => this.csetModalVisible() }>
+                    <View style = {style.modal}>
+                      <View style={{justifyContent:'center',paddingVertical:25}}>
+                      <View>
+                    <Text>Add Income : </Text>
+                    <View style={styles.formRow}>
+                    
+                    <Text style={styles.formLabel}>Category</Text>
+                    <Select2
+                    isSelectSingle
+                    style={this.state.nullCategory==0?{ borderRadius: 5, width:'50 %', }:[{ borderRadius: 5, width:'50 %', },styles.nullErr]}
+                    colorTheme={'green'}
+                    popupTitle='Select Category'
+                    title={this.state.selectedValue}
+                    data={mockData}
+                    value={this.state.selectedValue}
+                    onSelect={data => {
+                        if(data!=''){
+                        this.setState({ selectedValue :data });
+
+                        }
+                        else{
+                        this.setState({ selectedValue :'Pick a Category' });
+
+
+                        }
+                    }}
+                    onRemoveItem={data => {
+                        this.setState({ selectedValue:data });
+                    }} 
+                    cancelButtonText={'Cancel'}
+                    selectButtonText ={'Select'}
+                    searchPlaceHolderText='Search Category'
+                    listEmptyTitle='Category not found!'
+                    // popupTitle={"Pick category"}
+                    // placeholder={"place"}
+                />
+                </View>
+                    </View>
+                    <View
+                    style={{
+                      alignItems: 'center',
+                      // justifyContent: 'center',
+                      // flex: 1,
+                      flexDirection: 'row',
+                    }}>
+                        {/* <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/> */}
+                        <Button 
+                            onPress = {() =>this.csetModalVisible()}
+                            color="#137863"
+                            title="Close" 
+                            />
+                            <Button 
+                            onPress = {() =>console.log("Save")}
+                            color="#137863"
+                            title="Save" 
+                            />
+                      </View>
+                    </View>
+                    </View>
+                </Modal>
+
                  </Swipeout>
 
+                 
 
 
-)};
+
+)}
+};
 
 export default ExpenceBlock;
 
@@ -331,6 +446,29 @@ const style = StyleSheet.create({
       fontWeight: 'bold',
       marginLeft:20,
       color: '#fff',
+    },
+    formRow: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 1,
+      flexDirection: 'row',
+      margin: 20
+    },
+    formLabel: {
+        fontSize: 18,
+        flex: 2
+    },
+    formItem: {
+        flex: 1,
+        justifyContent:'flex-end'
+    },
+    nullErr:{
+        borderColor:'red',
+        // borderWidth:1.5,
+        borderBottomWidth: 1.5,
+        borderTopWidth:1.5,
+        // borderRightWidth:1.5,
+        // alignSelf:'center'
     },
   
 

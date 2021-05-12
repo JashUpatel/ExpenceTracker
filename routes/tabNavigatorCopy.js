@@ -73,19 +73,32 @@ const Tab = createBottomTabNavigator();
 
 
 export default class TabNavigator extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={
+      data1:[],
+      income1:[],
 
-  render(){
+    }
+  }
+
+  componentDidMount(){
     var data = this.props.data;
     var income = this.props.income;
-    // const addExpence = this.props.addExpence;
     var remove = this.props.remove;
-    
 
-  // var expences=this.props.expences;
-  // var payables=this.props.payables;
-  // var receivables=this.props.receivables;
+    this.setState({data1:data})
 
-    function Tab1() {
+    this.setState({income1:income})
+
+  }
+
+
+
+   Tab1=() => {
+    // this.setState({data1:data});
+    // this.setState({income1:income})
+
     //   var expences=[];
     //   data.forEach(element => {
     //     if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
@@ -96,7 +109,7 @@ export default class TabNavigator extends React.Component{
       return (
   
         // <LiSt/>
-        <Expences remove={(expence)=>remove(expence)} expences={data} income={income} />
+        <Expences remove={(expence)=>this.props.remove(expence)} expences={this.state.data1} income={this.state.income1} />
         // <ExpenceNavigator/>
         // <AddExpence/>
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -107,7 +120,8 @@ export default class TabNavigator extends React.Component{
       );
     }
     
-     function Tab2() {
+      Tab2=()=> {
+        var data = this.state.data1;
 
       // var payables=[];
       // data.forEach(element => {
@@ -118,7 +132,7 @@ export default class TabNavigator extends React.Component{
  
       return (
   
-        <Payables remove={(expence)=>remove(expence)} payables={data}/>
+        <Payables payables={data}/>
   
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -128,7 +142,8 @@ export default class TabNavigator extends React.Component{
       );
     }
     
-     function Tab3() {
+      Tab3=()=> {
+        var data = this.state.data1;
 
       // var receivables=[];
       // data.forEach(element => {
@@ -140,7 +155,7 @@ export default class TabNavigator extends React.Component{
 
       return (
   
-        <Receivables remove={(expence)=>remove(expence)} receivables={data} />
+        <Receivables receivables={data} />
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         //   <Text>Tab3</Text>
@@ -148,6 +163,22 @@ export default class TabNavigator extends React.Component{
         // <TabNavigator />
       );
     }
+
+
+  render(){
+    // var data = this.props.data;
+    // this.setState({data1:data});
+    // var income = this.props.income;
+    // this.setState({income1:income})
+    // const addExpence = this.props.addExpence;
+    // var remove = this.props.remove;
+    
+
+  // var expences=this.props.expences;
+  // var payables=this.props.payables;
+  // var receivables=this.props.receivables;
+
+    
     
     function  Tab4(){
       return (
@@ -209,9 +240,9 @@ export default class TabNavigator extends React.Component{
           }
         }}
       >
-        <Tab.Screen name="Expences" component={Tab1} />
-        <Tab.Screen name="Payables" component={Tab2} />
-        <Tab.Screen name="Receivables" component={Tab3} />
+        <Tab.Screen name="Expences" component={this.Tab1} />
+        <Tab.Screen name="Payables" component={this.Tab2} />
+        <Tab.Screen name="Receivables" component={this.Tab3} />
         {/* <Tab.Screen name="Add" component={Tab4} /> */}
 
       </Tab.Navigator>

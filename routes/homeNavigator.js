@@ -45,7 +45,7 @@ export default class HomeNavigator extends React.Component {
   HomeScreenWithProps=()=>{
     return(
 
-    <HomeScreen Expences={this.props.data} income={this.props.income} />
+    <HomeScreen remove={(expence)=>this.props.remove(expence)} Expences={this.props.data} income={this.props.income} />
 
     );
 
