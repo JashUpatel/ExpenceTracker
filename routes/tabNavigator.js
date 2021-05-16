@@ -80,6 +80,7 @@ export default class TabNavigator extends React.Component{
     // const addExpence = this.props.addExpence;
     var remove = this.props.remove;
     
+    var add = this.props.add;
 
   // var expences=this.props.expences;
   // var payables=this.props.payables;
@@ -96,7 +97,7 @@ export default class TabNavigator extends React.Component{
       return (
   
         // <LiSt/>
-        <Expences remove={(expence)=>remove(expence)} expences={data} income={income} />
+        <Expences add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} expences={data} income={income} />
         // <ExpenceNavigator/>
         // <AddExpence/>
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -118,7 +119,7 @@ export default class TabNavigator extends React.Component{
  
       return (
   
-        <Payables remove={(expence)=>remove(expence)} payables={data}/>
+        <Payables add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} payables={data}/>
   
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -140,7 +141,7 @@ export default class TabNavigator extends React.Component{
 
       return (
   
-        <Receivables remove={(expence)=>remove(expence)} receivables={data} />
+        <Receivables add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} receivables={data} />
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         //   <Text>Tab3</Text>

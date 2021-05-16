@@ -73,14 +73,14 @@ class Payables extends Component{
 
       for( var i = 0; i < arr.length; i++)
         {
-          if (arr[i].status==expence.status && arr[i].date == expence.date && arr[i].desc == expence.desc)
+          if (arr[i].status==expence.status && arr[i].date == expence.date && arr[i].desc == expence.desc && arr[i].amount == expence.amount && arr[i].paidBy == expence.paidBy && arr[i].splitWith == expence.splitWith )
            {
             //  arr.splice(i, 1);
             var exp = arr[i]
            }
          }
 
-      if(expence.status=="Unpaid" && exp.status==expence.status && exp.date==expence.date && exp.amount==expence.amount && exp.desc==expence.desc && exp.paidBy==expence.paidBy){
+      if(expence.status=="Unpaid" && exp.status==expence.status && exp.date==expence.date && exp.amount==expence.amount && exp.desc==expence.desc && exp.paidBy==expence.paidBy && exp.splitWith==expence.splitWith){
         exp.status="Paid";
         let temp = exp.paidBy
         exp.paidBy="You to "+temp;
@@ -194,9 +194,14 @@ class Payables extends Component{
          }
          else{
            let indx = monthlyFilterExpence.findIndex((e)=>(el.date.slice(4,10)==e.month));
-           monthlyFilterExpence[indx].total=parseInt(monthlyFilterExpence[indx].total)+parseInt(el.amount)
+           let tempSum = Number(monthlyFilterExpence[indx].total)+Number(el.amount)
+           monthlyFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
+
            monthlyFilterExpence[indx].expences.push(el)
          }    
+
+
+        //  Math.round((( Number(monthlyFilterExpence[indx].total) + Number(el.amount) + Number.EPSILON) * 100) / 100 
 
         });
 
@@ -220,7 +225,9 @@ class Payables extends Component{
         }
         else{
           let indx = dateFilterExpence.findIndex((e)=>(el.date==e.date));
-          dateFilterExpence[indx].total=parseInt(dateFilterExpence[indx].total)+parseInt(el.amount)
+          let tempSum = Number(dateFilterExpence[indx].total)+Number(el.amount)
+          
+          dateFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
           dateFilterExpence[indx].expences.push(el)
         
         }    
@@ -297,6 +304,9 @@ class Payables extends Component{
 
     addFunc(newExpence){
         this.props.payables.push(newExpence);
+        // this.props.add(newExpence);
+        // this.setState({refresh:!this.state.refresh})
+        
     }
 
     sortByDate(a, b) {
@@ -398,7 +408,7 @@ class Payables extends Component{
                         { d.expences.map(x=>(
 
                           
-                        <ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)}/>
+                        <ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)}/>
                         
                         ))}
 
@@ -455,7 +465,7 @@ return(
         <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
         {/* </View> */}
         </View>
-            { d.expences.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
+            { d.expences.map(x=>(<ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
         </View>
         )
@@ -468,18 +478,15 @@ return(
 )
 })
 }
-            
-            <View>
+            {/* dont know this code for ? */}
+            {/* <View>
 
-            {/* <View style={style.month}>
-            <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>
-            </View> */}
              {paidPayablesArr.map(d=>{
-             d.expences.map(x => (<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))
+             d.expences.map(x => (<ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))
              
              })
             }
-          </View>
+          </View> */}
            
         </View>
         

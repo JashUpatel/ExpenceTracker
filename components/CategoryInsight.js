@@ -5,8 +5,7 @@ import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddExpence from './AddExpence';
-import CategoryInsights from '../components/CategoryInsight';
-import { useNavigation } from '@react-navigation/native';
+
 // import Expences Block
 import ExpenceBlock from './ExpenceBlock';
 // var monthFlag1 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -19,7 +18,7 @@ var yyyy = today.getFullYear();
 
 today = dd + '/' + mm + '/' + yyyy;
 
-class Insights extends Component{
+class CategoryInsights extends Component{
     
     constructor(props){
         super(props);
@@ -133,8 +132,8 @@ class Insights extends Component{
          if(!categoryArr.includes(el.category)){
       
            let newFormat={
-             month:el.date.slice(3,10),
-             category:el.category,
+            //  month:el.date.slice(3,10),
+              category:el.category,
              total:el.amount,
              expences:[el]
            }
@@ -143,9 +142,11 @@ class Insights extends Component{
          }
          else{
            let indx = categoryFilterExpence.findIndex((e)=>(el.category==e.category));
+           
           //  categoryFilterExpence[indx].total=parseInt(categoryFilterExpence[indx].total)+parseInt(el.amount)
           let tempSum = Number(categoryFilterExpence[indx].total)+Number(el.amount)
           categoryFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
+           
           categoryFilterExpence[indx].expences.push(el)
          }    
 
@@ -224,7 +225,7 @@ class Insights extends Component{
             
             let tempSav = Number(monthlyFilterExpence[indx].saving)-Number(el.amount)
             monthlyFilterExpence[indx].saving=Math.round((tempSav + Number.EPSILON) * 100) / 100
-            
+             
             monthlyFilterExpence[indx].expences.push(el)
           }    
 
@@ -255,6 +256,7 @@ class Insights extends Component{
           //  dateFilterExpence[indx].total=parseInt(dateFilterExpence[indx].total)+parseInt(el.amount)
           let tempSum = Number(dateFilterExpence[indx].total)+Number(el.amount)
           dateFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
+           
           dateFilterExpence[indx].expences.push(el)
          }    
 
@@ -350,8 +352,7 @@ class Insights extends Component{
     expenceFilter(data){
     var expences=[];
       data.forEach(element => {
-        // if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
-        if((element.paidBy.slice(0,3)=="You" && element.splitWith!='None' && element.status=="Unpaid")||(element.paidBy.slice(0,3)=="You" && element.splitWith=='None' && element.status=="Paid")){
+        if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
           expences.push(element);
           
       }
@@ -452,17 +453,13 @@ class Insights extends Component{
 
    
     render(){
-      // const navigation = this.props.navigation;
-      // const {navigate} = this.props.navigation;
-
-
-      // const navigation  = this.props
+      var categoryFilterData = this.props.route.params.CategoryFilterData;
     // const data = this.props.expences;
     // const addExpence () => (this.props.addExpence);
-    var expences = this.expenceFilter(this.props.expences);
-    expences.sort(this.sortByDate);
+    // var expences = this.expenceFilter(this.props.expences);
+    // expences.sort(this.sortByDate);
     
-    var monthlyFilterArr = this.monthlyFilter(expences);
+    // var monthlyFilterArr = this.monthlyFilter(expences);
     // this.setState({monthlyFilterArr:monthlyFilterArr})
     // this.monthlyTotal(monthlyFilterArr);
     // var distinctDateMapData = this.distinctDateExpences(expences);
@@ -541,10 +538,10 @@ class Insights extends Component{
                 //  </View>
                 // )})
 
-                monthlyFilterArr.map(el=>{
-                  var categoryFilterData=this.categoryFilter(el.expences)
-                  // var dateFilterArr=this.dateFilter(el.expences)
-                  return(
+                // monthlyFilterArr.map(el=>{
+                //   var categoryFilterData=this.categoryFilter(el.expences)
+                //   // var dateFilterArr=this.dateFilter(el.expences)
+                //   return(
                     <View>
 
 
@@ -552,21 +549,30 @@ class Insights extends Component{
 {/* montly insight chart start */}
 
 
+
+
+
+
+
+
+
+
+
+
+
 <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
     // accessibilityRole='button'
     activeOpacity={0.6}
     underlayColor="#DDDDDD"
-    onLongPress={()=>this.setState({incModalVisible:true,tempEl:el})}
-    onPress={() => {console.log("Press"); this.props.onPress(categoryFilterData,el.total,el.income,el.saving)}}
+    onPress={()=>this.setState({incModalVisible:true,tempEl:el})}
+
     >
-{/* <View style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}> */}
-                 <View>
+  <View>
+                 
                  <View style={{flex:1, alignSelf:'center'}}>
-       <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>{this.getMonthName('01/'+el.month)}, {el.month.split("/")[1]}</Text>
+       <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>{this.getMonthName(categoryFilterData[0].expences[0].date)}, {categoryFilterData[0].month.split("/")[1]}</Text>
                  </View>
    
-
-
                  <View style={{flexDirection:'row',alignContent:'space-between'}}>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
@@ -593,6 +599,86 @@ class Insights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
+                   <Text style={{fontWeight:'bold'}}>${this.props.route.params.expence}</Text>
+                 </View>
+                 <View
+                   style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
+                 >
+                   <Text style={{fontWeight:'bold'}}>${isNaN(this.props.route.params.income)?"-":this.props.route.params.income} </Text>
+                 </View>
+                 <View
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                 >
+                   <Text style={{fontWeight:'bold'}}>$  {isNaN(this.props.route.params.saving)?"-":this.props.route.params.saving} </Text>
+    
+                 </View>
+   
+                {/* <View style={{flex:1}}><Text style={{fontWeight:'bold'}}>Expence: </Text></View> */}
+                {/* <View style={{flex:2}}><Text >Income: </Text></View> */}
+                {/* <View style={{flex:1}}><Text >Savings: </Text> </View> */}
+                
+                 </View>
+                 {/* <View style={{flex:1,flexDirection:'row'}}>
+   
+                 </View> */}
+   
+                   {/* <Text style={style.monthInsight}>February,
+                     <Text style={style.digit}>2021</Text>    -    $5000 </Text>{"\n"} 
+                   <View style={{flex:1,flexDirection:'row'}}>
+                     <Text style={{flex:1,flexDirection:'row'}}><Text style={{fontWeight:'bold'}}>Expence: </Text><Text style={{flex:2}}>Income: </Text><Text style={{flex:3}}>Savings: </Text> </Text>{"\n"}
+                     {/* <Text style={style.insightText}><Text>$500 </Text><Text>$1000 </Text><Text>$500 </Text></Text> */}
+                     {/* </View> */} 
+   
+                   {/* <Text style={style.total,{flex:3,marginLeft:125,marginTop:5,fontWeight:'bold'}}>$500</Text> */}
+                   </View>
+               </TouchableHighlight>
+
+
+
+
+
+
+{/* <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
+    // accessibilityRole='button'
+    activeOpacity={0.6}
+    underlayColor="#DDDDDD"
+    onPress={()=>this.setState({incModalVisible:true,tempEl:el})}
+
+    > */}
+{/* <View style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}> */}
+                 <View>
+                 {/* <View style={{flex:1, alignSelf:'center'}}>
+       <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>{this.getMonthName('01/'+el.month)}, {el.month.split("/")[1]}</Text>
+                 </View>
+   
+
+
+                 <View style={{flexDirection:'row',alignContent:'space-between'}}>
+                 <View
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                 >
+                   <Text style={{fontWeight:'bold'}}>Expence: </Text>
+                 </View>
+                 <View
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                 >
+                   <Text style={{fontWeight:'bold'}}>Income: </Text>
+                 </View>
+                 <View
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                 >
+                   <Text style={{fontWeight:'bold'}}>Savings: </Text>
+                 </View>
+   
+                 </View>
+    */}
+   {/*  2 row for insights digits */}
+   
+   
+                 {/* <View style={{flexDirection:'row',alignContent:'space-between'}}>
+                 <View
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                 >
                    <Text style={{fontWeight:'bold'}}>${el.total}</Text>
                  </View>
                  <View
@@ -603,14 +689,14 @@ class Insights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${isNaN(el.saving)?"-":el.saving} </Text>
-                 </View>
+                   <Text style={{fontWeight:'bold'}}>${el.saving} </Text>
+                 </View> */}
    
                 {/* <View style={{flex:1}}><Text style={{fontWeight:'bold'}}>Expence: </Text></View> */}
                 {/* <View style={{flex:2}}><Text >Income: </Text></View> */}
                 {/* <View style={{flex:1}}><Text >Savings: </Text> </View> */}
                 
-                 </View>
+                 {/* </View> */}
                  {/* <View style={{flex:1,flexDirection:'row'}}>
    
                  </View> */}
@@ -635,9 +721,9 @@ class Insights extends Component{
 
 
                
-                 {/* <View style={{flex:1, alignSelf:'center'}}>
+                 <View style={{flex:1, alignSelf:'center'}}>
        <Text style={{flex:1,alignItems:'center',fontSize:21,fontWeight:'bold',marginBottom:9.5}}>Spendings: </Text>
-                 </View> */}
+                 </View>
    
 
    
@@ -732,21 +818,49 @@ class Insights extends Component{
 
 
 
-                 {/* <View style={style.formRow}>
-                    <Text style={style.formLabel}>Movies and entertainment</Text>
-                    <Text style={style.formItem}>$50</Text>
-                    
-                </View> */}
 
-                {/* {categoryFilterData.map((el)=>{
+                {categoryFilterData.map((el)=>{
+
+            var dateFilterArr=this.dateFilter(el.expences)
+
                   return(
+                    <View>
                     
-                <View style={style.formRow}>
-                <Text style={style.formLabel}>{el.category}</Text>
-                  <Text style={style.formLabel}>${el.total}</Text>
-              </View>
+                {/* // <View style={style.formRow}> */}
+                {/* <Text style={style.formLabel}>{el.category}</Text>
+                  <Text style={style.formLabel}>${el.total}</Text> */}
+                {/* <TextInput style={style.formItem} value={""} onFocus={()=>{}} onBlur={()=>{}}  maxLength={12}/> */}
+           
+
+                <View style={style.month}>
+                  <Text style={style.monthText}>{el.category} -  ${el.total}</Text>
+                </View>
+
+                {dateFilterArr.map(d=>{
+                           return(
+                             <View>
+                            <View style={style.date}>
+                            {/* <Text style={style.dateText}>{el}  </Text> */}
+                            <View style={style.date}>
+                           <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
+                           </View>
+                           </View>
+                            { d.expences.map(x=>(<ExpenceBlock expences={x} editable={false} />))}
+
+                          </View>
+                           )
+                         })}
+            </View>
+
+
+
+
                   );
-                })} */}
+                })}
+
+
+
+
 
 
 
@@ -758,7 +872,7 @@ class Insights extends Component{
                </View>
 
 
-               </TouchableHighlight>
+               {/* </TouchableHighlight> */}
 
 
 
@@ -801,8 +915,8 @@ class Insights extends Component{
                      
                     {/* { el.expences.map(x=>(<ExpenceBlock expences={x}/>))} */}
                   </View>
-                  )
-                })
+                //   )
+                // })
                 
                 
             }
@@ -903,7 +1017,7 @@ class Insights extends Component{
 )}
 };
 
-export default Insights;
+export default CategoryInsights;
 
 const style = StyleSheet.create({
 

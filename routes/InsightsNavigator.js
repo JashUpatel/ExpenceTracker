@@ -56,7 +56,7 @@ import NavigatorProps from '../assets/props/navigatorProps';
 import Insights from '../components/Insights';
 import AddExpence from '../components/AddExpence';
 
-
+import CategoryInsights from '../components/CategoryInsight';
 //import data 
 // import { DATA } from '../components/data';
 
@@ -147,18 +147,24 @@ class InsightsNavigator extends Component{
     this.InsightsData = this.InsightsData.bind(this)
   }
 
-  InsightsData=()=>{
+  InsightsData=({navigation})=>{
     return(
-      <Insights  expences={this.props.data} income={this.props.income}/>
+      <Insights  expences={this.props.data} income={this.props.income} onPress={(el,total,income,sav)=>navigation.navigate("Category",{CategoryFilterData:el,expence:total,income:income,saving:sav})}/>
     );
   }
+
+  // CategoryInsightsData=()=>{
+  //   return(
+  //     <Insights  expences={this.props.data} />
+
+  //   );
+  // }
   render(){
       const Stack = createStackNavigator();
       
 
     return(
-
-      <Stack.Navigator  screenOptions={NavigatorProps}> 
+      <Stack.Navigator  screenOptions={NavigatorProps} > 
         <Stack.Screen name="Insights" component={this.InsightsData}
           options={
             ({navigation})=>({headerLeft: ()=>(
@@ -174,6 +180,9 @@ class InsightsNavigator extends Component{
           } 
           
          />
+         <Stack.Screen name='Category' component={CategoryInsights}
+    options={{ headerTitle: "Category List", headerTintColor:'#fff'}}
+     />
          
       </Stack.Navigator>
     );

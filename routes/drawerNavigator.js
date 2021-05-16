@@ -62,6 +62,7 @@ export default class DrawerNavigator extends Component{
         super(props);
         this.state={
             data:DATA,
+            refresh:false,
             income:[
                 {
                     month:"05/2021",
@@ -78,14 +79,14 @@ export default class DrawerNavigator extends Component{
     this.allExpencesWithProps = this.allExpencesWithProps.bind(this)
     this.remove = this.remove.bind(this);  
 
-    // this.addFunc = this.addFunc.bind(this);
+    this.addFunc = this.addFunc.bind(this);
     }
 
     remove(expence){
         var arr = this.state.data
         for( var i = 0; i < arr.length; i++)
         {
-          if ( arr[i].date == expence.date && arr[i].desc == expence.desc)
+          if ( arr[i].date == expence.date && arr[i].desc == expence.desc && arr[i].amount == expence.amount && arr[i].paidBy == expence.paidBy && arr[i].splitWith == expence.splitWith )
            {
              arr.splice(i, 1);
            }
@@ -94,16 +95,20 @@ export default class DrawerNavigator extends Component{
         //  this.props.expences = arr
         this.setState({data:arr});
         // this.storeData(this.state.availableColors);
+        this.setState({refresh:!this.state.refresh});
     
     
       }
-    // addFunc(newExpence){
-    //     let newState = this.state.data.push(newExpence);
-    //     this.setState({data:newState})
-    // }
+
+    addFunc(newExpence){
+        let newState = this.state.data.push(newExpence);
+        this.setState({data:newState})
+        this.setState({refresh:!this.state.refresh});
+
+    }
     allExpencesWithProps=()=>{
         return(
-            <AllExpencesNavigator remove={(expence)=>this.remove(expence)}  data={this.state.data} />
+            <AllExpencesNavigator add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)}  data={this.state.data} />
         );
     }
     insightsWithProps=()=>{
@@ -113,7 +118,7 @@ export default class DrawerNavigator extends Component{
     }
     homeNavigatorWithProps=()=>{
         return(
-            <HomeNavigator remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} />
+            <HomeNavigator add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} />
         );
     }
 

@@ -23,6 +23,96 @@ export const DATA = [
         status:"Paid"
     },
     {
+        date:"07/05/2021",
+        // date:"03/07/2021",
+        amount:'100',
+        desc:'Lunch',
+        paidBy:"You",
+        category:'Food',
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/05/2021",
+        // date:"03/21/2021",
+        amount:'100',
+        desc:'Groceries',
+        category:'Groceries',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"07/05/2021",
+        // date:"03/07/2021",
+        amount:'100',
+        desc:'Fuel',
+        paidBy:"You",
+        category:'Fuel',
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/05/2021",
+        // date:"03/21/2021",
+        amount:'100',
+        desc:'Occasions',
+        category:'Occasions',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"07/05/2021",
+        // date:"03/07/2021",
+        amount:'100',
+        desc:'Traveling',
+        paidBy:"You",
+        category:'Traveling',
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/05/2021",
+        // date:"03/21/2021",
+        amount:'100',
+        desc:'Groceries',
+        category:'Groceries',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"07/05/2021",
+        // date:"03/07/2021",
+        amount:'100',
+        desc:'Clothing',
+        paidBy:"You",
+        category:'Clothing',
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+    {
+        date:"21/05/2021",
+        // date:"03/21/2021",
+        amount:'100',
+        desc:'Lunch',
+        category:'Food',
+        paidBy:"You",
+        splitWith:"None",
+        share:"N/A",
+        status:"Paid"
+    },
+
+
+    {
         date:"07/04/2021",
         // date:"03/07/2021",
         amount:'100',

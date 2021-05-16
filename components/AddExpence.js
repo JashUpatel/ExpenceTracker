@@ -219,6 +219,74 @@ class AddExpence extends Component{
 
     }
 
+    validateDesc(value){
+        this.setState({desc:value,nullDesc:0});
+        var foodArr = ["food", "breakfast", "lunch", "dinner","zomato","swiggy","pizza","burger","tiffin", "restaurants"];
+        var food = foodArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
+        var clothArr = ["shirt","t-shirt","jeans","wear","shoe"];
+        var cloth = clothArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
+        var billArr = ["bill", "electricity", "electricity bill","water bill", "recharge", "gas"];
+        var bill = billArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
+        var snacksArr = ["snacks", "tea", "coffee", "wafer","frooti","juice","soda","cupcake"];
+        var snacks = snacksArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
+        
+        if(value.toLowerCase().includes("rent")){
+            this.setState({selectedValue:"Rent",category:"Rent",nullCategory:0});
+        }
+        else if(food!=-1){
+            this.setState({selectedValue:"Food and restaurants",category:"Food and restaurants",nullCategory:0});
+            
+        }
+        else if(cloth!=-1){
+            this.setState({selectedValue:"Online and Offline Shopping",category:"Online and Offline Shopping",nullCategory:0});
+            
+        }
+        else if(value.toLowerCase().includes("dmart")||value.toLowerCase().includes("mall")){
+            this.setState({selectedValue:"Groceries",category:"Groceries",nullCategory:0});
+
+        }
+        else if(value.toLowerCase().includes("lic") || value.toLowerCase().includes("emi")){
+            this.setState({selectedValue:"Insurance and loan",category:"Insurance and loan",nullCategory:0});
+
+        }
+        else if(bill!=-1 || value.toLowerCase().includes("recharge") || value.toLowerCase().includes("bill")){
+            this.setState({selectedValue:"Recharge and bills",category:"Recharge and bills",nullCategory:0});
+        
+        }
+        else if(value.toLowerCase().includes("movie")){
+            this.setState({selectedValue:"Movies and entertainment",category:"Movies and entertainment",nullCategory:0});
+
+        }
+        else if(value.toLowerCase().includes("ticket") || value.toLowerCase().includes("uber") || value.toLowerCase().includes("auto") || value.toLowerCase().includes("ola")){
+            this.setState({selectedValue:"Traveling",category:"Traveling",nullCategory:0});
+
+        }
+        else if(value.toLowerCase().includes("fuel") || value.toLowerCase().includes("petrol") || value.toLowerCase().includes("deisel")){
+            this.setState({selectedValue:"Fuel",category:"Fuel",nullCategory:0});
+
+        }
+        else if(value.toLowerCase().includes("medicine") || value.toLowerCase().includes("medical") || value.toLowerCase().includes("doctor")){
+            this.setState({selectedValue:"Medical and Healthcare",category:"Medical and Healthcare",nullCategory:0});
+
+        }
+        else if(value.toLowerCase().includes("fee")){
+            this.setState({selectedValue:"Education",category:"Education",nullCategory:0});
+
+        }
+        else if(snacks!=-1){
+            this.setState({selectedValue:"Snacks and drinks",category:"Snacks and drinks",nullCategory:0});
+            
+        }
+        else if(value.toLowerCase().includes("invest") || value.toLowerCase().includes("stock") || value.toLowerCase().includes("gold")){
+            this.setState({selectedValue:"Investment",category:"Investment",nullCategory:0});
+
+        }
+        else{
+            this.setState({selectedValue:"Pick a Category",category:''});
+
+        }
+    }
+
     validatePaidBy(value){
         if(value.length>0){
         var letters = /^[A-Za-z ]+$/;
@@ -285,7 +353,7 @@ class AddExpence extends Component{
 
 
         }
-        else if(this.state.amount==''){
+        else if(this.state.amount=='' || parseInt(this.state.amount)==0){
             this.setState({nullAmount:1})
         }
         else if(this.state.desc==''){
@@ -297,10 +365,13 @@ class AddExpence extends Component{
             this.setState({nullCategory:1})
             // nullCategory
         }
-        else if(this.state.splitWith.split(",").length != this.state.share.split(",").length){
+        else if(this.state.share!="Equally" && this.state.share!="N/A" && (this.state.splitWith.split(",").length != this.state.share.split(",").length)){
             //    console.log("set errShare else if last")    
             // this.setState({errShare:1})
-            this.setState({errShare:1})
+            // if(this.state.share!="Equally" && this.state.share!="N/A"){
+                this.setState({errShare:1})
+
+            // }
 
         //     console.log("errr share chaneg to 1" + this.state.errShare)
         // console.log("err status1.5 "+ this.state.errShare)
@@ -324,7 +395,7 @@ class AddExpence extends Component{
           
             let newExpence = {
                 date:this.state.date,
-                amount:this.state.amount,
+                amount:this.state.amount.replace(",",""),
                 desc:this.state.desc,
                 category:this.state.category,
                 paidBy:this.state.paidBy,
@@ -349,7 +420,7 @@ class AddExpence extends Component{
            
                 let newPayable = {
                     date:this.state.date,
-                    amount:this.state.amount,
+                    amount:this.state.amount.replace(",",""),
                     desc:this.state.desc,
                     category:this.state.category,
                     paidBy:this.state.paidBy,
@@ -371,7 +442,7 @@ class AddExpence extends Component{
            
 
                 let splitArr = this.state.splitWith.split(",");
-                let payAmount = (this.state.amount/(splitArr.length+1));
+                let payAmount = Math.round(((Number(this.state.amount.replace(",",""))/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
                 let newExpence = {
                     date:this.state.date,
                     amount:payAmount,
@@ -407,7 +478,7 @@ class AddExpence extends Component{
                 // this.setState({errShare:2})
         
             let splitArr = this.state.splitWith.split(",");
-                let payAmount = (this.state.amount/(splitArr.length+1));
+                let payAmount = Math.round(((this.state.amount.replace(",","")/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
                 let newExpence = {
                     date:this.state.date,
                     amount:payAmount,
@@ -464,7 +535,7 @@ class AddExpence extends Component{
             // this.setState({errShare:1})
             // // this.setState({errShare:1});
             //     }
-                if(shareAmount>parseInt(this.state.amount)){
+                if(shareAmount>parseInt(this.state.amount.replace(",",""))){
                     // console.log("share > amount errShare 1" + this.state.errShare)
                     // console.log("err status6 "+ this.state.nullDesc)
 
@@ -482,7 +553,7 @@ class AddExpence extends Component{
                     // console.log("lenght amount errShare 0")
                     // console.log("err status7 "+ this.state.errShare)
 
-                    var yourShare = parseInt(this.state.amount) - parseInt(shareAmount)
+                    var yourShare = parseInt(this.state.amount.replace(",","")) - parseInt(shareAmount)
 
                 
                 let newExpence = {
@@ -592,22 +663,22 @@ class AddExpence extends Component{
         // const [v, setV] = useState({value: '', label: 'Select anything'});
         const mockData = [
             { id: 'Rent', name: 'Rent' },
-            { id: 'Food', name: 'Food' },
-            { id: 'Clothing', name: 'Clothing' },
-            { id: 'Online/Offline Shopping', name: 'Online/Offline Shopping' },
+            { id: 'Food and restaurants', name: 'Food and restaurants' },
+            // { id: 'Clothings', name: 'Clothings' },
+            { id: 'Online and Offline Shopping', name: 'Online and Offline Shopping' },
             { id: 'Groceries', name: 'Groceries' },
-            { id: 'Insurance/loan', name: 'Insurance/loan' },
+            { id: 'Insurance and loan', name: 'Insurance and loan' },
             { id: 'Recharge and bills', name: 'Recharge and bills' },
             { id: 'Movies and entertainment', name: 'Movies and entertainment' },
             { id: 'Traveling', name: 'Traveling' },
             { id: 'Fuel', name: 'Fuel' },
-            { id: 'Occasions', name: 'Occasions' },
+            // { id: 'Occasions', name: 'Occasions' },
             { id: 'Medical and Healthcare', name: 'Medical and Healthcare' },
             { id: 'Education', name: 'Education' },
-            { id: 'Donation', name: 'Donation' },
+            // { id: 'Donation', name: 'Donation' },
             { id: 'Snacks and drinks', name: 'Snacks and drinks' },
             { id: 'Investment', name: 'Investment' },
-            { id: 'Products and repairs', name: 'Products and repairs' },
+            // { id: 'Products Purchase', name: 'Products Purchase' },
             { id: 'Personal expenses', name: 'Personal expenses' },
             { id: 'Others', name: 'Others' }
         ];
@@ -692,7 +763,7 @@ class AddExpence extends Component{
                 </View>
                 <View style={styles.formRow}>
                     <Text style={styles.formLabel}>Description</Text>
-                    <TextInput style={this.state.nullDesc==0?styles.formItem:[styles.formItem,styles.nullErr]} value={this.state.desc} onChangeText={(value)=>this.setState({desc:value,nullDesc:0})} placeholder='Note' maxLength={15} />
+                    <TextInput style={this.state.nullDesc==0?styles.formItem:[styles.formItem,styles.nullErr]} value={this.state.desc} onChangeText={(value)=>this.validateDesc(value)} placeholder='Note' maxLength={15} />
                 </View>
                 {/* <View style={styles.formRow}>
                     
@@ -802,7 +873,7 @@ class AddExpence extends Component{
                     value={this.state.selectedValue}
                     onSelect={data => {
                         if(data!=''){
-                        this.setState({ selectedValue :data,category:data });
+                        this.setState({ selectedValue :data,category:data,nullCategory:0 });
 
                         }
                         else{
