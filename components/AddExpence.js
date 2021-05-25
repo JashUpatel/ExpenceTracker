@@ -225,7 +225,7 @@ class AddExpence extends Component{
         var food = foodArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
         var clothArr = ["shirt","t-shirt","jeans","wear","shoe"];
         var cloth = clothArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
-        var billArr = ["bill", "electricity", "electricity bill","water bill", "recharge", "gas"];
+        var billArr = ["bill", "credit", "card", "electricity", "electricity bill","water bill", "recharge", "gas"];
         var bill = billArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
         var snacksArr = ["snacks", "tea", "coffee", "wafer","frooti","juice","soda","cupcake"];
         var snacks = snacksArr.findIndex(item => value.toLowerCase() == item.toLowerCase())

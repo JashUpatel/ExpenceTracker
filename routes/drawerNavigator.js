@@ -36,7 +36,7 @@ const CustomDrawer=(props)=>(
             </View>
 
         </View>
-        <DrawerItemList {...props} />
+        <DrawerItemList  {...props} />
         <View style={{justifyContent:'center', alignItems:'center', marginTop:475}}>
 
                 <View>
@@ -63,6 +63,7 @@ export default class DrawerNavigator extends Component{
         this.state={
             data:DATA,
             refresh:false,
+            forceRefresh:false,
             income:[
                 {
                     month:"05/2021",
@@ -81,6 +82,10 @@ export default class DrawerNavigator extends Component{
 
     this.addFunc = this.addFunc.bind(this);
     }
+    componentDidMount(){
+        this.setState({refresh:!this.state.refresh}) 
+       }
+
 
     remove(expence){
         var arr = this.state.data
@@ -101,14 +106,18 @@ export default class DrawerNavigator extends Component{
       }
 
     addFunc(newExpence){
-        let newState = this.state.data.push(newExpence);
+        console.log(this.state.data.length)
+        let newState = this.state.data
+        newState.push(newExpence);
         this.setState({data:newState})
-        this.setState({refresh:!this.state.refresh});
-
+        this.setState({forceRefresh:true});
+        console.log(this.state.data.length)
+        console.log("refresh "+this.state.forceRefresh);
+        this.forceUpdate();
     }
     allExpencesWithProps=()=>{
         return(
-            <AllExpencesNavigator add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)}  data={this.state.data} />
+            <AllExpencesNavigator refresh={this.state.forceRefresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)}  data={this.state.data} />
         );
     }
     insightsWithProps=()=>{
@@ -118,7 +127,7 @@ export default class DrawerNavigator extends Component{
     }
     homeNavigatorWithProps=()=>{
         return(
-            <HomeNavigator add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} />
+            <HomeNavigator refresh={this.state.refresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} />
         );
     }
 
@@ -134,9 +143,9 @@ export default class DrawerNavigator extends Component{
         labelStyle:{fontWeight:'bold',fontSize:14.5}
     }}
     >
-        <Drawer.Screen name="Home" component={this.homeNavigatorWithProps} />
-        <Drawer.Screen name="AllExpences" options={{drawerLabel:"All Expences"}} component={this.allExpencesWithProps}  />
-        <Drawer.Screen name="Insights" options={{drawerLabel:"Monthly Insights"}} component={this.insightsWithProps} />
+        <Drawer.Screen name="Home" options={{unmountOnBlur:true}} component={this.homeNavigatorWithProps} />
+        <Drawer.Screen name="AllExpences"  options={{unmountOnBlur:true,drawerLabel:"All Expences"}} component={this.allExpencesWithProps}  />
+        <Drawer.Screen name="Insights" options={{unmountOnBlur:true,drawerLabel:"Monthly Insights"}} component={this.insightsWithProps} />
         <Drawer.Screen name="About" component={AboutNavigator} />
         <Drawer.Screen name="Contact" component={ContactNavigator} />
 

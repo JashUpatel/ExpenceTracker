@@ -62,6 +62,23 @@ class Expences extends Component{
 
        }
 
+       componentDidMount(){
+        console.log("did mount exp")
+        // this.setState({refresh:!this.state.refresh}) 
+       }
+
+       componentDidUpdate(prevProps) {
+        console.log("did update exp")
+
+        // Typical usage (don't forget to compare props):
+        if (this.props.expences.length !== prevProps.expences.length) {
+          // this.fetchData(this.props.userID);
+        // this.setState({refresh:!this.state.refresh}) 
+
+        }
+      }
+
+
 
       //  remove(expence){
       //   var arr = this.props.expences
@@ -508,11 +525,11 @@ class Expences extends Component{
 
 
     addFunc(newExpence){
-        this.props.expences.push(newExpence);
+        // this.props.expences.push(newExpence);
 
 
-        // this.props.add(newExpence);
-        // this.setState({refresh:!this.state.refresh})
+        this.props.add(newExpence);
+        this.setState({refresh:!this.state.refresh})
         
         // this.state.data.push(newExpence);
         // this.setState({refresh:"refresh"})
@@ -602,6 +619,7 @@ class Expences extends Component{
 
    
     render(){
+      console.log("render exp")
     // const data = this.props.expences;
     // const addExpence () => (this.props.addExpence);
     var expences = this.expenceFilter(this.props.expences);

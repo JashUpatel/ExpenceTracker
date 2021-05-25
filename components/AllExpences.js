@@ -15,11 +15,13 @@ var s;
 class AllExpences extends Component{
     
     constructor(props){
+
         super(props);
         this.state={
             modalVisible:false,
             data:[],
             refresh:false,
+            // focusSubscription:''
             
             // monthFlag : [0,0,0,0,0,0,0,0,0,0,0,0],
             // mmyyyy:[]
@@ -47,6 +49,24 @@ class AllExpences extends Component{
 
 
        }
+
+       
+       componentDidMount(){
+        console.log("did mount all exp")
+        // this.setState({refresh:!this.state.refresh})
+        
+        
+       }
+
+     
+       componentDidUpdate(prevProps) {
+        console.log("did update all exp")
+
+        // Typical usage (don't forget to compare props):
+        
+      }
+
+
        update(expence){
         var arr = this.props.expences;
   
@@ -402,6 +422,9 @@ class AllExpences extends Component{
 
 
     render(){
+
+      
+
         // const data = Data;
     
     var expences = this.expenceFilter(this.props.expences);

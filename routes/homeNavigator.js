@@ -38,6 +38,9 @@ export default class HomeNavigator extends React.Component {
   // var expences=this.props.data
   constructor(props){
     super(props);
+    this.state={
+      refresh:false
+    }
     this.HomeScreenWithProps = this.HomeScreenWithProps.bind(this)
 
   }
@@ -45,7 +48,7 @@ export default class HomeNavigator extends React.Component {
   HomeScreenWithProps=()=>{
     return(
 
-    <HomeScreen add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)} Expences={this.props.data} income={this.props.income} />
+    <HomeScreen onPress={()=>{console.log("HomeNav");this.setState({refresh:!this.state.refresh})}} add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)} Expences={this.props.data} income={this.props.income} />
 
     );
 

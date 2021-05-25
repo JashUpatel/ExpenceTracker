@@ -25,6 +25,7 @@ class HomeScreen extends Component{
     constructor(props){
         super(props);
         this.state={
+            refresh:false,
             // income:[
             //     {
             //         month:"05/2021",
@@ -169,7 +170,7 @@ class HomeScreen extends Component{
                 // )
               
             // <TabNavigator expences={this.expenceFilter()} payables={this.payableFilter()} receivables={this.recievableFilter()}  data={this.state.Expences}  />
-            <TabNavigator add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)}  data={this.props.Expences} income={this.props.income} />
+            <TabNavigator onPress={()=>{console.log("tab");this.setState({refresh:!this.state.refresh})}} add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)}  data={this.props.Expences} income={this.props.income} />
 
         )}
 

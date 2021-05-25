@@ -68,6 +68,11 @@ class Payables extends Component{
 
     }
 
+    componentDidMount(){
+      this.setState({refresh:!this.state.refresh}) 
+     }
+
+
     update(expence){
       var arr = this.props.payables;
 
@@ -303,9 +308,9 @@ class Payables extends Component{
   }
 
     addFunc(newExpence){
-        this.props.payables.push(newExpence);
-        // this.props.add(newExpence);
-        // this.setState({refresh:!this.state.refresh})
+        // this.props.payables.push(newExpence);
+        this.props.add(newExpence);
+        this.setState({refresh:!this.state.refresh})
         
     }
 
