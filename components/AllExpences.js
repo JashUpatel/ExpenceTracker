@@ -515,7 +515,22 @@ class AllExpences extends Component{
                        {/* { this.monthYearDisp(el)!=0? */}
                         {/* // <View style={this.monthDisp(el)?{display:"flex"}:{display:"none"}}> */}
                          <View style={style.month}>
-                  <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)},<Text style={style.digit}>{el.month.split("/")[1]}</Text>  -  ${el.total}</Text>
+                  <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)}, <Text style={style.digit}>{el.month.split("/")[1]}</Text> 
+                  {"  "} -  {" "}  
+              <Icon name='currency-inr' size={13.5}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                   color:'#d33737',
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                                <Text style={{color:'#d33737'}}>{el.total}</Text>
+                  </Text>
                          </View>
                          {/* </View>:<View></View> */}
                          {/* } */}
@@ -524,8 +539,31 @@ class AllExpences extends Component{
                              <View>
                             <View style={style.date}>
                             {/* <Text style={style.dateText}>{el}  </Text> */}
-                            <View style={style.date}>
-                           <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
+                            <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
+                           <Text style={style.dateText}>
+                             <Text style={style.dateDigit}>
+                               {d.date.slice(0,2)} 
+                               </Text>
+                               {this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   
+                                  
+                                  
+                                  </Text>
+                                  <Text style={{fontSize:18.5 ,color:"#1cc29f",fontWeight:'bold',marginTop:10,marginRight:10}}>
+                           <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                             {d.total}</Text>
+                                  
                            </View>
                            </View>
                             { d.expences.map(x=>(<ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)}/>))}

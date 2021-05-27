@@ -577,17 +577,17 @@ class CategoryInsights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Expence: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Expence: </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Income: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Income: </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Savings: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Savings: </Text>
                  </View>
    
                  </View>
@@ -599,17 +599,63 @@ class CategoryInsights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${this.props.route.params.expence}</Text>
+                   <Text style={{fontWeight:'bold',fontSize:16.5, color:'#f40909'}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+
+                   {this.props.route.params.expence}</Text>
                  </View>
                  <View
                    style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${isNaN(this.props.route.params.income)?"-":this.props.route.params.income} </Text>
+                   <Text style={this.props.route.params.income>0?{fontWeight:'bold',fontSize:16.5,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16.5}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                     {isNaN(this.props.route.params.income)?"-":this.props.route.params.income}
+                    {/* { this.props.route.params.income} */}
+                      </Text>
                  </View>
+
                  <View
-                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                   style={style.box, {flex:1,alignItems:'center'}}
                  >
-                   <Text style={{fontWeight:'bold'}}>$  {isNaN(this.props.route.params.saving)?"-":this.props.route.params.saving} </Text>
+                   <Text style={this.props.route.params.saving<0?{fontWeight:'bold',fontSize:16, color:'#f40909'}:this.props.route.params.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#1cc29f'}:this.props.route.params.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16.5}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                       {isNaN(this.props.route.params.saving)?"-":this.props.route.params.saving} </Text>
     
                  </View>
    
@@ -833,7 +879,21 @@ class CategoryInsights extends Component{
            
 
                 <View style={style.month}>
-                  <Text style={style.monthText}>{el.category} -  ${el.total}</Text>
+                  <Text style={style.monthText}>{el.category} 
+                  {"  "} -  {""}  
+              <Icon name='currency-inr' size={13.5}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                  color:'#d33737',
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    flexDirection:'column'
+                                }}
+                                />  
+                  
+                  <Text style={{color:'#d33737'}}>{el.total}</Text></Text>
                 </View>
 
                 {dateFilterArr.map(d=>{
@@ -841,8 +901,24 @@ class CategoryInsights extends Component{
                              <View>
                             <View style={style.date}>
                             {/* <Text style={style.dateText}>{el}  </Text> */}
-                            <View style={style.date}>
-                           <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   -   ${d.total}</Text>
+                            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                           <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   
+                           </Text>
+                           <Text style={style.date,{fontSize:18.5 ,fontWeight:'bold',color:'#1cc29f',marginTop:10,marginRight:10}}>
+                           <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                             {d.total}</Text>
                            </View>
                            </View>
                             { d.expences.map(x=>(<ExpenceBlock expences={x} editable={false} />))}

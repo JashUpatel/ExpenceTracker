@@ -557,7 +557,39 @@ class Insights extends Component{
     activeOpacity={0.6}
     underlayColor="#DDDDDD"
     onLongPress={()=>this.setState({incModalVisible:true,tempEl:el})}
-    onPress={() => {console.log("Press"); this.props.onPress(categoryFilterData,el.total,el.income,el.saving)}}
+    onPress={() => {
+      console.log(el.total+" Press "+el.income +" "+ el.saving);
+      if(isNaN(el.income)){
+        let elIncome = "-";
+        var elSaving=""
+        var elTotal=""
+        
+        if(isNaN(el.total))
+        {
+          elTotal="-";
+        }
+        else{
+          elTotal=el.total;
+
+        }
+        if(isNaN(el.saving))
+        {
+          elSaving="-";
+        }
+        else{
+          elSaving=el.saving;
+
+        }
+      console.log(elTotal+" Press "+elIncome +" "+ elSaving);
+        
+       this.props.onPress(categoryFilterData||[],elTotal||0,elIncome||0,elSaving||0)
+
+      }
+      else{
+       this.props.onPress(categoryFilterData||[],el.total||0,el.income||0,el.saving||0)
+      }
+    }
+      }
     >
 {/* <View style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}> */}
                  <View>
@@ -571,17 +603,17 @@ class Insights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Expence: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Expence: </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Income: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Income: </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>Savings: </Text>
+                   <Text style={{fontWeight:'800', fontSize:15}}>Savings: </Text>
                  </View>
    
                  </View>
@@ -593,17 +625,59 @@ class Insights extends Component{
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${el.total}</Text>
+                   <Text style={{fontWeight:'bold', fontSize:16, color:'#f40909'}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                   {el.total}   </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${el.income} </Text>
+                   <Text style={el.income>0?{fontWeight:'bold',fontSize:16,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                                {el.income}   </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold'}}>${isNaN(el.saving)?"-":el.saving} </Text>
+                   <Text style={el.saving<0?{fontWeight:'bold',fontSize:16, color:'#f40909'}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#1cc29f'}:{fontWeight:'bold',fontSize:16}}>
+                   <Icon name='currency-inr' size={16} solid={true} raised={true}
+                                // containerStyle={{marginLeft:5}}
+                                style={{
+                                    // position:'relative',
+                                    // top:19,
+                                    // left:-25,
+                                    // marginLeft:15
+                                    fontStyle:'normal',
+                                    fontWeight:'bold',
+                                    flexDirection:'column'
+                                }}
+                                // onPress={()=>navigation.toggleDrawer()}
+                                />
+                     {isNaN(el.saving)?"-":el.saving}   </Text>
                  </View>
    
                 {/* <View style={{flex:1}}><Text style={{fontWeight:'bold'}}>Expence: </Text></View> */}

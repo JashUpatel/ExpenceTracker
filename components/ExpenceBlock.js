@@ -316,6 +316,7 @@ const addCommas=(num) =>{
                                 <Icon name='currency-inr' size={32}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
+                                  // color:'#d33737s',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
@@ -324,7 +325,9 @@ const addCommas=(num) =>{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                <Text style={style.amount}>{expences.amount.toString().split(".").length==2?addCommas(expences.amount.toString().split(".")[0])+"."+expences.amount.toString().split(".")[1]:addCommas(expences.amount.toString())}</Text>
+                                <Text style={[style.amount, {
+                                  // color:'#d33737'
+                                  }]}>{expences.amount.toString().split(".").length==2?addCommas(expences.amount.toString().split(".")[0])+"."+expences.amount.toString().split(".")[1]:addCommas(expences.amount.toString())}</Text>
                                 </View>
                             </View>
 

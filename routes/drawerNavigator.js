@@ -83,7 +83,7 @@ export default class DrawerNavigator extends Component{
     this.addFunc = this.addFunc.bind(this);
     }
     componentDidMount(){
-        this.setState({refresh:!this.state.refresh}) 
+        // this.setState({refresh:!this.state.refresh}) 
        }
 
 
