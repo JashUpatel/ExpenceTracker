@@ -10,6 +10,9 @@ import Expences from './Expences';
 import { Swipeable } from 'react-native-gesture-handler';
 import Swipeout from 'react-native-swipeout';
 
+//importing icon
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 import Select2 from 'react-native-select-two';
 
@@ -285,7 +288,12 @@ const addCommas=(num) =>{
             <View style={style.block} >
 
                     <View>
-                            <Icon name='bowl-mix-outline' size={40}
+                            {/* <Icon 
+                            name='bowl-mix-outline' 
+                            size={40}
+                            raised
+                            // name='heartbeat'
+                            // type='font-awesome'
                                 containerStyle={{marginLeft:5}}
                                 style={{
                                     // position:'absolute',
@@ -303,7 +311,15 @@ const addCommas=(num) =>{
                                   }
 
                                 }
-                                />
+                                /> */}
+             <Ionicons 
+             name={expences.icon} 
+             size={40} 
+            //  color={color}
+              />
+
+                                
+
 
                     </View>
                     

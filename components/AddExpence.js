@@ -62,7 +62,8 @@ class AddExpence extends Component{
             share:"N/A",
             mode: 'date',
             show:true,
-            category:''
+            category:'',
+            icon:''
 
         }
         
@@ -219,6 +220,69 @@ class AddExpence extends Component{
 
     }
 
+    selectIcon(value){
+        if(value=="Rent"){
+            this.setState({icon:'home-outline'});
+        }
+        else if(value=='Food and restaurants'){
+            this.setState({icon:'fast-food-outline'});
+
+        }
+        else if(value=='Online and Offline Shopping'){
+            this.setState({icon:'bag-handle-outline'});
+
+        }
+        else if(value=='Groceries'){
+            this.setState({icon:'cart-outline'});
+
+        }
+        else if(value=='Insurance and loan'){
+            this.setState({icon:'shield-outline'});
+
+        }
+        else if(value=='Recharge and bills'){
+            this.setState({icon:'receipt-outline'});
+
+        }
+        else if(value=='Movies and entertainment'){
+            this.setState({icon:'film-outline'});
+
+        }
+        else if(value=='Traveling'){
+            this.setState({icon:'subway-outline'});
+
+        }
+        else if(value=='Fuel'){
+            this.setState({icon:'flame-outline'});
+
+        }
+        else if(value=='Medical and Healthcare'){
+            this.setState({icon:'medkit-outline'});
+
+        }
+        else if(value=='Education'){
+            this.setState({icon:'school-outline'});
+
+        }
+        else if(value=='Snacks and drinks'){
+            this.setState({icon:'wine-outline'});
+
+        }
+        else if(value=='Investment'){
+            this.setState({icon:'golf-outline'});
+
+        }else if(value=='Personal expenses'){
+            this.setState({icon:'wallet-outline'});
+
+        }else if(value=='Others'){
+            this.setState({icon:'pricetags-outline'});
+
+        }
+        else{
+            this.setState({icon:''});
+        }
+    }
+
     validateDesc(value){
         this.setState({desc:value,nullDesc:0});
         var foodArr = ["food", "breakfast", "lunch", "dinner","zomato","swiggy","pizza","burger","tiffin", "restaurants"];
@@ -231,58 +295,58 @@ class AddExpence extends Component{
         var snacks = snacksArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
         
         if(value.toLowerCase().includes("rent")){
-            this.setState({selectedValue:"Rent",category:"Rent",nullCategory:0});
+            this.setState({selectedValue:"Rent",category:"Rent",nullCategory:0,icon:'home-outline'});
         }
         else if(food!=-1){
-            this.setState({selectedValue:"Food and restaurants",category:"Food and restaurants",nullCategory:0});
+            this.setState({selectedValue:"Food and restaurants",category:"Food and restaurants",icon:'fast-food-outline',nullCategory:0});
             
         }
         else if(cloth!=-1){
-            this.setState({selectedValue:"Online and Offline Shopping",category:"Online and Offline Shopping",nullCategory:0});
+            this.setState({selectedValue:"Online and Offline Shopping",category:"Online and Offline Shopping",icon:'bag-handle-outline',nullCategory:0});
             
         }
         else if(value.toLowerCase().includes("dmart")||value.toLowerCase().includes("mall")){
-            this.setState({selectedValue:"Groceries",category:"Groceries",nullCategory:0});
+            this.setState({selectedValue:"Groceries",category:"Groceries",icon:'cart-outline',nullCategory:0});
 
         }
         else if(value.toLowerCase().includes("lic") || value.toLowerCase().includes("emi")){
-            this.setState({selectedValue:"Insurance and loan",category:"Insurance and loan",nullCategory:0});
+            this.setState({selectedValue:"Insurance and loan",category:"Insurance and loan",icon:'shield-outline',nullCategory:0});
 
         }
         else if(bill!=-1 || value.toLowerCase().includes("recharge") || value.toLowerCase().includes("bill")){
-            this.setState({selectedValue:"Recharge and bills",category:"Recharge and bills",nullCategory:0});
+            this.setState({selectedValue:"Recharge and bills",category:"Recharge and bills",icon:'receipt-outline',nullCategory:0});
         
         }
         else if(value.toLowerCase().includes("movie")){
-            this.setState({selectedValue:"Movies and entertainment",category:"Movies and entertainment",nullCategory:0});
+            this.setState({selectedValue:"Movies and entertainment",category:"Movies and entertainment",icon:'film-outline',nullCategory:0});
 
         }
         else if(value.toLowerCase().includes("ticket") || value.toLowerCase().includes("uber") || value.toLowerCase().includes("auto") || value.toLowerCase().includes("ola")){
-            this.setState({selectedValue:"Traveling",category:"Traveling",nullCategory:0});
+            this.setState({selectedValue:"Traveling",category:"Traveling",icon:'subway-outline',nullCategory:0});
 
         }
         else if(value.toLowerCase().includes("fuel") || value.toLowerCase().includes("petrol") || value.toLowerCase().includes("deisel")){
-            this.setState({selectedValue:"Fuel",category:"Fuel",nullCategory:0});
+            this.setState({selectedValue:"Fuel",category:"Fuel",icon:'flame-outline',nullCategory:0});
 
         }
         else if(value.toLowerCase().includes("medicine") || value.toLowerCase().includes("medical") || value.toLowerCase().includes("doctor")){
-            this.setState({selectedValue:"Medical and Healthcare",category:"Medical and Healthcare",nullCategory:0});
+            this.setState({selectedValue:"Medical and Healthcare",category:"Medical and Healthcare",icon:'medkit-outline',nullCategory:0});
 
         }
         else if(value.toLowerCase().includes("fee")){
-            this.setState({selectedValue:"Education",category:"Education",nullCategory:0});
+            this.setState({selectedValue:"Education",category:"Education",icon:'school-outline',nullCategory:0});
 
         }
         else if(snacks!=-1){
-            this.setState({selectedValue:"Snacks and drinks",category:"Snacks and drinks",nullCategory:0});
+            this.setState({selectedValue:"Snacks and drinks",category:"Snacks and drinks",icon:'wine-outline',nullCategory:0});
             
         }
         else if(value.toLowerCase().includes("invest") || value.toLowerCase().includes("stock") || value.toLowerCase().includes("gold")){
-            this.setState({selectedValue:"Investment",category:"Investment",nullCategory:0});
+            this.setState({selectedValue:"Investment",category:"Investment",icon:'golf-outline',nullCategory:0});
 
         }
         else{
-            this.setState({selectedValue:"Pick a Category",category:''});
+            this.setState({selectedValue:"Pick a Category",category:'',icon:''});
 
         }
     }
@@ -398,6 +462,7 @@ class AddExpence extends Component{
                 amount:this.state.amount.replace(",",""),
                 desc:this.state.desc,
                 category:this.state.category,
+                icon:this.state.icon,
                 paidBy:this.state.paidBy,
                 splitWith:this.state.splitWith,
                 share:this.state.share,
@@ -423,6 +488,7 @@ class AddExpence extends Component{
                     amount:this.state.amount.replace(",",""),
                     desc:this.state.desc,
                     category:this.state.category,
+                    icon:this.state.icon,
                     paidBy:this.state.paidBy,
                     splitWith:this.state.splitWith,
                     share:this.state.share,
@@ -448,6 +514,7 @@ class AddExpence extends Component{
                     amount:payAmount,
                     desc:this.state.desc,
                     category:this.state.category,
+                    icon:this.state.icon,
                     paidBy:this.state.paidBy,
                     splitWith:this.state.splitWith,
                     share:this.state.share,
@@ -484,6 +551,7 @@ class AddExpence extends Component{
                     amount:payAmount,
                     desc:this.state.desc,
                     category:this.state.category,
+                    icon:this.state.icon,
                     paidBy:this.state.paidBy,
                     splitWith:"None",
                     share:this.state.share,
@@ -496,6 +564,7 @@ class AddExpence extends Component{
                         amount:payAmount,
                         desc:this.state.desc,
                         category:this.state.category,
+                        icon:this.state.icon,
                         paidBy:this.state.paidBy+" for "+name,
                         splitWith:name,
                         share:this.state.share,
@@ -561,6 +630,7 @@ class AddExpence extends Component{
                     amount:yourShare,
                     desc:this.state.desc,
                     category:this.state.category,
+                    icon:this.state.icon,
                     paidBy:this.state.paidBy,
                     splitWith:"None",
                     share:this.state.share,
@@ -592,6 +662,7 @@ class AddExpence extends Component{
                         amount:payAmountArr[i],
                         desc:this.state.desc,
                         category:this.state.category,
+                        icon:this.state.icon,
                         paidBy:this.state.paidBy+" for "+splitArr[i],
                         splitWith:splitArr[i],
                         share:this.state.share,
@@ -874,6 +945,7 @@ class AddExpence extends Component{
                     onSelect={data => {
                         if(data!=''){
                         this.setState({ selectedValue :data,category:data,nullCategory:0 });
+                        this.selectIcon(data);
 
                         }
                         else{
@@ -884,6 +956,8 @@ class AddExpence extends Component{
                     }}
                     onRemoveItem={data => {
                         this.setState({ selectedValue:data,category:data });
+                        this.selectIcon(data);
+
                     }} 
                     cancelButtonText={'Cancel'}
                     selectButtonText ={'Select'}
