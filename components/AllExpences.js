@@ -420,6 +420,34 @@ class AllExpences extends Component{
     //   this.setState({data:exp});
     // }
 
+    
+addCommas(num) {
+        let dec = num.split('.')[0]
+
+        if(dec.length==4){
+
+            return dec[0]+','+dec.slice(1)
+        }
+        else if(dec.length==5){
+            return dec.slice(0,2)+','+dec.slice(2)
+
+        }
+        else if(dec.length==6){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3)
+
+        }
+        else if(dec.length==7){
+            return dec.slice(0,2)+','+dec.slice(2,4)+','+dec.slice(4)
+
+        }
+        else if(dec.length==8){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3,5)+','+dec.slice(5)
+        }
+        else{
+            return dec
+        }
+    }
+    
 
     render(){
 
@@ -520,7 +548,7 @@ class AllExpences extends Component{
               <Icon name='currency-inr' size={13.5}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
-                                   color:'#d33737',
+                                   color:'#ec3811',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
@@ -529,7 +557,11 @@ class AllExpences extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                <Text style={{color:'#d33737'}}>{el.total}</Text>
+                                <Text style={{color:'#ec3811'}}>
+                                {/* {el.total} */}
+                             {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
+
+                                </Text>
                   </Text>
                          </View>
                          {/* </View>:<View></View> */}
@@ -541,14 +573,14 @@ class AllExpences extends Component{
                             {/* <Text style={style.dateText}>{el}  </Text> */}
                             <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
                            <Text style={style.dateText}>
-                             <Text style={style.dateDigit}>
+                             <Text style={[style.dateDigit,{color:'#109a7d'}]}>
                                {d.date.slice(0,2)} 
                                </Text>
-                               {this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   
+                               {this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]},<Text style={{color:'#109a7d'}}> {this.getDayName(d.date).slice(0,3)}  </Text> 
                                   
                                   
                                   </Text>
-                                  <Text style={{fontSize:18.5 ,color:"#1cc29f",fontWeight:'bold',marginTop:10,marginRight:10}}>
+                                  <Text style={{fontSize:18.5 ,color:"#109a7d",fontWeight:'bold',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -562,11 +594,14 @@ class AllExpences extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {d.total}</Text>
+                             {/* {d.total} */}
+                             {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
+
+                             </Text>
                                   
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)}/>))}
+                            { d.expences.map(x=>(<ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)}/>))}
 
                           </View>
                            )

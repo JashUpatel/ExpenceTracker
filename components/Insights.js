@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import { Text,TextInput, View, StyleSheet, TouchableHighlight, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
+import { Text,TextInput, View, StyleSheet, TouchableHighlight,TouchableOpacity, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { block } from 'react-native-reanimated';
 // import { Icon } from 'react-native-elements';
@@ -66,14 +66,14 @@ class Insights extends Component{
         let incIndx = this.props.income.findIndex((el)=>(e.month==el.month));
               // var incIndx = incomeArr.findIndex((x)=>(x.month=="05/2021"));
               if(incIndx!=-1){
-                this.props.income[incIndx].income=this.state.newIncome;
+                this.props.income[incIndx].income=this.state.newIncome.replace(/,/g,"");
                 // var inc ="2"
               }
               else{
 
                 var tempInc = {
                   month:e.month,
-                  income:this.state.newIncome
+                  income:this.state.newIncome.replace(/,/g,"")
                 }
 
                 this.props.income.push(tempInc);
@@ -83,7 +83,7 @@ class Insights extends Component{
                 // var inc = incomeArr[0].income;
                 // var inc = el.date.slice(3,10)
               }
-        this.setState({ incModalVisible: false})
+        this.setState({ incModalVisible: false,newIncome:""})
               
 
        }
@@ -410,6 +410,23 @@ class Insights extends Component{
     incsetModalVisible(){
         this.setState({incModalVisible:!this.state.incModalVisible});
     }
+    validateIncome(value){
+
+      if(value!="." && value.replace(/,/g, "").length<8){
+        // var letters = /^[0-9]+$/;
+    if(value!='.' && value!='0' && value.split('.').length<2)
+     {
+      let dec2 = value.replace(/,/g, "");
+
+      let temp=this.addCommas(dec2)
+
+        this.setState({newIncome:temp})
+     }
+    }
+    
+    
+
+    }
 
 
     getMonthTotal(mArr,dt){
@@ -448,6 +465,33 @@ class Insights extends Component{
       return dayTotal;
     }
 
+addCommas=(num) =>{
+  
+  let dec = num.toString().split('.')[0]
+
+  if(dec.length==4){
+
+      return dec[0]+','+dec.slice(1)
+  }
+  else if(dec.length==5){
+      return dec.slice(0,2)+','+dec.slice(2)
+
+  }
+  else if(dec.length==6){
+      return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3)
+
+  }
+  else if(dec.length==7){
+      return dec.slice(0,2)+','+dec.slice(2,4)+','+dec.slice(4)
+
+  }
+  else if(dec.length==8){
+      return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3,5)+','+dec.slice(5)
+  }
+  else{
+      return dec
+  }
+}
     
 
    
@@ -621,11 +665,18 @@ class Insights extends Component{
    {/*  2 row for insights digits */}
    
    
-                 <View style={{flexDirection:'row',alignContent:'space-between'}}>
+                 <View style={{flexDirection:'row',alignContent:'space-between', marginLeft:-15}}>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={{fontWeight:'bold', fontSize:16, color:'#f40909'}}>
+                   <Text style={
+                   String(el.total).length>7?
+                     
+                     {fontWeight:'bold', fontSize:16, color:'#ec3811',marginLeft:-5}:
+                     {fontWeight:'bold', fontSize:16, color:'#ec3811'}
+
+                     
+                     }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -639,12 +690,23 @@ class Insights extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                   {el.total}   </Text>
+                   {/* {el.total}  */}
+                   {
+                   String(el.total).replace(/[-,]/g,"").length>6?
+                   el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0]):this.addCommas(el.total.toString())
+                   :
+                   el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())
+                   }
+                   
+                     </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
                  >
-                   <Text style={el.income>0?{fontWeight:'bold',fontSize:16,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16}}>
+                   <Text style={el.income>=0?
+                   String(el.income).length>7?
+                   {fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16,color:'#109a7d'}:{fontWeight:'bold',fontSize:16}
+                   }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -658,26 +720,66 @@ class Insights extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                {el.income}   </Text>
+                                {/* {el.income}   */}
+                                {
+                              String(el.income).length>6?
+                                el.income.toString().split(".").length==2?this.addCommas(el.income.toString().split(".")[0]):this.addCommas(el.income.toString())
+                                :
+                                el.income.toString().split(".").length==2?this.addCommas(el.income.toString().split(".")[0])+"."+el.income.toString().split(".")[1]:this.addCommas(el.income.toString())
+                                }
+                                
+                                 </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
                  >
-                   <Text style={el.saving<0?{fontWeight:'bold',fontSize:16, color:'#f40909'}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#1cc29f'}:{fontWeight:'bold',fontSize:16}}>
+                   <Text style={
+                   String(el.saving).replace(/[-,]/g,"").length>7?
+
+                    //  {fontWeight:'bold', fontSize:16, color:'#ec3811',marginLeft:-5}
+                    el.saving<0?
+                   {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}
+                   :{fontWeight:'bold',fontSize:16,marginLeft:-5}
+                   :
+                  //  {fontWeight:'bold', fontSize:16, color:'#ec3811',marginLeft:-5}
+                    el.saving<0?
+                   {fontWeight:'bold',fontSize:16, color:'#ec3811'}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d'}
+                   :{fontWeight:'bold',fontSize:16}
+                   }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
-                                    // marginLeft:15
+                                    // marginLeft:5,
+                                    // marginRight:-2,
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                     {isNaN(el.saving)?"-":el.saving}   </Text>
+                     {isNaN(el.saving)?"-":
+                    //  el.saving
+                    // el.saving=String(el.saving).replace(/,/g,"")
+                    String(el.saving).length>8?
+                    el.saving>=0?
+                                el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,"")):this.addCommas(el.saving.toString().replace(/[,-]/g,""))
+                                :
+                    //  el.saving
+
+                                el.saving.toString().split(".").length==2?"-"+this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,"")):"-"+this.addCommas(el.saving.toString().replace(/[,-]/g,""))
+                    
+                    :
+                    el.saving>=0?
+                                el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:this.addCommas(el.saving.toString().replace(/[,-]/g,""))
+                                :
+                    //  el.saving
+
+                                el.saving.toString().split(".").length==2?"-"+this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:"-"+this.addCommas(el.saving.toString().replace(/[,-]/g,""))
+                                
+                     }   </Text>
                  </View>
    
                 {/* <View style={{flex:1}}><Text style={{fontWeight:'bold'}}>Expence: </Text></View> */}
@@ -927,11 +1029,16 @@ class Insights extends Component{
                     visible = {this.state.incModalVisible}
                     onDismiss = {() => this.incsetModalVisible() }
                     onRequestClose = {() => this.incsetModalVisible() }>
-                    <View style = {style.modal}>
-                      <View style={{justifyContent:'center',paddingVertical:25}}>
+                    <View style = {[style.modal,{paddingVertical:15}]}>
+                      <View style={{justifyContent:'center',paddingVertical:15}}>
                       <View>
-                    <Text>Add Income : </Text>
-                    <TextInput  value={this.state.newIncome} onChangeText={(value)=>this.setState({newIncome:value})} placeholder='$ 0.00' keyboardType="decimal-pad" />
+                    <Text style={[style.formLabel,{ fontSize:21,fontWeight:'bold', color:"#109a7d", marginLeft:10,marginBottom:15}]} >Add Income : </Text>
+                    <TextInput
+                    style={{fontSize:21,fontWeight:'bold',borderBottomWidth:1,borderRadius:15,borderColor:'#109a7d',marginBottom:25,paddingVertical:7.5,paddingHorizontal:20}}
+                      value={this.state.newIncome} onChangeText={(value)=>
+                    
+                      this.validateIncome(value)
+                      } placeholder='$ 000' keyboardType="decimal-pad"  maxLength={9}/>
                     </View>
                     <View
                     style={{
@@ -941,7 +1048,7 @@ class Insights extends Component{
                       flexDirection: 'row',
                     }}>
                         {/* <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/> */}
-                        <Button 
+                        {/* <Button 
                             onPress = {() =>this.incsetModalVisible()}
                             color="#137863"
                             title="Close" 
@@ -951,10 +1058,34 @@ class Insights extends Component{
                             color="#137863"
                             title="Add" 
                             />
+
+                             */}
+                        <TouchableOpacity
+                            activeOpacity={0.75}
+                             style={{borderWidth:1,borderRadius:50,borderColor:'#109a7d',paddingHorizontal:30,paddingVertical:7.5, }}
+                            //  onPress = {()=>this.csetModalVisible()}
+                            onPress = {() =>{this.incsetModalVisible();this.setState({newIncome:""})}}
+                             
+                             >
+                              <Text style={{color:'#109a7d', fontWeight:'bold'}}>Close</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                            activeOpacity={0.75}
+                             style={{borderWidth:1,borderRadius:50,backgroundColor:'#109a7d',borderColor:'#109a7d',paddingHorizontal:40,paddingVertical:7.5,marginLeft:15}}
+                            //  onPress = {()=>this.csetModalVisible()}
+                            // onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue;expences.icon=this.state.icon; console.log(this.state.icon);this.csetModalVisible()}console.log("Save : "+this.state.icon)}}
+                            onPress = {() =>{this.props.setIncome(this.state.tempEl,this.state.newIncome); this.setState({incModalVisible:false,newIncome:''})}}
+                             
+                             >
+                              <Text style={{color:'#fff', fontWeight:'bold'}}>Save</Text>
+                            </TouchableOpacity>
                       </View>
                     </View>
                     </View>
                 </Modal>
+
+
+
 
 
   <Modal animationType = {"slide"} transparent = {false}
@@ -1074,12 +1205,12 @@ const style = StyleSheet.create({
       },
       modal: {
         // flex:1,
-        width:'55%',
-        height:'25%',
+        width:'75%',
+        height:'35%',
         alignContent:'center',
         alignSelf:'center',
         justifyContent: 'center',
-         marginTop: '75%',
+         marginTop: '50%',
         backgroundColor:'#fff',
         alignItems:'center'
      },
@@ -1097,8 +1228,8 @@ const style = StyleSheet.create({
        margin: 15
      },
      formLabel: {
-         fontSize: 18,
-         flex: 2
+        //  fontSize: 18,
+        //  flex: 2
      },
      formItem: {
          flex: 1,

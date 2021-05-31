@@ -81,6 +81,8 @@ export default class TabNavigator extends React.Component{
     var remove = this.props.remove;
     
     var add = this.props.add;
+    var setIncome = this.props.setIncome;
+    var reRender = this.props.reRender;
 
   // var expences=this.props.expences;
   // var payables=this.props.payables;
@@ -97,7 +99,7 @@ export default class TabNavigator extends React.Component{
       return (
   
         // <LiSt/>
-        <Expences add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} expences={data} income={income} />
+        <Expences reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} expences={data} income={income} setIncome={(i,newExpence)=>setIncome(i, newExpence)} />
         // <ExpenceNavigator/>
         // <AddExpence/>
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -119,7 +121,7 @@ export default class TabNavigator extends React.Component{
  
       return (
   
-        <Payables add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} payables={data}/>
+        <Payables reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} payables={data}/>
   
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -141,7 +143,7 @@ export default class TabNavigator extends React.Component{
 
       return (
   
-        <Receivables add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} receivables={data} />
+        <Receivables reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} receivables={data} />
   
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         //   <Text>Tab3</Text>

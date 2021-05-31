@@ -345,6 +345,35 @@ class Payables extends Component{
     setModalVisible(){
         this.setState({modalVisible:!this.state.modalVisible});
     }
+    
+addCommas(num) {
+        let dec = num.split('.')[0]
+
+        if(dec.length==4){
+
+            return dec[0]+','+dec.slice(1)
+        }
+        else if(dec.length==5){
+            return dec.slice(0,2)+','+dec.slice(2)
+
+        }
+        else if(dec.length==6){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3)
+
+        }
+        else if(dec.length==7){
+            return dec.slice(0,2)+','+dec.slice(2,4)+','+dec.slice(4)
+
+        }
+        else if(dec.length==8){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3,5)+','+dec.slice(5)
+        }
+        else{
+            return dec
+        }
+    }
+    
+
     render(){
     const data = this.props.payables;
     var payables=this.payableFilter(data);
@@ -402,7 +431,7 @@ class Payables extends Component{
               <Icon name='currency-inr' size={13.5}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
-                                   color:'#d33737',
+                                   color:'#ec3811',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
@@ -411,7 +440,11 @@ class Payables extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                <Text style={{color:'#d33737'}}>{el.total}</Text>
+                                <Text style={{color:'#ec3811'}}>
+                                {/* {el.total} */}
+                             {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
+
+                                </Text>
 
 
               </Text>
@@ -424,8 +457,8 @@ class Payables extends Component{
                         <View style={style.date}>
                         {/* <Text style={style.dateText}>{el}  </Text> */}
                         <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
-                       <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   </Text>
-                       <Text style={{fontSize:18.5 ,fontWeight:'bold',color:'#d33737',marginTop:10,marginRight:10}}>
+                       <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)}</Text>   </Text>
+                       <Text style={{fontSize:18.5 ,fontWeight:'bold',color:'#ec3811',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -433,20 +466,24 @@ class Payables extends Component{
                                     // top:19,
                                     // left:-25,
                                     // marginLeft:15
-                                    color:'#d33737',
+                                    color:'#ec3811',
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             <Text style={{color:'#d33737'}}>{el.total}</Text></Text>
+                             <Text style={{color:'#ec3811'}}>
+                             {/* {d.total} */}
+                             {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
+
+                             </Text></Text>
                        </View>
                        </View>
                         { d.expences.map(x=>(
 
                           
-                        <ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)}/>
+                        <ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)}/>
                         
                         ))}
 
@@ -474,7 +511,7 @@ class Payables extends Component{
 
 paidPayablesArr.length>0?
 <View style={style.month}>
-<Text style={style.monthText}>Settled Expences<Text style={style.digit}></Text></Text>
+<Text style={[style.monthText,{color:'#109a7d', fontWeight:'bold',fontSize:15,paddingHorizontal:75}]}>Settled Expences<Text style={style.digit}></Text></Text>
 </View>
 :
 <View></View>
@@ -496,7 +533,7 @@ return(
 <Icon name='currency-inr' size={13.5}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
-                                  // color:'#d33737s',
+                                  color:'#ec3811',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
@@ -504,7 +541,13 @@ return(
                                     flexDirection:'column'
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
-                                />{el.total}
+                                />
+                                <Text style={{color:'#ec3811'}}>
+                                {/* {el.total} */}
+                             {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
+
+                                </Text>
+
                                 </Text>
         </View>
 
@@ -514,7 +557,7 @@ return(
             <View>
             <View style={style.date}>
             <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
-        <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   </Text>
+        <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)}</Text>   </Text>
         <Text style={{fontSize:18.5 ,fontWeight:'bold',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
@@ -529,10 +572,13 @@ return(
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {d.total}</Text>
+                             {/* {d.total} */}
+                             {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
+
+                             </Text>
         </View>
         </View>
-            { d.expences.map(x=>(<ExpenceBlock editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
+            { d.expences.map(x=>(<ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
         </View>
         )

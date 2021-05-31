@@ -449,6 +449,32 @@ class CategoryInsights extends Component{
       return dayTotal;
     }
 
+addCommas(num) {
+        let dec = num.split('.')[0]
+
+        if(dec.length==4){
+
+            return dec[0]+','+dec.slice(1)
+        }
+        else if(dec.length==5){
+            return dec.slice(0,2)+','+dec.slice(2)
+
+        }
+        else if(dec.length==6){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3)
+
+        }
+        else if(dec.length==7){
+            return dec.slice(0,2)+','+dec.slice(2,4)+','+dec.slice(4)
+
+        }
+        else if(dec.length==8){
+            return dec.slice(0,1)+','+dec.slice(1,3)+','+dec.slice(3,5)+','+dec.slice(5)
+        }
+        else{
+            return dec
+        }
+    }
     
 
    
@@ -597,9 +623,16 @@ class CategoryInsights extends Component{
    
                  <View style={{flexDirection:'row',alignContent:'space-between'}}>
                  <View
-                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
+                   style={[style.box, { flex:1,alignItems:'center', backgroundColor: "",marginLeft:-15 }]}
                  >
-                   <Text style={{fontWeight:'bold',fontSize:16.5, color:'#f40909'}}>
+                   <Text style={
+                     String(this.props.route.params.expence).length>7?
+
+                     {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}
+                    :
+                    {fontWeight:'bold',fontSize:16.5, color:'#ec3811'}
+
+                    }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -614,12 +647,26 @@ class CategoryInsights extends Component{
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
 
-                   {this.props.route.params.expence}</Text>
+                   {/* {this.props.route.params.expence} */}
+                    {
+                      String(this.props.route.params.expence).replace(/[,]/g,"").length>6?
+                    this.props.route.params.expence.toString().split(".").length==2?this.addCommas(this.props.route.params.expence.toString().split(".")[0]):this.addCommas(this.props.route.params.expence.toString())
+                      :
+                    this.props.route.params.expence.toString().split(".").length==2?this.addCommas(this.props.route.params.expence.toString().split(".")[0])+"."+this.props.route.params.expence.toString().split(".")[1]:this.addCommas(this.props.route.params.expence.toString())
+                    }
+
+                   </Text>
                  </View>
                  <View
                    style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
                  >
-                   <Text style={this.props.route.params.income>0?{fontWeight:'bold',fontSize:16.5,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16.5}}>
+                   <Text style={
+                     String(this.props.route.params.income).length>7?
+                     this.props.route.params.income>0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16,marginLeft:-5}
+                    :
+                    this.props.route.params.income>0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5}
+
+                    }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -633,7 +680,11 @@ class CategoryInsights extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                     {isNaN(this.props.route.params.income)?"-":this.props.route.params.income}
+                     {isNaN(this.props.route.params.income)?"-":
+                    //  this.props.route.params.income
+                    this.props.route.params.income.toString().split(".").length==2?this.addCommas(this.props.route.params.income.toString().split(".")[0])+"."+this.props.route.params.income.toString().split(".")[1]:this.addCommas(this.props.route.params.income.toString())
+
+                     }
                     {/* { this.props.route.params.income} */}
                       </Text>
                  </View>
@@ -641,7 +692,18 @@ class CategoryInsights extends Component{
                  <View
                    style={style.box, {flex:1,alignItems:'center'}}
                  >
-                   <Text style={this.props.route.params.saving<0?{fontWeight:'bold',fontSize:16, color:'#f40909'}:this.props.route.params.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#1cc29f'}:this.props.route.params.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#1cc29f'}:{fontWeight:'bold',fontSize:16.5}}>
+                   <Text style={
+                   String(this.props.route.params.saving).replace(/[-,]/g,"").length>6?
+
+                     this.props.route.params.saving<0?
+                    {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:this.props.route.params.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}:this.props.route.params.saving==0?{fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}
+                    :{fontWeight:'bold',fontSize:16,marginLeft:-5}
+                    :
+                    this.props.route.params.saving<0?
+                    {fontWeight:'bold',fontSize:16.5, color:'#ec3811'}:this.props.route.params.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d'}:this.props.route.params.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}
+                    :{fontWeight:'bold',fontSize:16.5}
+                    
+                    }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -655,7 +717,21 @@ class CategoryInsights extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                       {isNaN(this.props.route.params.saving)?"-":this.props.route.params.saving} </Text>
+                       {isNaN(this.props.route.params.saving)?"-":
+                       String(this.props.route.params.saving).length>6?
+                      this.props.route.params.saving>=0? 
+                    this.props.route.params.saving.toString().split(".").length==2?this.addCommas(this.props.route.params.saving.toString().split(".")[0].replace(/[,-]/g,"")):this.addCommas(this.props.route.params.saving.toString().replace(/[,-]/g,""))
+                   :
+                    this.props.route.params.saving.toString().split(".").length==2?"-"+this.addCommas(this.props.route.params.saving.toString().split(".")[0].replace(/[,-]/g,"")):"-"+this.addCommas(this.props.route.params.saving.toString().replace(/[,-]/g,""))
+                       :
+                       this.props.route.params.saving>=0? 
+                       this.props.route.params.saving.toString().split(".").length==2?this.addCommas(this.props.route.params.saving.toString().split(".")[0].replace(/[,]/g,""))+"."+this.props.route.params.saving.toString().split(".")[1]:this.addCommas(this.props.route.params.saving.toString().replace(/[,]/g,""))
+                      :
+                  this.props.route.params.saving.toString().split(".").length==2?"-"+this.addCommas(this.props.route.params.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+this.props.route.params.saving.toString().split(".")[1]:"-"+this.addCommas(this.props.route.params.saving.toString().replace(/[,-]/g,""))
+   
+                      //  this.props.route.params.saving
+
+                       } </Text>
     
                  </View>
    
@@ -879,12 +955,13 @@ class CategoryInsights extends Component{
            
 
                 <View style={style.month}>
-                  <Text style={style.monthText}>{el.category} 
+                  <Text style={[style.monthText,{color:'#109a7d'}]}>
+                  {el.category} 
                   {"  "} -  {""}  
               <Icon name='currency-inr' size={13.5}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
-                                  color:'#d33737',
+                                  color:'#ec3811',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
@@ -893,7 +970,11 @@ class CategoryInsights extends Component{
                                 }}
                                 />  
                   
-                  <Text style={{color:'#d33737'}}>{el.total}</Text></Text>
+                  <Text style={{color:'#ec3811'}}>
+                  {/* {el.total} */}
+                  {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
+
+                  </Text></Text>
                 </View>
 
                 {dateFilterArr.map(d=>{
@@ -902,9 +983,9 @@ class CategoryInsights extends Component{
                             <View style={style.date}>
                             {/* <Text style={style.dateText}>{el}  </Text> */}
                             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                           <Text style={style.dateText}><Text style={style.dateDigit}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, {this.getDayName(d.date).slice(0,3)}   
+                           <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)} </Text>  
                            </Text>
-                           <Text style={style.date,{fontSize:18.5 ,fontWeight:'bold',color:'#1cc29f',marginTop:10,marginRight:10}}>
+                           <Text style={style.date,{fontSize:18.5 ,fontWeight:'bold',color:'#109a7d',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
                                 // containerStyle={{marginLeft:5}}
                                 style={{
@@ -918,7 +999,10 @@ class CategoryInsights extends Component{
                                 }}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {d.total}</Text>
+                             {/* {d.total} */}
+                             {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
+
+                             </Text>
                            </View>
                            </View>
                             { d.expences.map(x=>(<ExpenceBlock expences={x} editable={false} />))}

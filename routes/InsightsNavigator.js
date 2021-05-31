@@ -149,7 +149,7 @@ class InsightsNavigator extends Component{
 
   InsightsData=({navigation})=>{
     return(
-      <Insights  expences={this.props.data} income={this.props.income} onPress={(el,total,income,sav)=>navigation.navigate("Category",{CategoryFilterData:el,expence:total,income:income,saving:sav})}/>
+      <Insights  expences={this.props.data} income={this.props.income} setIncome={(i,newExpence)=>this.props.setIncome(i, newExpence)} onPress={(el,total,income,sav)=>navigation.navigate("Category",{CategoryFilterData:el,expence:total,income:income,saving:sav})}/>
     );
   }
 

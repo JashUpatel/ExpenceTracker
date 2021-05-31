@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, View,Picker, Text, StyleSheet,TouchableHighlight, Icon } from 'react-native';
+import { ScrollView,SafeAreaView, View,Picker, Text, StyleSheet,TouchableHighlight,TouchableOpacity, Icon } from 'react-native';
 import { TextInput,  } from 'react-native-gesture-handler';
 
 import NumberFormat from 'react-number-format';
@@ -161,13 +161,13 @@ class AddExpence extends Component{
 
         // }
         
-        if(value!='.' && value.split('.').length==2){
+        if(value!='.' && value!='0' && value.split('.').length==2){
             if(value.split('.')[1].length<3){
 
                 
 
                 let dec = value.split('.')[0]
-                let dec2 = dec.replace(/,/gi, "");
+                let dec2 = dec.replace(/,/g, "");
 
             // let temp = Number(value.toFixed(0)).toLocaleString().split(/\s/).join(',') + '.' + Number(value.toString().slice(value.toString().indexOf('.')+1)).toLocaleString()
             let temp=this.addCommas(dec2) +'.' +value.split('.')[1]
@@ -177,19 +177,22 @@ class AddExpence extends Component{
             }
 
         }
-        else if(value!='.' && value.split('.').length<2 ){
+        else if(value!='.' && value!='0' && value.split('.').length<2 ){
+
+            if(value.split('.')[0].length<9){
             // let temp = value.slice()
             // let result = Number(value.toFixed(0)).toLocaleString().split(/\s/).join(',') + '.' + Number(value.toString().slice(value.toString().indexOf('.')+1)).toLocaleString()
             // let temp=value.toString().replace( /\B(?=(?:\d{3})+)$/g, "," );
             
             // let dec = value.split('.')[0]
-            let dec2 = value.replace(/,/gi, "");
+            let dec2 = value.replace(/,/g, "");
             
             let temp=this.addCommas(dec2)            
             // let temp=value.toString().replace(/\B(?=(?:\d{3})+)$/g, ",");
             
             //  let temp = Number(value).toLocaleString()
             this.setState({amount:temp})
+            }
         }
     
         
@@ -229,7 +232,7 @@ class AddExpence extends Component{
 
         }
         else if(value=='Online and Offline Shopping'){
-            this.setState({icon:'bag-handle-outline'});
+            this.setState({icon:'pricetags-outline'});
 
         }
         else if(value=='Groceries'){
@@ -275,7 +278,7 @@ class AddExpence extends Component{
             this.setState({icon:'wallet-outline'});
 
         }else if(value=='Others'){
-            this.setState({icon:'pricetags-outline'});
+            this.setState({icon:'planet-outline'});
 
         }
         else{
@@ -287,7 +290,7 @@ class AddExpence extends Component{
         this.setState({desc:value,nullDesc:0});
         var foodArr = ["food", "breakfast", "lunch", "dinner","zomato","swiggy","pizza","burger","tiffin", "restaurants"];
         var food = foodArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
-        var clothArr = ["shirt","t-shirt","jeans","wear","shoe"];
+        var clothArr = ["shirt","t-shirt","jeans","wear","shoe","shop"];
         var cloth = clothArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
         var billArr = ["bill", "credit", "card", "electricity", "electricity bill","water bill", "recharge", "gas"];
         var bill = billArr.findIndex(item => value.toLowerCase() == item.toLowerCase())
@@ -302,7 +305,7 @@ class AddExpence extends Component{
             
         }
         else if(cloth!=-1){
-            this.setState({selectedValue:"Online and Offline Shopping",category:"Online and Offline Shopping",icon:'bag-handle-outline',nullCategory:0});
+            this.setState({selectedValue:"Online and Offline Shopping",category:"Online and Offline Shopping",icon:'pricetags-outline',nullCategory:0});
             
         }
         else if(value.toLowerCase().includes("dmart")||value.toLowerCase().includes("mall")){
@@ -417,7 +420,7 @@ class AddExpence extends Component{
 
 
         }
-        else if(this.state.amount=='' || parseInt(this.state.amount)==0){
+        else if(this.state.amount=='' || parseInt(this.state.amount)==0 ){
             this.setState({nullAmount:1})
         }
         else if(this.state.desc==''){
@@ -458,8 +461,9 @@ class AddExpence extends Component{
             
           
             let newExpence = {
+                id:Date.now(),
                 date:this.state.date,
-                amount:this.state.amount.replace(",",""),
+                amount:this.state.amount.replace(/,/g,""),
                 desc:this.state.desc,
                 category:this.state.category,
                 icon:this.state.icon,
@@ -484,8 +488,9 @@ class AddExpence extends Component{
             if(this.state.splitWith=="None"){
            
                 let newPayable = {
+                    id:Date.now(),
                     date:this.state.date,
-                    amount:this.state.amount.replace(",",""),
+                    amount:this.state.amount.replace(/,/g,""),
                     desc:this.state.desc,
                     category:this.state.category,
                     icon:this.state.icon,
@@ -508,8 +513,9 @@ class AddExpence extends Component{
            
 
                 let splitArr = this.state.splitWith.split(",");
-                let payAmount = Math.round(((Number(this.state.amount.replace(",",""))/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
+                let payAmount = Math.round(((Number(this.state.amount.replace(/,/g,""))/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
                 let newExpence = {
+                    id:Date.now(),
                     date:this.state.date,
                     amount:payAmount,
                     desc:this.state.desc,
@@ -545,8 +551,10 @@ class AddExpence extends Component{
                 // this.setState({errShare:2})
         
             let splitArr = this.state.splitWith.split(",");
-                let payAmount = Math.round(((this.state.amount.replace(",","")/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
+                let payAmount = Math.round(((this.state.amount.replace(/,/g,"")/(splitArr.length+1)) + Number.EPSILON) * 100) / 100;
+               let Id = String(Date.now())
                 let newExpence = {
+                    id:Date.now(),
                     date:this.state.date,
                     amount:payAmount,
                     desc:this.state.desc,
@@ -560,6 +568,7 @@ class AddExpence extends Component{
                 splitArr.forEach( name => {
 
                     let newReceiveable = {
+                    id:Date.now(),
                         date:this.state.date,
                         amount:payAmount,
                         desc:this.state.desc,
@@ -604,7 +613,7 @@ class AddExpence extends Component{
             // this.setState({errShare:1})
             // // this.setState({errShare:1});
             //     }
-                if(shareAmount>parseInt(this.state.amount.replace(",",""))){
+                if(shareAmount>parseInt(this.state.amount.replace(/,/g,""))){
                     // console.log("share > amount errShare 1" + this.state.errShare)
                     // console.log("err status6 "+ this.state.nullDesc)
 
@@ -622,10 +631,11 @@ class AddExpence extends Component{
                     // console.log("lenght amount errShare 0")
                     // console.log("err status7 "+ this.state.errShare)
 
-                    var yourShare = parseInt(this.state.amount.replace(",","")) - parseInt(shareAmount)
+                    var yourShare = parseInt(this.state.amount.replace(/,/g,"")) - parseInt(shareAmount)
 
                 
                 let newExpence = {
+                    id:Date.now(),
                     date:this.state.date,
                     amount:yourShare,
                     desc:this.state.desc,
@@ -658,6 +668,7 @@ class AddExpence extends Component{
                 for(let i=0;i<splitArr.length;i++){
 
                     let newReceiveable = {
+                    id:Date.now(),
                         date:this.state.date,
                         amount:payAmountArr[i],
                         desc:this.state.desc,
@@ -784,11 +795,15 @@ class AddExpence extends Component{
             <ScrollView>
                 <View style={styles.container}>
                 <View style={styles.formRow}>
-                    <Text style={styles.formLabel} onPress={() => this.setState({ show: true, mode: 'date' })}>Date</Text>
+                    <Text style={{color:'#109a7d',fontWeight:'bold',fontSize:21.5,marginTop:-25,marginBottom:5,borderBottomWidth:1.75,borderColor:'#109a7d'}}>  Add Your Expence  </Text>
+                </View>
+                <View style={styles.formRow}>
+                    <Text style={styles.formLabel} onPress={() => this.setState({ show: true, mode: 'date' })}>-   Date :</Text>
                     <DatePicker
                     androidVariant="nativeAndroid"
                     dividerHeight='1'
-                        style={styles.formItem}
+                            
+                            style={[styles.formItem,{fontWeight:'bold'}]}
                         date={this.state.date} // Initial date from state
                         mode="date" // The enum of date, datetime and time
                         placeholder="select date"
@@ -800,15 +815,28 @@ class AddExpence extends Component{
                         customStyles={{
                             dateIcon: {
                             display: 'none',
+                            // color:'#109a7d'
                             },
                             dateInput: {
                                 borderRightWidth: 0,
                                 borderLeftWidth: 0,
                                 borderTopWidth: 0,
                                 borderBottomWidth: 0,
-                            marginLeft: -56,
-                            color:"white"
+                            marginLeft: -56,                         
+                            color:"white",
                             },
+                            // placeholderText: {
+                            //     fontSize: 20,
+                            //     color: "#C7C7C7"
+                            //   },
+                              dateText: {
+                                  fontWeight:'bold',
+                                fontSize: 18.5,
+                                color: "#109a7d",
+                                borderBottomWidth:1,
+                                borderColor:'#109a7d'
+                                // textAlign: "left"
+                              }
                         }}
                         onDateChange={(date) => {
                             this.setState({date:date});
@@ -816,7 +844,7 @@ class AddExpence extends Component{
                         />
                 </View>
                 <View style={styles.formRow}>
-                    <Text style={styles.formLabel}>Amount</Text>
+                    <Text style={styles.formLabel}>-    Amount :</Text>
                     {/* <NumberFormat thousandSeparator={true} thousandsGroupStyle="lakh" prefix={'₹'} value={123456789}/> */}
                     {/* <NumberFormat
       value={this.state.amount}
@@ -829,12 +857,13 @@ class AddExpence extends Component{
 
 
 {/* <NumberFormat customInput={TextInput} hintText="Some placeholder" value={this.state.amount} thousandSeparator={true} prefix={'$'} renderText={formattedValue => <Text>{formattedValue}</Text>} /> */}
-
-                    <TextInput style={this.state.nullAmount==0?styles.formItem:[styles.formItem,styles.nullErr]} value={this.state.amount} onChangeText={(value)=>this.validateAmount(value)} placeholder='$ 0.00' maxLength={9}  keyboardType='decimal-pad' />
+           
+                    <TextInput  style={this.state.nullAmount==0?[styles.formItem,{fontWeight:'bold',marginLeft:-75, borderBottomWidth:1.5,borderColor:'#109a7d'}]:[styles.formItem,{fontWeight:'bold',marginLeft:-75},styles.nullErr]} value={this.state.amount} onChangeText={(value)=>this.validateAmount(value)} placeholder='  $ 0.00' maxLength={9}  keyboardType='decimal-pad' />
+                   
                 </View>
                 <View style={styles.formRow}>
-                    <Text style={styles.formLabel}>Description</Text>
-                    <TextInput style={this.state.nullDesc==0?styles.formItem:[styles.formItem,styles.nullErr]} value={this.state.desc} onChangeText={(value)=>this.validateDesc(value)} placeholder='Note' maxLength={15} />
+                    <Text style={styles.formLabel}>-    Description :</Text>
+                    <TextInput style={this.state.nullDesc==0?[styles.formItem,{marginLeft:-75, borderBottomWidth:1.5,borderColor:'#109a7d'}]:[styles.formItem,{marginLeft:-75},styles.nullErr]} value={this.state.desc} onChangeText={(value)=>this.validateDesc(value)} placeholder='  Note' maxLength={15} />
                 </View>
                 {/* <View style={styles.formRow}>
                     
@@ -933,11 +962,11 @@ class AddExpence extends Component{
 {/* Select picker decided final */}
                 <View style={styles.formRow}>
                     
-                    <Text style={styles.formLabel}>Category</Text>
+                    <Text style={styles.formLabel}>-    Category :</Text>
                     <Select2
                     isSelectSingle
-                    style={this.state.nullCategory==0?{ borderRadius: 5, width:'50 %', }:[{ borderRadius: 5, width:'50 %', },styles.nullErr]}
-                    colorTheme={'green'}
+                    style={this.state.nullCategory==0?{ borderRadius: 5, width:'50 %', }:[styles.nullErr,{ borderRadius: 5, width:'50 %'}]}
+                    colorTheme={'#109a7d'}
                     popupTitle='Select Category'
                     title={this.state.selectedValue}
                     data={mockData}
@@ -969,27 +998,27 @@ class AddExpence extends Component{
                 </View>
 
                 <View style={styles.formRow}>
-                    <Text style={styles.formLabel}>Paid by</Text>
-                    <TextInput style={styles.formItem} value={this.state.paidBy} onFocus={()=>{if(this.state.paidBy=='You'){this.setState({paidBy:''})}}} onBlur={()=>{if(this.state.paidBy==''){this.setState({paidBy:'You'})}}} onChangeText={(value)=>this.validatePaidBy(value)} maxLength={12}/>
+                    <Text style={styles.formLabel}>-    Paid by :</Text>
+                    <TextInput style={[styles.formItem,{borderBottomWidth:1.5,borderColor:'#109a7d',marginLeft:-50}]} value={this.state.paidBy} onFocus={()=>{if(this.state.paidBy=='You'){this.setState({paidBy:''})}}} onBlur={()=>{if(this.state.paidBy==''){this.setState({paidBy:'You'})}}} onChangeText={(value)=>this.validatePaidBy(value)} maxLength={12}/>
                 </View>
                 <View style={styles.formRow}>
-                    <Text style={styles.formLabel}>Split with</Text>
-                    <TextInput style={styles.formItem} value={this.state.splitWith} onFocus={()=>{if(this.state.splitWith==''||this.state.splitWith=='None'){this.setState({splitWith:''})}}} onBlur={()=>{if(this.state.splitWith==''){this.setState({splitWith:'None',share:'N/A'})}}} onChangeText={(value)=>{this.validateSplitwith(value)}} maxLength={25} />
+                    <Text style={styles.formLabel}>-    Split with :</Text>
+                    <TextInput style={[styles.formItem,{borderBottomWidth:1.5,borderColor:'#109a7d',marginLeft:-50}]} value={this.state.splitWith} onFocus={()=>{if(this.state.splitWith==''||this.state.splitWith=='None'){this.setState({splitWith:''})}}} onBlur={()=>{if(this.state.splitWith==''){this.setState({splitWith:'None',share:'N/A'})}}} onChangeText={(value)=>{this.validateSplitwith(value)}} maxLength={25} />
                 </View>
                 <View style={styles.formRow}>
-        <Text style={styles.formLabel}>Share</Text>
-                    <TextInput style={this.state.errShare==0? styles.formItem:[styles.formItem,styles.nullErr]} value={this.state.share} onFocus={()=>{if(this.state.share==''||this.state.share=='N/A'||this.state.share=='Equally'){this.setState({share:''})}}} onBlur={()=>{if(this.state.share==''){if(this.state.splitWith=='None'){this.setState({share:'N/A'})}else{this.setState({share:'Equally'})}}}} onChangeText={(value)=>{this.validateShare(value);this.setState({errShare:0})}} keyboardType="phone-pad" maxLength={20} editable={(this.state.paidBy=="You" && this.state.splitWith!="None")?true:false} />
+        <Text style={styles.formLabel}>-    Share :</Text>
+                    <TextInput style={this.state.errShare==0? [styles.formItem,{marginLeft:-50,borderBottomWidth:1.5,borderColor:'#109a7d'}]:[styles.formItem,{marginLeft:-50},styles.nullErr]} value={this.state.share} onFocus={()=>{if(this.state.share==''||this.state.share=='N/A'||this.state.share=='Equally'){this.setState({share:''})}}} onBlur={()=>{if(this.state.share==''){if(this.state.splitWith=='None'){this.setState({share:'N/A'})}else{this.setState({share:'Equally'})}}}} onChangeText={(value)=>{this.validateShare(value);this.setState({errShare:0})}} keyboardType="phone-pad" maxLength={20} editable={(this.state.paidBy=="You" && this.state.splitWith!="None")?true:false} />
                 </View>
 
 
             
-            <View styles={{alignItems:'center'}}>
-            <TouchableHighlight elevation style={styles.button} underlayColor='#137863' onPress={()=>this.onSubmit()}>
-            <Text style={styles.mainText}>Save</Text>
-            </TouchableHighlight>
+                <View styles={{alignItems:'center'}}>
+                <TouchableHighlight elevation style={styles.button} underlayColor='#ebf5f0' activeOpacity={0.95} onPress={()=>this.onSubmit()}>
+                <Text style={[styles.mainText,{color:'#109a7d'}]}>Save</Text>
+                </TouchableHighlight>
 
-            </View>
-
+                </View>
+            
 
 
               </View>
@@ -1019,17 +1048,26 @@ const styles = StyleSheet.create({
     },
     formLabel: {
         fontSize: 18,
-        flex: 2
+        flex: 2,
+        fontWeight:'bold',
+        color:'#109a7d'
     },
     formItem: {
         flex: 1,
-        justifyContent:'flex-end'
+        fontSize:18,
+        // fontWeight:'bold',
+        justifyContent:'flex-end',
+        color:'#19443c',
+        
+        
     },
     nullErr:{
-        borderColor:'red',
+        borderColor:'#ec3811',
         // borderWidth:1.5,
-        borderBottomWidth: 1.5,
-        borderTopWidth:1.5,
+        borderBottomWidth: 1.75,
+        marginTop:1.5
+        // zIndex:-3
+        // borderTopWidth:1.5,
         // borderRightWidth:1.5,
         // alignSelf:'center'
     },
@@ -1042,17 +1080,18 @@ const styles = StyleSheet.create({
       },
       button:{
         height:50,
-        width:'75%',
+        width:'65%',
         borderWidth:1.75,
-        borderColor:'white',
+        borderColor:'#109a7d',
         borderRadius:50,
-        marginTop:25,
+        marginTop:35,
         padding:10,
         alignSelf:'center',
         textAlign:'center',
         alignItems:'center',
         justifyContent:'center',
-        backgroundColor:'#1cc29f',
+        backgroundColor:'#fff',
+        color:'#fff'
     
       }
 });

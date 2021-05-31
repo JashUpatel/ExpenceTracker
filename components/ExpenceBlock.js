@@ -118,14 +118,89 @@ class ExpenceBlock extends Component{
       categoryModal:false,
       selectedValue:'',
       nullCategory:0,
+      icon:'',
+
     }
     this.csetModalVisible = this.csetModalVisible.bind(this);
+    this.selectIcon=this.selectIcon.bind(this);
   }
 
   csetModalVisible(){
     this.setState({categoryModal:!this.state.categoryModal});
 
   }
+
+  selectIcon(value){
+    // console.log("icon call" + value)
+    if(value=="Rent"){
+      // console.log("rent call")
+      // this.props.expences.icon="home-outline";
+        this.setState({icon:'home-outline'});
+      // console.log("after rent" + this.state.icon)
+        
+    }
+    else if(value=='Food and restaurants'){
+      // this.props.expences.icon="fast-food-outline";
+
+        this.setState({icon:'fast-food-outline'});
+        // console.log("after food" + this.state.icon)
+
+    }
+    else if(value=='Online and Offline Shopping'){
+        this.setState({icon:'pricetags-outline'});
+        // console.log("after shop" + this.state.icon)
+
+    }
+    else if(value=='Groceries'){
+        this.setState({icon:'cart-outline'});
+
+    }
+    else if(value=='Insurance and loan'){
+        this.setState({icon:'shield-outline'});
+
+    }
+    else if(value=='Recharge and bills'){
+        this.setState({icon:'receipt-outline'});
+
+    }
+    else if(value=='Movies and entertainment'){
+        this.setState({icon:'film-outline'});
+
+    }
+    else if(value=='Traveling'){
+        this.setState({icon:'subway-outline'});
+
+    }
+    else if(value=='Fuel'){
+        this.setState({icon:'flame-outline'});
+
+    }
+    else if(value=='Medical and Healthcare'){
+        this.setState({icon:'medkit-outline'});
+
+    }
+    else if(value=='Education'){
+        this.setState({icon:'school-outline'});
+
+    }
+    else if(value=='Snacks and drinks'){
+        this.setState({icon:'wine-outline'});
+
+    }
+    else if(value=='Investment'){
+        this.setState({icon:'golf-outline'});
+
+    }else if(value=='Personal expenses'){
+        this.setState({icon:'wallet-outline'});
+
+    }else if(value=='Others'){
+        this.setState({icon:'planet-outline'});
+
+    }
+    else{
+        this.setState({icon:''});
+    }
+}
 
 
   render(){
@@ -139,27 +214,51 @@ class ExpenceBlock extends Component{
 // const ExpenceBlock=({expences,onDelete=f=>f,onSwipe=f=>f,onSelect=f=>f})=>{
   
 
-  const mockData = [
-    { id: 'Rent', name: 'Rent' },
-    { id: 'Food', name: 'Food' },
-    { id: 'Clothing', name: 'Clothing' },
-    { id: 'Online/Offline Shopping', name: 'Online/Offline Shopping' },
-    { id: 'Groceries', name: 'Groceries' },
-    { id: 'Insurance/loan', name: 'Insurance/loan' },
-    { id: 'Recharge and bills', name: 'Recharge and bills' },
-    { id: 'Movies and entertainment', name: 'Movies and entertainment' },
-    { id: 'Traveling', name: 'Traveling' },
-    { id: 'Fuel', name: 'Fuel' },
-    { id: 'Occasions', name: 'Occasions' },
-    { id: 'Medical and Healthcare', name: 'Medical and Healthcare' },
-    { id: 'Education', name: 'Education' },
-    { id: 'Donation', name: 'Donation' },
-    { id: 'Snacks and drinks', name: 'Snacks and drinks' },
-    { id: 'Investment', name: 'Investment' },
-    { id: 'Products and repairs', name: 'Products and repairs' },
-    { id: 'Personal expenses', name: 'Personal expenses' },
-    { id: 'Others', name: 'Others' }
+//   const mockData = [
+//     { id: 'Rent', name: 'Rent' },
+//     { id: 'Food', name: 'Food' },
+//     { id: 'Clothing', name: 'Clothing' },
+//     { id: 'Online/Offline Shopping', name: 'Online/Offline Shopping' },
+//     { id: 'Groceries', name: 'Groceries' },
+//     { id: 'Insurance/loan', name: 'Insurance/loan' },
+//     { id: 'Recharge and bills', name: 'Recharge and bills' },
+//     { id: 'Movies and entertainment', name: 'Movies and entertainment' },
+//     { id: 'Traveling', name: 'Traveling' },
+//     { id: 'Fuel', name: 'Fuel' },
+//     { id: 'Occasions', name: 'Occasions' },
+//     { id: 'Medical and Healthcare', name: 'Medical and Healthcare' },
+//     { id: 'Education', name: 'Education' },
+//     { id: 'Donation', name: 'Donation' },
+//     { id: 'Snacks and drinks', name: 'Snacks and drinks' },
+//     { id: 'Investment', name: 'Investment' },
+//     { id: 'Products and repairs', name: 'Products and repairs' },
+//     { id: 'Personal expenses', name: 'Personal expenses' },
+//     { id: 'Others', name: 'Others' }
+// ];
+
+
+const mockData = [
+  { id: 'Rent', name: 'Rent' },
+  { id: 'Food and restaurants', name: 'Food and restaurants' },
+  // { id: 'Clothings', name: 'Clothings' },
+  { id: 'Online and Offline Shopping', name: 'Online and Offline Shopping' },
+  { id: 'Groceries', name: 'Groceries' },
+  { id: 'Insurance and loan', name: 'Insurance and loan' },
+  { id: 'Recharge and bills', name: 'Recharge and bills' },
+  { id: 'Movies and entertainment', name: 'Movies and entertainment' },
+  { id: 'Traveling', name: 'Traveling' },
+  { id: 'Fuel', name: 'Fuel' },
+  // { id: 'Occasions', name: 'Occasions' },
+  { id: 'Medical and Healthcare', name: 'Medical and Healthcare' },
+  { id: 'Education', name: 'Education' },
+  // { id: 'Donation', name: 'Donation' },
+  { id: 'Snacks and drinks', name: 'Snacks and drinks' },
+  { id: 'Investment', name: 'Investment' },
+  // { id: 'Products Purchase', name: 'Products Purchase' },
+  { id: 'Personal expenses', name: 'Personal expenses' },
+  { id: 'Others', name: 'Others' }
 ];
+
   const rightButton = [
     {
         text: 'Paid', 
@@ -279,6 +378,7 @@ const addCommas=(num) =>{
 
       onLongPress={()=>{ 
         if(this.props.editable){
+          console.log("am:"+expences.amount)
           optionsSelect(expences)
 
         }
@@ -313,8 +413,19 @@ const addCommas=(num) =>{
                                 }
                                 /> */}
              <Ionicons 
-             name={expences.icon} 
-             size={40} 
+             name={expences.icon}
+            // name='planet-outline' 
+             size={42} 
+             containerStyle={{marginLeft:0}}
+             style={{color:"#109a7d",marginLeft:3,marginTop:7.5}}
+             onPress={()=>
+              {
+                let temp =expences.category;
+                let temp2 = expences.icon;
+                this.setState({selectedValue:temp,icon:temp2})
+              // console.log("press")
+               this.csetModalVisible()
+              }}
             //  color={color}
               />
 
@@ -326,24 +437,23 @@ const addCommas=(num) =>{
                     <View style={style.expData}>
 
                             <View style={{flexDirection:"row", justifyContent:"space-between"}}>
-                            <Text style={style.desc}>{expences.desc}</Text>
+                            <Text style={expences.desc.length<10? style.desc: style.smallDesc}>{expences.desc}</Text>
                                     
                                 <View style={{flexDirection:'row'}}>
-                                <Icon name='currency-inr' size={32}
+                                <Icon name='currency-inr' size={expences.amount.length>5?22:32}
                                 // containerStyle={{marginLeft:5}}
-                                style={{
+                                style={expences.amount.length>5?{
                                   // color:'#d33737s',
                                     // position:'relative',
                                     // top:19,
                                     // left:-25,
                                     // marginLeft:15
+                                    marginTop:3,
                                     flexDirection:'column'
-                                }}
+                                }:{flexDirection:'column'}}
                                 // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                <Text style={[style.amount, {
-                                  // color:'#d33737'
-                                  }]}>{expences.amount.toString().split(".").length==2?addCommas(expences.amount.toString().split(".")[0])+"."+expences.amount.toString().split(".")[1]:addCommas(expences.amount.toString())}</Text>
+                                <Text style={expences.amount.length>5?style.smallAmount:style.amount}>{expences.amount.toString().split(".").length==2?addCommas(expences.amount.toString().split(".")[0])+"."+expences.amount.toString().split(".")[1]:addCommas(expences.amount.toString())}</Text>
                                 </View>
                             </View>
 
@@ -364,16 +474,16 @@ const addCommas=(num) =>{
                     onDismiss = {() => this.csetModalVisible() }
                     onRequestClose = {() => this.csetModalVisible() }>
                     <View style = {style.modal}>
-                      <View style={{justifyContent:'center',paddingVertical:25, marginLeft:-25}}>
+                      <View style={{justifyContent:'center',paddingVertical:25, marginLeft:-50}}>
                       <View>
                     {/* <Text>Add Income : </Text> */}
                     {/* <View style={style.formRow}> */}
                     
-                              <Text style={style.formLabel}>Edit Category: </Text>
+                    <Text style={[style.formLabel,{ fontSize:21,fontWeight:'bold', color:"#109a7d",}]}>Select Category : </Text>
                     <Select2
                     isSelectSingle
-                    style={this.state.nullCategory==0?{ borderRadius: 5, width:'150%', marginBottom:25 }:[{ borderRadius: 5, width:'150%', marginBottom:25 },style.nullErr]}
-                    colorTheme={'green'}
+                    style={this.state.nullCategory==0?{ borderRadius: 5, width:'120%', marginBottom:25 }:[{ borderRadius: 5, width:'1230%', marginBottom:25 },style.nullErr]}
+                    colorTheme={'#109a7d'}
                     popupTitle='Select Category'
                     title={this.state.selectedValue}
                     data={mockData}
@@ -381,7 +491,10 @@ const addCommas=(num) =>{
                     onSelect={data => {
                         if(data!=''){
                         this.setState({ selectedValue :data });
-                        }
+                        this.selectIcon(data);
+                        // this.
+                      
+                      }
                         else{
                         this.setState({ selectedValue :'Pick a Category' });
                         this.setState({nullCategory:1})
@@ -392,6 +505,7 @@ const addCommas=(num) =>{
                     onRemoveItem={data => {
                         this.setState({ selectedValue:data });
                         this.setState({nullCategory:1})
+                        this.selectIcon(data);
 
                     }} 
                     cancelButtonText={'Cancel'}
@@ -405,23 +519,43 @@ const addCommas=(num) =>{
                     </View>
                     <View
                     style={{
+                      marginLeft:10,
                       alignItems: 'center',
-                      // justifyContent: 'center',
+                      justifyContent:'space-around',
                       // flex: 1,
                       flexDirection: 'row',
                     }}>
                         {/* <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/> */}
-                        <Button 
+                        {/* <Button 
+                            
                             onPress = {() =>this.csetModalVisible()}
-                            color="#137863"
+                            color="#109a7d"
                             title="Close" 
-                            />
-                            <Button 
-                            onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue; console.log("ok");this.csetModalVisible()}console.log("Save")}}
-                            color="#137863"
+                            /> */}
+                            {/* <Button 
+                            onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue;expences.icon=this.state.icon; console.log(this.state.icon);this.csetModalVisible()}console.log("Save : "+this.state.icon)}}
+                            color="#109a7d"
                             title="Save" 
-                            />
+                            /> */}
+                            <TouchableOpacity
+                            activeOpacity={0.75}
+                             style={{borderWidth:1,borderRadius:50,borderColor:'#109a7d',paddingHorizontal:30,paddingVertical:7.5, }}
+                             onPress = {()=>this.csetModalVisible()}
+                             
+                             >
+                              <Text style={{color:'#109a7d', fontWeight:'bold'}}>Close</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                            activeOpacity={0.75}
+                             style={{borderWidth:1,borderRadius:50,backgroundColor:'#109a7d',borderColor:'#109a7d',paddingHorizontal:40,paddingVertical:7.5,marginLeft:15}}
+                            //  onPress = {()=>this.csetModalVisible()}
+                            onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue;expences.icon=this.state.icon; this.props.reRender(); console.log(this.state.icon);this.csetModalVisible()}console.log("Save : "+this.state.icon)}}
+                             
+                             >
+                              <Text style={{color:'#fff', fontWeight:'bold'}}>Save</Text>
+                            </TouchableOpacity>
                       </View>
+                      
                     </View>
                     </View>
                 </Modal>
@@ -440,7 +574,7 @@ const style = StyleSheet.create({
    
     expData:{
         flex:1,
-        paddingLeft:25,
+        paddingLeft:23,
         paddingRight:0,
     },
     amount:{
@@ -448,9 +582,20 @@ const style = StyleSheet.create({
         fontSize:35,
         marginTop:-10,
     },
+    smallAmount:{
+      fontSize:21,
+      fontWeight:'bold',
+      marginTop:-2,
+
+      // color:'#d33737'
+       },
     desc:{
         // fontWeight:'bold',
-        fontSize:21
+        fontSize:23
+    },
+    smallDesc:{
+      fontSize:20,
+      marginBottom:7,
     },
     from:{
         fontWeight:'bold',
@@ -459,6 +604,8 @@ const style = StyleSheet.create({
     block:{
         flexDirection:'row',
         padding:15,
+        // paddingHorizontal:15,
+        // paddingVertical:13,
         // marginVertical:10,
         // marginHorizontal:20,
         borderWidth:1,

@@ -170,7 +170,7 @@ class HomeScreen extends Component{
                 // )
               
             // <TabNavigator expences={this.expenceFilter()} payables={this.payableFilter()} receivables={this.recievableFilter()}  data={this.state.Expences}  />
-            <TabNavigator onPress={()=>{console.log("tab");this.setState({refresh:!this.state.refresh})}} add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)}  data={this.props.Expences} income={this.props.income} />
+            <TabNavigator reRender={()=>this.props.reRender()} add={(newExpence)=>this.props.add(newExpence)} remove={(expence)=>this.props.remove(expence)}  data={this.props.Expences} income={this.props.income} setIncome={(i,newExpence)=>this.props.setIncome(i, newExpence)} />
 
         )}
 
