@@ -738,12 +738,12 @@ addCommas=(num) =>{
 
                     //  {fontWeight:'bold', fontSize:16, color:'#ec3811',marginLeft:-5}
                     el.saving<0?
-                   {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}
+                   {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>=0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}
                    :{fontWeight:'bold',fontSize:16,marginLeft:-5}
                    :
                   //  {fontWeight:'bold', fontSize:16, color:'#ec3811',marginLeft:-5}
                     el.saving<0?
-                   {fontWeight:'bold',fontSize:16, color:'#ec3811'}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d'}
+                   {fontWeight:'bold',fontSize:16, color:'#ec3811'}:el.saving>=0?{fontWeight:'bold',fontSize:16, color:'#109a7d'}
                    :{fontWeight:'bold',fontSize:16}
                    }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
@@ -1075,6 +1075,7 @@ addCommas=(num) =>{
                             //  onPress = {()=>this.csetModalVisible()}
                             // onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue;expences.icon=this.state.icon; console.log(this.state.icon);this.csetModalVisible()}console.log("Save : "+this.state.icon)}}
                             onPress = {() =>{this.props.setIncome(this.state.tempEl,this.state.newIncome); this.setState({incModalVisible:false,newIncome:''})}}
+                            disabled={this.state.newIncome==""?true:false}
                              
                              >
                               <Text style={{color:'#fff', fontWeight:'bold'}}>Save</Text>

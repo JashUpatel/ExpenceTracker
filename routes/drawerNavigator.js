@@ -5,6 +5,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// import AsyncStorage from '@react-native-community/async-storage'; //deprecated
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { NavigationContainer } from '@react-navigation/native';
 
 // import Stack navigation screen
@@ -18,7 +20,8 @@ import Insights from '../components/Insights';
 import AddExpenceNavigator from './addExpenceNavigator';
 import InsightsNavigator from './InsightsNavigator';
 //import data centralizing at one point  
-import { DATA } from '../components/data';
+// import { DATA } from '../components/data';
+import * as Animatable from 'react-native-animatable';
 
 const Drawer = createDrawerNavigator();
 
@@ -28,18 +31,18 @@ const CustomDrawer=(props)=>(
         {/* <View style={{flex:1,justifyContent:"space-between", backgroundColor:"#fff", marginTop:25}}> */}
        
             <View style={styles.drawerHeader}>
-            <View style={{flex:1}}>
-            {/* <Image source={require('../assets/icon.png')}
+            <View style={{flex:1,marginTop:35}}>
+            <Image source={require('../assets/ETIcon1w.png')}
             style={styles.drawerIcon}
-            /> */}
-             <Ionicons 
+            />
+             {/* <Ionicons 
             //  name={expences.icon}
             name='analytics-outline' 
              size={75} 
              containerStyle={{marginLeft:0}}
              style={{color:"#FFF",marginLeft:0,marginTop:50}}
              
-              />
+              /> */}
 
             </View>
             <View style={{flex:2}}>
@@ -82,20 +85,22 @@ export default class DrawerNavigator extends Component{
     constructor(props){
         super(props);
         this.state={
-            data:DATA,
+            isLoading:true,
+            data:[],
             refresh:false,
             forceRefresh:false,
-            income:[
-                {
-                    month:"05/2021",
-                    income:"1000"
-                },
-                {
-                    month:"04/2021",
-                    income:"500"
-                }
+            income:[]
+            // income:[
+            //     {
+            //         month:"05/2021",
+            //         income:"1000"
+            //     },
+            //     {
+            //         month:"04/2021",
+            //         income:"500"
+            //     }
 
-            ]
+            // ]
         }
     this.homeNavigatorWithProps = this.homeNavigatorWithProps.bind(this)
     this.allExpencesWithProps = this.allExpencesWithProps.bind(this)
@@ -104,12 +109,94 @@ export default class DrawerNavigator extends Component{
     this.addFunc = this.addFunc.bind(this);
     this.setIncome = this.setIncome.bind(this);
     this.reRender = this.reRender.bind(this);
+    this.storeExpence = this.storeExpence.bind(this);
+    this.storeIncome = this.storeIncome.bind(this);
+    this.getData = this.getData.bind(this);
+
 
     }
-    componentDidMount(){
-        // this.setState({refresh:!this.state.refresh}) 
-       }
 
+
+    storeExpence = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          console.log(jsonValue)
+          await AsyncStorage.setItem('@ExpenceTracker-ExpenceList', jsonValue)
+        } catch (e) {
+          console.log('saving error')
+            }
+      }
+
+      storeIncome = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          console.log(jsonValue)
+          await AsyncStorage.setItem('@ExpenceTracker-IncomeList', jsonValue)
+        } catch (e) {
+          console.log('saving error')
+            }
+      }
+    
+      getData = async () => {
+          try {
+            const ExpenceList = await AsyncStorage.getItem('@ExpenceTracker-ExpenceList');
+            const IncomeList = await AsyncStorage.getItem('@ExpenceTracker-IncomeList');
+           
+            if (ExpenceList !== null) {
+              console.log('1'+ExpenceList)
+    
+              var data = JSON.parse(ExpenceList)
+              console.log('2'+data)
+              this.setState({data:data});
+              this.setState({isLoading:false})
+              // return availableColor
+            } else {
+              console.log('--data no .')
+            //   const availableColors=['red','green','blue','yellow'];
+    
+              this.setState({data:[]});
+              this.setState({isLoading:false})
+
+            }
+
+            if (IncomeList !== null) {
+                console.log('1'+IncomeList)
+      
+                var income = JSON.parse(IncomeList)
+                console.log('2'+income)
+                this.setState({income:income});
+              this.setState({isLoading:false})
+
+                // return availableColor
+              } else {
+                console.log('--income no .')
+              //   const availableColors=['red','green','blue','yellow'];
+      
+                this.setState({income:[]});
+              this.setState({isLoading:false})
+
+              }
+
+
+          } catch (e) {
+            console.log('cant fetch -'+e);
+          }
+          this.setState({forceRefresh:true});
+
+
+          
+        };
+    
+      componentDidMount() {
+        this.getData()
+        // this.setState({forceRefresh:true});
+
+      }
+    
+      componentWillUnmount() {
+          this.storeExpence(this.state.data);
+          this.storeIncome(this.state.income);
+        }
 
     remove(expence){
         var arr = this.state.data
@@ -124,6 +211,8 @@ export default class DrawerNavigator extends Component{
 
         //  this.props.expences = arr
         this.setState({data:arr});
+        this.storeExpence(this.state.data);
+
         // this.storeData(this.state.availableColors);
         this.setState({refresh:!this.state.refresh});
         this.setState({forceRefresh:true});
@@ -143,6 +232,8 @@ export default class DrawerNavigator extends Component{
         console.log("new:"+this.state.data.length+":"+newExpence.id);
         console.log("refresh af"+this.state.forceRefresh);
         this.forceUpdate();
+        this.storeExpence(this.state.data);
+
     }
 
     reRender(){
@@ -160,6 +251,8 @@ export default class DrawerNavigator extends Component{
               // var incIndx = incomeArr.findIndex((x)=>(x.month=="05/2021"));
               if(incIndx!=-1){
                 this.state.income[incIndx].income=newIncome.replace(/,/g,"");
+                let tempSav = Number(this.state.income[incIndx].total)-Number(this.state.income[incIndx].income)
+                this.state.income[incIndx].saving= Math.round((tempSav + Number.EPSILON) * 100) / 100 
                 // var inc ="2"
               }
               else{
@@ -178,6 +271,7 @@ export default class DrawerNavigator extends Component{
               }
         // this.setState({ incModalVisible: false,newIncome:''})
         this.setState({forceRefresh:true});
+        this.storeIncome(this.state.income);
 
               
 
@@ -206,6 +300,33 @@ export default class DrawerNavigator extends Component{
     }
 
     render(){
+        if (this.state.isLoading) {
+            return (<View style={{flex:1,justifyContent:'center',alignContent:'center'}}>
+
+                <View style={{alignSelf:'center'}}>
+                    
+                    <Animatable.View animation='pulse'  iterationCount="infinite" >
+                    
+                        <Ionicons 
+                        name='sync-outline' 
+                        size={45} 
+                        style={{color:"#109a7d",marginLeft:30,marginTop:17.5}}
+                        
+                        />
+                        {/* {"  "} */}
+                        <Text style={{fontSize:28,fontWeight:'normal'}}>Loading...</Text>
+                   
+                    </Animatable.View>
+      
+
+                    </View>
+                
+                </View>
+                );
+          }
+          else{
+
+          
 
 
     return(
@@ -340,7 +461,8 @@ export default class DrawerNavigator extends Component{
              
          
               />
-              )}}
+              ),
+            drawerLabel:'About Us'}}
         component={AboutNavigator} 
         />
         <Drawer.Screen
@@ -355,7 +477,8 @@ export default class DrawerNavigator extends Component{
                  
              
                   />
-                  )}
+                  ),
+                  drawerLabel:'Reach Out Developer'}
         }
          name="Contact" 
          component={ContactNavigator} 
@@ -363,6 +486,7 @@ export default class DrawerNavigator extends Component{
 
     </Drawer.Navigator>
     );
+    }
 }
 
 }
@@ -370,7 +494,7 @@ export default class DrawerNavigator extends Component{
 const styles = StyleSheet.create({
     drawerContainer:{
         flex:1,
-        marginTop:25,
+        // marginTop:25,
         // padding:10,
         // height:750
     },
@@ -378,9 +502,10 @@ const styles = StyleSheet.create({
         borderBottomWidth:1.25,
         borderColor:'gray',
         backgroundColor: '#1cc29f',
-        height: 210,
+        height: 250,
         alignItems: 'center',
         justifyContent: 'center',
+        // marginTop:25,
         flex: 1,
         // flexDirection: 'row',
     },
@@ -397,6 +522,9 @@ const styles = StyleSheet.create({
         // marginLeft:20,
         fontSize:25,
         marginTop:75,
-    }
+    },
+    // loading:{
+    //     -webkit
+    // }
 
 })

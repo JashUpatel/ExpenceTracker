@@ -6,14 +6,15 @@ import { Icon } from 'react-native-elements';
 
 // import common props for navigator
 import NavigatorProps from '../assets/props/navigatorProps';
-
+import Contact from '../components/Contact';
 
 
 function ContactScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Contact Screen</Text>
-    </View>
+    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    //   <Text>Contact Screen</Text>
+    // </View>
+    <Contact />
   );
 }
 
@@ -22,7 +23,7 @@ const Stack = createStackNavigator();
 export default function contactNavigator() {
   return (
       <Stack.Navigator  screenOptions={NavigatorProps}> 
-        <Stack.Screen name="Contact" component={ContactScreen}
+        <Stack.Screen name="Get in Touch" component={ContactScreen}
           options={
             ({navigation})=>({headerLeft: ()=>(
                             <Icon name='menu' size={32} color='#fff'
@@ -30,7 +31,8 @@ export default function contactNavigator() {
                               onPress={()=>navigation.toggleDrawer()}
                               />
               )
-            })
+            }
+            )
             
           } 
           

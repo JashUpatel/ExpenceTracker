@@ -653,7 +653,7 @@ return(
 else{
     return(
       <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
-        <Text>No Record Found!</Text>
+        <Text>No Receivable Record Found!</Text>
 
         {/* <View style={style.month}>
             <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>

@@ -7,12 +7,14 @@ import { Icon } from 'react-native-elements';
 
 // import common props for navigator
 import NavigatorProps from '../assets/props/navigatorProps';
-
+import AboutUs from '../components/AboutUs';
 function AboutScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>About Screen</Text>
-    </View>
+    // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    //   <Text>About Screen</Text>
+    // </View>
+
+    <AboutUs />
   );
 }
 
@@ -25,7 +27,7 @@ export default function aboutNavigator() {
       <Stack.Navigator  screenOptions={NavigatorProps} >
         {/* <Stack.Screen name="Tab" component={TabNavigator} /> */}
       
-        <Stack.Screen name="About" component={AboutScreen} 
+        <Stack.Screen name="About Us" component={AboutScreen} 
           options={
             ({navigation})=>({headerLeft: ()=>(
                             <Icon name='menu' size={32} color='#fff'

@@ -639,7 +639,7 @@ return(
 else{
     return(
       <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
-        <Text>No Record Found!</Text>
+        <Text>No Payable Record Found!</Text>
   
         <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
       <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>

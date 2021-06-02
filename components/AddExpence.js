@@ -476,7 +476,7 @@ class AddExpence extends Component{
         this.props.addFunc(newExpence);
         
         this.resetForm();
-        this.props.modalFlag();
+        this.props.modalFlag(false);
         // after nnot getting sol not to close module
         // this.resetForm();
         // this.props.modalFlag();
@@ -858,7 +858,7 @@ class AddExpence extends Component{
 
 {/* <NumberFormat customInput={TextInput} hintText="Some placeholder" value={this.state.amount} thousandSeparator={true} prefix={'$'} renderText={formattedValue => <Text>{formattedValue}</Text>} /> */}
            
-                    <TextInput  style={this.state.nullAmount==0?[styles.formItem,{fontWeight:'bold',marginLeft:-75, borderBottomWidth:1.5,borderColor:'#109a7d'}]:[styles.formItem,{fontWeight:'bold',marginLeft:-75},styles.nullErr]} value={this.state.amount} onChangeText={(value)=>this.validateAmount(value)} placeholder='  $ 0.00' maxLength={9}  keyboardType='decimal-pad' />
+                    <TextInput  style={this.state.nullAmount==0?[styles.formItem,{fontWeight:'bold',marginLeft:-75, borderBottomWidth:1.5,borderColor:'#109a7d'}]:[styles.formItem,{fontWeight:'bold',marginLeft:-75},styles.nullErr]} value={this.state.amount} onChangeText={(value)=>this.validateAmount(value)} placeholder='   0.00' maxLength={9}  keyboardType='decimal-pad' />
                    
                 </View>
                 <View style={styles.formRow}>

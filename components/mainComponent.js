@@ -29,6 +29,7 @@ function Main() {
         backgroundColor="#1cc29f"
         barStyle={'default'}
         hidden={false} /> */}
+        
       <DrawerNavigator />
     {/* <TabNavigator /> */}
 

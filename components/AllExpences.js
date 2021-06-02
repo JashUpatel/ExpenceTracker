@@ -55,7 +55,7 @@ class AllExpences extends Component{
         console.log("did mount all exp")
         // this.setState({refresh:!this.state.refresh})
         
-        
+        console.log(this.props.expences)
        }
 
      
@@ -456,6 +456,7 @@ addCommas(num) {
         // const data = Data;
     
     var expences = this.expenceFilter(this.props.expences);
+    
     // var expences = this.expenceFilter(data);
 
     expences.sort(this.sortByDate);
