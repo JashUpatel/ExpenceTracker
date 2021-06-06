@@ -373,6 +373,7 @@ const addCommas=(num) =>{
      style={{marginVertical:10}}
       underlayColor='#DDDDDD'
       activeOpacity={0.6}
+      key={expences.id}
 
     //   onPress={()=>{onSelect(backgroundColor)}}
 
@@ -419,12 +420,13 @@ const addCommas=(num) =>{
              containerStyle={{marginLeft:0}}
              style={{color:"#109a7d",marginLeft:3,marginTop:7.5}}
              onPress={()=>
-              {
+              {if(this.props.editable!=false){
                 let temp =expences.category;
                 let temp2 = expences.icon;
                 this.setState({selectedValue:temp,icon:temp2})
               // console.log("press")
                this.csetModalVisible()
+              }
               }}
             //  color={color}
               />

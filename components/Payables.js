@@ -104,6 +104,7 @@ class Payables extends Component{
                     ],
     
                     )
+                    this.props.reRender();
 
       }
       else{

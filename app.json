@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/ETIcon1g.png",
     "splash": {
-      "image": "./ETIcon1g.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/ETIcon1w.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1cc29f"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,16 +17,17 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.ExpenceTracker.ExpenceTracker",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.ExpenceTracker.ExpenceTracker",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }

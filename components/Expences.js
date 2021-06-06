@@ -65,7 +65,7 @@ class Expences extends Component{
 
        componentDidMount(){
         console.log("did mount exp" + Date.now())
-        console.log(this.props.expences)
+        // console.log(this.props.expences)
         // this.setState({refresh:!this.state.refresh}) 
        }
 
@@ -162,6 +162,7 @@ class Expences extends Component{
                     ],
     
                     )
+                    this.props.reRender();
 
       }
 
@@ -979,7 +980,7 @@ addCommas(num) {
                              </Text>
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
+                            { d.expences.map(x=>(<ExpenceBlock reRender={()=>this.props.reRender()} editable={true}  expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
                           </View>
                            )

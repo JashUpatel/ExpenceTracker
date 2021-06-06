@@ -75,7 +75,7 @@ const Tab = createBottomTabNavigator();
 export default class TabNavigator extends React.Component{
 
   render(){
-    console.log("tab "+this.props.data)
+    // console.log("tab "+this.props.data)
     var data = this.props.data;
     var income = this.props.income;
     // const addExpence = this.props.addExpence;

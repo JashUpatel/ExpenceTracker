@@ -129,8 +129,11 @@ class Insights extends Component{
         
        //  var total=0
         expence.forEach(el=>{
+          console.log("pos: "+categoryArr.indexOf(String(el.category)))
 
-         if(!categoryArr.includes(el.category)){
+         if(!categoryArr.includes(String(el.category))){
+           if(categoryArr.indexOf(String(el.category))==-1){
+           console.log("no:" + el.category +":"+ categoryArr);
       
            let newFormat={
              month:el.date.slice(3,10),
@@ -139,10 +142,13 @@ class Insights extends Component{
              expences:[el]
            }
            categoryFilterExpence.push(newFormat)
-           categoryArr.push(el.category)
+           categoryArr.push(String(el.category))
          }
+        }
          else{
-           let indx = categoryFilterExpence.findIndex((e)=>(el.category==e.category));
+          console.log("yes:"+ categoryArr);
+
+           let indx = categoryFilterExpence.findIndex((e)=>(String(el.category)==String(e.category)));
           //  categoryFilterExpence[indx].total=parseInt(categoryFilterExpence[indx].total)+parseInt(el.amount)
           let tempSum = Number(categoryFilterExpence[indx].total)+Number(el.amount)
           categoryFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
@@ -503,6 +509,7 @@ addCommas=(num) =>{
       // const navigation  = this.props
     // const data = this.props.expences;
     // const addExpence () => (this.props.addExpence);
+    if(this.props.expences.length>0){
     var expences = this.expenceFilter(this.props.expences);
     expences.sort(this.sortByDate);
     
@@ -598,6 +605,7 @@ addCommas=(num) =>{
 
 <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
     // accessibilityRole='button'
+    
     activeOpacity={0.6}
     underlayColor="#DDDDDD"
     onLongPress={()=>this.setState({incModalVisible:true,tempEl:el})}
@@ -1106,7 +1114,21 @@ addCommas=(num) =>{
 
 </View>
    
-)}
+)
+                            }else{
+                              return(
+                                <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
+        <Text>No Record Found!</Text>
+  
+        
+  
+   
+  </View>
+                              )
+                            }
+
+}
+
 };
 
 export default Insights;

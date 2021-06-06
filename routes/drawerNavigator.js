@@ -86,6 +86,7 @@ export default class DrawerNavigator extends Component{
         super(props);
         this.state={
             isLoading:true,
+            isLoading2:true,
             data:[],
             refresh:false,
             forceRefresh:false,
@@ -165,7 +166,7 @@ export default class DrawerNavigator extends Component{
                 var income = JSON.parse(IncomeList)
                 console.log('2'+income)
                 this.setState({income:income});
-              this.setState({isLoading:false})
+              this.setState({isLoading2:false})
 
                 // return availableColor
               } else {
@@ -173,7 +174,7 @@ export default class DrawerNavigator extends Component{
               //   const availableColors=['red','green','blue','yellow'];
       
                 this.setState({income:[]});
-              this.setState({isLoading:false})
+              this.setState({isLoading2:false})
 
               }
 
@@ -181,7 +182,7 @@ export default class DrawerNavigator extends Component{
           } catch (e) {
             console.log('cant fetch -'+e);
           }
-          this.setState({forceRefresh:true});
+        //   this.setState({forceRefresh:true});
 
 
           
@@ -237,7 +238,7 @@ export default class DrawerNavigator extends Component{
     }
 
     reRender(){
-
+        this.storeExpence(this.state.data)
         this.setState({forceRefresh:true});
 
     }
@@ -270,8 +271,8 @@ export default class DrawerNavigator extends Component{
                 // var inc = el.date.slice(3,10)
               }
         // this.setState({ incModalVisible: false,newIncome:''})
-        this.setState({forceRefresh:true});
         this.storeIncome(this.state.income);
+        this.setState({forceRefresh:true});
 
               
 
@@ -281,26 +282,26 @@ export default class DrawerNavigator extends Component{
     allExpencesWithProps=()=>{
         this.setState({forceRefresh:false})
         return(
-            <AllExpencesNavigator reRender={()=>this.reRender()} refresh={this.state.forceRefresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)}  data={this.state.data} />
+            <AllExpencesNavigator storeExpence={(data)=>this.storeExpence(data)} reRender={()=>this.reRender()} refresh={this.state.forceRefresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)}  data={this.state.data} />
         );
     }
     insightsWithProps=()=>{
         this.setState({forceRefresh:false})
 
         return(
-            <InsightsNavigator  data={this.state.data} income={this.state.income} setIncome={(i,newExpence)=>this.setIncome(i, newExpence)} />
+            <InsightsNavigator  data={this.state.data} income={this.state.income} reRender={()=>this.reRender()} setIncome={(i,newExpence)=>this.setIncome(i, newExpence)} />
         );
     }
     homeNavigatorWithProps=()=>{
         this.setState({forceRefresh:false})
 
         return(
-            <HomeNavigator reRender={()=>this.reRender()} refresh={this.state.refresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} setIncome={(i,newExpence)=>this.setIncome(i, newExpence)} />
+            <HomeNavigator storeExpence={(data)=>this.storeExpence(data)} reRender={()=>this.reRender()} refresh={this.state.refresh} add={(newExpence)=>this.addFunc(newExpence)} remove={(expence)=>this.remove(expence)} data={this.state.data} income={this.state.income} setIncome={(i,newExpence)=>this.setIncome(i, newExpence)} />
         );
     }
 
     render(){
-        if (this.state.isLoading) {
+        if (this.state.isLoading==true || this.state.isLoading2==true) {
             return (<View style={{flex:1,justifyContent:'center',alignContent:'center'}}>
 
                 <View style={{alignSelf:'center'}}>

@@ -980,7 +980,7 @@ addCommas(num) {
                 {dateFilterArr.map(d=>{
                            return(
                              <View>
-                            <View style={style.date}>
+                            <View  style={style.date}>
                             {/* <Text style={style.dateText}>{el}  </Text> */}
                             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                            <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)} </Text>  
@@ -1005,7 +1005,7 @@ addCommas(num) {
                              </Text>
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock expences={x} editable={false} />))}
+                            { d.expences.map(x=>(<ExpenceBlock  expences={x} editable={false} />))}
 
                           </View>
                            )

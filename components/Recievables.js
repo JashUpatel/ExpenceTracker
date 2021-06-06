@@ -106,6 +106,8 @@ class Receivables extends Component{
                       ],
       
                       )
+
+                      this.props.reRender();
   
         }
 
@@ -440,7 +442,7 @@ addCommas(num) {
             monthlyFilterArr.map(el=>{
             var dateFilterArr=this.dateFilter(el.expences)
             return(
-                <View>
+                <View >
                     <View>
                     <View style={style.month}>
             <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)}, <Text style={style.digit}>{el.month.split("/")[1]}</Text>  

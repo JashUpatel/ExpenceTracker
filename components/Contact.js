@@ -56,7 +56,7 @@ class Contact extends Component {
 
       </View>
       <Text style={{fontSize: 20,
-      color:'black',
+      color:'#343434',
       fontFamily:'Roboto',
       fontWeight:'bold',
       marginBottom:25

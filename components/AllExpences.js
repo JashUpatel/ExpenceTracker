@@ -42,7 +42,7 @@ class AllExpences extends Component{
         // this.something = this.something.bind(this);
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
-        this.storeData = this.storeData.bind(this);
+        // this.storeData = this.storeData.bind(this);
         this.delete = this.delete.bind(this);
         this.swipe = this.swipe.bind(this);
         this.update = this.update.bind(this);
@@ -55,7 +55,7 @@ class AllExpences extends Component{
         console.log("did mount all exp")
         // this.setState({refresh:!this.state.refresh})
         
-        console.log(this.props.expences)
+        // console.log(this.props.expences)
        }
 
      
@@ -85,7 +85,7 @@ class AllExpences extends Component{
           let temp = exp.paidBy.slice(0,3)
           exp.paidBy=temp;
   
-  
+          // this.props.storeExpence(arr)
           Alert.alert(
             'Expence Paid',
                       'This Expence has been Paid successfully.',
@@ -100,6 +100,7 @@ class AllExpences extends Component{
                       ],
       
                       )
+                      this.props.reRender();
   
         }
   
@@ -182,11 +183,11 @@ class AllExpences extends Component{
     
         }
 
-       storeData(data1){
+      //  storeData(data1){
         
-        this.setState({data:data1});
-        return this.state.data;
-       }
+      //   this.setState({data:data1});
+      //   return this.state.data;
+      //  }
 
       //  componentDidUpdate(prevProps) {
       //   if(this.props.expences===prevProps.expences) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
@@ -602,7 +603,7 @@ addCommas(num) {
                                   
                            </View>
                            </View>
-                            { d.expences.map(x=>(<ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)}/>))}
+                            { d.expences.map(x=>(<ExpenceBlock storeExpence={(data)=>this.props.storeExpence(data)} reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
 
                           </View>
                            )

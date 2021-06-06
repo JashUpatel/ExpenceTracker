@@ -503,7 +503,7 @@ class AddExpence extends Component{
             this.props.addFunc(newPayable);
 
             this.resetForm();
-            this.props.modalFlag();
+            this.props.modalFlag(false);
             // after nnot getting sol not to close module
             // this.props.expences.push(newPayable);
 
@@ -530,7 +530,7 @@ class AddExpence extends Component{
             this.props.addFunc(newExpence);
             
         this.resetForm();
-        this.props.modalFlag();
+        this.props.modalFlag(false);
         // after nnot getting sol not to close module
 
             // this.props.expences.push(newExpence);
@@ -592,7 +592,7 @@ class AddExpence extends Component{
             this.props.addFunc(newExpence);
             
         this.resetForm();
-        this.props.modalFlag();
+        this.props.modalFlag(false);
         // after nnot getting sol not to close module
 
             }
@@ -688,7 +688,7 @@ class AddExpence extends Component{
                 }
             
         this.resetForm();
-        this.props.modalFlag();
+        this.props.modalFlag(false);
         // after nnot getting sol not to close module
             this.setState({errShare:0})
         // console.log("err status8 "+ this.state.errShare)
