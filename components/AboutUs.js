@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
-import { View,Image, Text,Platform, ScrollView, Dimensions, KeyboardAvoidingView, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import { Icon, Card } from 'react-native-elements';
+import { View,Image, Text, ScrollView, StyleSheet } from 'react-native';
+import {  Card } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
-
-// import ColorButton from './colorButton';
-// import ColorForm from './ColorForm';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
-// const screenHeight = Dimensions.get('window').height
-
-// const availableColors=['red','salmon','yellow','cyan','magenta','purple','green','blue','pink'];
 
 
 class AboutUs extends Component {

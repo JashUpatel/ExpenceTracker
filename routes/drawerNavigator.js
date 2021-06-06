@@ -1,23 +1,17 @@
 import  React,{Component} from 'react';
-import { Button, View, Image, Text, StyleSheet } from 'react-native';
+import {  View, Image, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator,DrawerItemList } from '@react-navigation/drawer';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // import AsyncStorage from '@react-native-community/async-storage'; //deprecated
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { NavigationContainer } from '@react-navigation/native';
 
 // import Stack navigation screen
 import HomeNavigator from './homeNavigator';
 import ContactNavigator from './contactNavigator';
 import AboutNavigator from './aboutNavigator';
 import AllExpencesNavigator from './AllExpencesNavigator';
-import { HeaderTitle } from '@react-navigation/stack';
-import AddExpence from '../components/AddExpence';
-import Insights from '../components/Insights';
-import AddExpenceNavigator from './addExpenceNavigator';
 import InsightsNavigator from './InsightsNavigator';
 //import data centralizing at one point  
 // import { DATA } from '../components/data';
@@ -28,21 +22,12 @@ const Drawer = createDrawerNavigator();
 const CustomDrawer=(props)=>(
     <ScrollView style={styles.drawerContainer}>
         <View style={{flex:1,justifyContent:"space-between"}}>
-        {/* <View style={{flex:1,justifyContent:"space-between", backgroundColor:"#fff", marginTop:25}}> */}
        
             <View style={styles.drawerHeader}>
             <View style={{flex:1,marginTop:35}}>
             <Image source={require('../assets/ETIcon1w.png')}
             style={styles.drawerIcon}
             />
-             {/* <Ionicons 
-            //  name={expences.icon}
-            name='analytics-outline' 
-             size={75} 
-             containerStyle={{marginLeft:0}}
-             style={{color:"#FFF",marginLeft:0,marginTop:50}}
-             
-              /> */}
 
             </View>
             <View style={{flex:2}}>
@@ -59,7 +44,6 @@ const CustomDrawer=(props)=>(
                 <Ionicons 
              name='heart-outline' 
              size={21.5} 
-            //  containerStyle={{marginLeft:10}}
              style={{color:"#109a7d",marginLeft:10,marginTop:7.5}}
              
          
@@ -91,17 +75,7 @@ export default class DrawerNavigator extends Component{
             refresh:false,
             forceRefresh:false,
             income:[]
-            // income:[
-            //     {
-            //         month:"05/2021",
-            //         income:"1000"
-            //     },
-            //     {
-            //         month:"04/2021",
-            //         income:"500"
-            //     }
-
-            // ]
+            
         }
     this.homeNavigatorWithProps = this.homeNavigatorWithProps.bind(this)
     this.allExpencesWithProps = this.allExpencesWithProps.bind(this)
@@ -150,11 +124,10 @@ export default class DrawerNavigator extends Component{
               console.log('2'+data)
               this.setState({data:data});
               this.setState({isLoading:false})
-              // return availableColor
+
             } else {
               console.log('--data no .')
-            //   const availableColors=['red','green','blue','yellow'];
-    
+
               this.setState({data:[]});
               this.setState({isLoading:false})
 
@@ -168,11 +141,9 @@ export default class DrawerNavigator extends Component{
                 this.setState({income:income});
               this.setState({isLoading2:false})
 
-                // return availableColor
               } else {
                 console.log('--income no .')
-              //   const availableColors=['red','green','blue','yellow'];
-      
+
                 this.setState({income:[]});
               this.setState({isLoading2:false})
 
@@ -182,7 +153,6 @@ export default class DrawerNavigator extends Component{
           } catch (e) {
             console.log('cant fetch -'+e);
           }
-        //   this.setState({forceRefresh:true});
 
 
           
@@ -190,7 +160,6 @@ export default class DrawerNavigator extends Component{
     
       componentDidMount() {
         this.getData()
-        // this.setState({forceRefresh:true});
 
       }
     
@@ -210,11 +179,9 @@ export default class DrawerNavigator extends Component{
            }
          }//=> [1, 2, 3, 4, 6, 7, 8, 9, 0]
 
-        //  this.props.expences = arr
         this.setState({data:arr});
         this.storeExpence(this.state.data);
 
-        // this.storeData(this.state.availableColors);
         this.setState({refresh:!this.state.refresh});
         this.setState({forceRefresh:true});
     
@@ -244,18 +211,16 @@ export default class DrawerNavigator extends Component{
     }
 
     setIncome(i, newIncome){
-        // this.setState({ promptVisible: true})
          var e =  i;
         e.income=newIncome;
         
         let incIndx = this.state.income.findIndex((el)=>(e.month==el.month));
-              // var incIndx = incomeArr.findIndex((x)=>(x.month=="05/2021"));
-              if(incIndx!=-1){
+            
+        if(incIndx!=-1){
                 this.state.income[incIndx].income=newIncome.replace(/,/g,"");
                 let tempSav = Number(this.state.income[incIndx].total)-Number(this.state.income[incIndx].income)
                 this.state.income[incIndx].saving= Math.round((tempSav + Number.EPSILON) * 100) / 100 
-                // var inc ="2"
-              }
+               }
               else{
 
                 var tempInc = {
@@ -265,12 +230,8 @@ export default class DrawerNavigator extends Component{
 
                 this.state.income.push(tempInc);
 
-                // var inc = "-";
-                // var inc = incIndx
-                // var inc = incomeArr[0].income;
-                // var inc = el.date.slice(3,10)
               }
-        // this.setState({ incModalVisible: false,newIncome:''})
+
         this.storeIncome(this.state.income);
         this.setState({forceRefresh:true});
 
@@ -314,7 +275,6 @@ export default class DrawerNavigator extends Component{
                         style={{color:"#109a7d",marginLeft:30,marginTop:17.5}}
                         
                         />
-                        {/* {"  "} */}
                         <Text style={{fontSize:28,fontWeight:'normal'}}>Loading...</Text>
                    
                     </Animatable.View>
@@ -495,9 +455,6 @@ export default class DrawerNavigator extends Component{
 const styles = StyleSheet.create({
     drawerContainer:{
         flex:1,
-        // marginTop:25,
-        // padding:10,
-        // height:750
     },
     drawerHeader:{
         borderBottomWidth:1.25,
@@ -506,26 +463,19 @@ const styles = StyleSheet.create({
         height: 250,
         alignItems: 'center',
         justifyContent: 'center',
-        // marginTop:25,
         flex: 1,
-        // flexDirection: 'row',
     },
     drawerIcon:{
         height:75,
         width:75,
         borderRadius:80,
-        // marginLeft:10,
         marginTop:50
     },
     drawerText:{
         fontWeight:'bold',
         color:"#fff",
-        // marginLeft:20,
         fontSize:25,
         marginTop:75,
     },
-    // loading:{
-    //     -webkit
-    // }
 
 })

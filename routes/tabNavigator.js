@@ -4,167 +4,56 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import stack screens
-
-import HomeNavigator from './homeNavigator';
-import ContactNavigator from './contactNavigator';
-import AboutNavigator from './aboutNavigator';
-import ExpenceNavigator from './expencesNavigator';
 
 // import tab screens
 
 import Expences from '../components/Expences';
 import Payables from'../components/Payables';
 import Receivables from '../components/Recievables';
-import AddExpence from '../components/AddExpence';
 
-function LiSt({data}){
-  return(
-  // const Expences = this.props.data;
-  //   Expences.map(expence=>(
-  //     <View style={{backgroundColor:'Green',flex:1,zIndex:1}}>
-      <Text style={{fontSize:15,fontWeight:'bold'}}>{data}</Text>
-  //     </View>
-  //     )
-  // )
-  )
-}
 
   
 const Tab = createBottomTabNavigator();
-
-// export default function TabNavigator() {
-//   return (
-//       <Tab.Navigator>
-//         <Tab.Screen name="Tab1" component={Tab1} />
-//         <Tab.Screen name="Tab2" component={Tab2} />
-//         <Tab.Screen name="Tab3" component={Tab3} />
-//       </Tab.Navigator>
-   
-//   );
-// }
-
-
-// export default class TabNavigator extends React.Component{
-//   // var exp = this.props.data;
-//   // exp.map(expence=>(
-//   //       <View style={{backgroundColor:'Green',flex:1,zIndex:1}}>
-//   //       <Text style={{fontSize:15,fontWeight:'bold'}}>{expence.desc}</Text>
-//   //       </View>
-     
-//   // ))
-
-//   render(){
-//     const data = this.props.data;
-//     // data.map(expence=>(
-//     //         <View style={{backgroundColor:'Green',flex:1,zIndex:1}}>
-//     //         <Text style={{fontSize:15,fontWeight:'bold'}}>{expence.desc}</Text>
-//     //         </View>
-         
-//     //   ))
-    
-//     return(
-//       <LiSt data={data}/>
-//   // <Text>{this.props.data}</Text>
-
-//     )
-//   }
-// }
 
 
 export default class TabNavigator extends React.Component{
 
   render(){
-    // console.log("tab "+this.props.data)
     var data = this.props.data;
     var income = this.props.income;
-    // const addExpence = this.props.addExpence;
     var remove = this.props.remove;
     
     var add = this.props.add;
     var setIncome = this.props.setIncome;
     var reRender = this.props.reRender;
 
-  // var expences=this.props.expences;
-  // var payables=this.props.payables;
-  // var receivables=this.props.receivables;
 
     function Tab1() {
-    //   var expences=[];
-    //   data.forEach(element => {
-    //     if(element.paidBy=="You" && element.splitWith=="None" && element.status=="Paid"){
-    //       expences.push(element);
-    //     }
-    //   });
- 
       return (
   
-        // <LiSt/>
         <Expences reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} expences={data} income={income} setIncome={(i,newExpence)=>setIncome(i, newExpence)} />
-        // <ExpenceNavigator/>
-        // <AddExpence/>
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        //   <Text>{data}</Text>
-        //  </View>
-        // <TabNavigator />
   
       );
     }
     
      function Tab2() {
 
-      // var payables=[];
-      // data.forEach(element => {
-      //   if(element.paidBy!="You" && element.status=="Unpaid"){
-      //     payables.push(element);
-      //   }
-      // });
- 
       return (
   
         <Payables reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} payables={data}/>
   
-  
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        //   <Text>Tb2</Text>
-        //  </View>
-        // <TabNavigator />
       );
     }
     
      function Tab3() {
-
-      // var receivables=[];
-      // data.forEach(element => {
-      //   if(element.paidBy=="You" && element.splitWith!="None" && element.status=="Unpaid"){
-      //     receivables.push(element);
-      //   }
-      // });
  
-
       return (
   
         <Receivables reRender={()=>reRender()} add={(newExpence)=>add(newExpence)} remove={(expence)=>remove(expence)} receivables={data} />
   
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        //   <Text>Tab3</Text>
-        //  </View>
-        // <TabNavigator />
       );
     }
     
-    function  Tab4(){
-      return (
-  
-        <AddExpence />
-  
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        //   <Text>Tab3</Text>
-        //  </View>
-        // <TabNavigator />
-      );
-    }
-  
   
 
 
@@ -198,8 +87,7 @@ export default class TabNavigator extends React.Component{
           inactiveTintColor: 'gray',
           swipeEnabled:'True',
           labelStyle:{
-            // fontWeight:'bold',
-            fontFamily: 'sans-serif',// 'tahoma', verdana, arial, sans-serif;
+            fontFamily: 'sans-serif',
             marginBottom: 8,
             fontSize:13.5
           },
@@ -207,7 +95,7 @@ export default class TabNavigator extends React.Component{
             marginBottom:-2,
             marginTop:2.5,
           },
-          // allowFontScaling:"true",
+          
           style:{
             height:75,
           }
@@ -216,7 +104,6 @@ export default class TabNavigator extends React.Component{
         <Tab.Screen name="Expences" component={Tab1} />
         <Tab.Screen name="Payables" component={Tab2} />
         <Tab.Screen name="Receivables" component={Tab3} />
-        {/* <Tab.Screen name="Add" component={Tab4} /> */}
 
       </Tab.Navigator>
   );

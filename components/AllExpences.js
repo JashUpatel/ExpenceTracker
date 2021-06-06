@@ -1,17 +1,12 @@
-import React, {Component, useState} from 'react';
-import { Text, View, StyleSheet, TouchableHighlight,Alert, Button,Modal,Pressable, DatePickerAndroid } from 'react-native';
+import React, {Component} from 'react';
+import { Text, View, StyleSheet, TouchableHighlight,Alert, Button,Modal } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { block } from 'react-native-reanimated';
-// import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddExpence from './AddExpence';
 
 // import Expences Block
 import ExpenceBlock from './ExpenceBlock';
-// import { DATA } from './data';
 
-// var monthFlag1 = [0,0,0,0,0,0,0,0,0,0,0,0];
-var s;
 class AllExpences extends Component{
     
     constructor(props){
@@ -21,28 +16,19 @@ class AllExpences extends Component{
             modalVisible:false,
             data:[],
             refresh:false,
-            // focusSubscription:''
             
-            // monthFlag : [0,0,0,0,0,0,0,0,0,0,0,0],
-            // mmyyyy:[]
-            // DateWiseData:new Map(),
-            // dateArr:["09/03/2021"],
-            // temp:"07/03/2021"
         }
 
         this.setModalVisible=this.setModalVisible.bind(this);
         this.addFunc=this.addFunc.bind(this);
         this.expenceFilter = this.expenceFilter.bind(this);
         this.sortByDate = this.sortByDate.bind(this);
-        // this.distinctDateExpences = this.distinctDateExpences.bind(this);
         this.getMonthName =  this.getMonthName.bind(this);
         this.getDayName =  this.getDayName.bind(this);
         this.monthDisp = this.monthDisp.bind(this);
         this.monthYearDisp = this.monthYearDisp.bind(this);
-        // this.something = this.something.bind(this);
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
-        // this.storeData = this.storeData.bind(this);
         this.delete = this.delete.bind(this);
         this.swipe = this.swipe.bind(this);
         this.update = this.update.bind(this);
@@ -53,17 +39,12 @@ class AllExpences extends Component{
        
        componentDidMount(){
         console.log("did mount all exp")
-        // this.setState({refresh:!this.state.refresh})
-        
-        // console.log(this.props.expences)
        }
 
      
-       componentDidUpdate(prevProps) {
+       componentDidUpdate() {
         console.log("did update all exp")
 
-        // Typical usage (don't forget to compare props):
-        
       }
 
 
@@ -74,7 +55,6 @@ class AllExpences extends Component{
           {
             if ( arr[i].status==expence.status&& arr[i].date == expence.date && arr[i].desc == expence.desc)
              {
-              //  arr.splice(i, 1);
               var exp = arr[i]
              }
            }
@@ -85,7 +65,6 @@ class AllExpences extends Component{
           let temp = exp.paidBy.slice(0,3)
           exp.paidBy=temp;
   
-          // this.props.storeExpence(arr)
           Alert.alert(
             'Expence Paid',
                       'This Expence has been Paid successfully.',
@@ -140,9 +119,6 @@ class AllExpences extends Component{
                         {
                             text:'Update',
                             onPress:()=>{
-                              // this.props.remove(expence)
-                              // this.setState({refresh:!this.state.refresh});
-                              
                               this.update(expence)
                               this.setState({refresh:!this.state.refresh});
                            
@@ -183,19 +159,7 @@ class AllExpences extends Component{
     
         }
 
-      //  storeData(data1){
-        
-      //   this.setState({data:data1});
-      //   return this.state.data;
-      //  }
 
-      //  componentDidUpdate(prevProps) {
-      //   if(this.props.expences===prevProps.expences) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
-      //   {
-      //     this.storeData(this.props.expences);
-
-      //   }
-      // } 
 
 
        monthlyFilter(expence){
@@ -214,8 +178,6 @@ class AllExpences extends Component{
           }
           else{
             let indx = monthlyFilterExpence.findIndex((e)=>(el.date.slice(4,10)==e.month));
-            // Math.round((( (monthlyFilterExpence[indx].total) + Number.EPSILON) * 100) / 100
-            // monthlyFilterExpence[indx].total=parseInt(monthlyFilterExpence[indx].total)+parseInt(el.amount)
             let tempSum = Number(monthlyFilterExpence[indx].total)+Number(el.amount)
             monthlyFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
  
@@ -244,7 +206,6 @@ class AllExpences extends Component{
          }
          else{
            let indx = dateFilterExpence.findIndex((e)=>(el.date==e.date));
-          //  dateFilterExpence[indx].total=Number(dateFilterExpence[indx].total)+Number(el.amount)
           let tempSum = Number(dateFilterExpence[indx].total)+Number(el.amount)
           dateFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
          
@@ -259,43 +220,34 @@ class AllExpences extends Component{
 
        monthYearDisp(el){
 
-        // var mmyyyy =[];
         var my = el.split("/")[1]+el.split("/")[2];
-        // this.state.mmyyyy = this.state.mmyyyy.filter((v, i, a) => a.indexOf(v) === i);
         if(this.state.mmyyyy.indexOf(my)==-1){
         this.state.mmyyyy.push(my)
           return 1;
         }
         else{
           return 0;
-          // return this.state.mmyyyy;
         }
-        // this.state.mmyyyy.push(my)
-        // var myArray = ['a', 1, 'a', 2, '1'];
         
        }
 
        monthDisp(el){
-      // var s=0;
+     
       var monthFlag1 = this.state.monthFlag;
         let mm = parseInt(el.split("/")[1]);
         if(monthFlag1[mm-1]==1){
           s=1;
-          // monthFlag1[mm-1]=1;
 
-          // this.setState({monthFlag:monthFlag1})
           return this.state.monthFlag;
 
         }
         else if(monthFlag1[mm-1]==0){
           s=2;
         monthFlag1[mm-1]=1;
-          // this.setState({monthFlag:monthFlag1})
 
           return s;
           
         }
-          // return s;
         
        }
 
@@ -353,24 +305,10 @@ class AllExpences extends Component{
 
 
     addFunc(newExpence){
-        // this.props.expences.push(newExpence);
-
-        // this.state.data.push(newExpence);
-       
-       
-       
-        // this.props.expences.push(newExpence);
-       
-        // this.setState({modalVisible:true});
+        
         this.props.add(newExpence);
         this.setState({refresh:!this.state.refresh})
-        // this.setState({refresh:"refresh"})
-        // this.setState({data:exp})
-      //   this.props.expences.sort(function(a, b) {
-      //     var c = new Date(a.date);
-      //     var d = new Date(b.date);
-      //     return c-d;
-      // }).reverse();
+        
     }
 
 // js date sorting comment
@@ -391,15 +329,7 @@ class AllExpences extends Component{
       return 0;
   }
 
-  //   sortByDate(a, b) {
-  //     if (a.date < b.date) {
-  //         return 1;
-  //     }
-  //     if (a.date > b.date) {
-  //         return -1;
-  //     }
-  //     return 0;
-  // }
+  
 
 
     setModalVisible(){
@@ -407,20 +337,7 @@ class AllExpences extends Component{
     }
 
    
-    // componentDidMount(){
-    //   const data1 = this.props.expences;
-    // // const addExpence () => (this.props.addExpence);
-    // this.storeData(data1);
-    // // this.forceUpdate();
-
-
-    // }
-
-    // componentWillReceiveProps(){
-    //   var exp = this.props.expences;
-    //   this.setState({data:exp});
-    // }
-
+    
     
 addCommas(num) {
         let dec = num.split('.')[0]
@@ -454,28 +371,15 @@ addCommas(num) {
 
       
 
-        // const data = Data;
-    
     var expences = this.expenceFilter(this.props.expences);
     
-    // var expences = this.expenceFilter(data);
+    
 
     expences.sort(this.sortByDate);
     
     var monthlyFilterArr = this.monthlyFilter(expences);
 
-    // var distinctDateMapData = this.distinctDateExpences(expences);
-
-
-
-    // this.setState({DateWiseData:distinctDateMapData});
-    // expences.sort(function(a, b) {
-    //       var c = new Date(a.date);
-    //       var d = new Date(b.date);
-    //       return c-d;
-    //   });
-
-    // var MapKeys = [...distinctDateMapData.keys()]
+    
 
 
     if(monthlyFilterArr.length>0){
@@ -486,93 +390,43 @@ addCommas(num) {
     
         <View style={style.container}>
 
-            {/* <View style={style.month}> */}
-                {/* <Text style={style.monthText}>February, <Text style={style.digit}>2021</Text>    -    $5000</Text> */}
-                {/* <Text style={style.total,{flex:3,marginLeft:125,marginTop:5,fontWeight:'bold'}}>$500</Text> */}
-            {/* </View> */}
             
-            {/* date display */}
 
-            {/* <View style={style.date}>
-    <Text style={style.dateText}><Text style={style.dateDigit}>{MapKeys.length}</Text>{MapKeys[0]}  </Text>
-            </View> */}
 
             {/* date diaplay */}
 
 
-            {/*
-             demo date for refernce
-             <View style={style.date}>
-                <Text style={style.dateText}><Text style={style.dateDigit}>16</Text>  Feb 2021, Tue</Text>
-            </View> */}
  
-            {
-              // display date array 
-              // MapKeys.map((el)=>{return(<Text>{el}</Text>)})
-            }
 
             {
 
 
 
-                // display date wise exp
-                // MapKeys.map(el=>{
-                  
-                //   return(
-                //     <View>
-                //       { this.monthYearDisp(el)!=0?
-                //       // <View style={this.monthDisp(el)?{display:"flex"}:{display:"none"}}>
-                //         <View style={style.month}>
-                // <Text style={style.monthText}>{this.getMonthName(el)}, <Text style={style.digit}>{this.monthYearDisp(el)}</Text></Text>
-                //         {/* </View> */}
-                //         </View>:<View></View>
-                //         }
-                //        <View style={style.date}>
-                //        {/* <Text style={style.dateText}>{el}  </Text> */}
-                //        <View style={style.date}>
-                //         <Text style={style.dateText}><Text style={style.dateDigit}>{el.slice(0,2)}</Text>  {this.getMonthName(el).slice(0,3)} {el.split('/')[2]}, {this.getDayName(el).slice(0,3)}</Text>
-                //       </View>
-                //       </View>
-                //     {/* <Text style={style.digit} >{el}</Text> */}
-                //    { distinctDateMapData.get(el).map(x=>(<ExpenceBlock expences={x}/>))}
-                //  </View>
-                // )})
+               
 
                 monthlyFilterArr.map(el=>{
                   var dateFilterArr=this.dateFilter(el.expences)
                   return(
                     <View>
-                       {/* { this.monthYearDisp(el)!=0? */}
-                        {/* // <View style={this.monthDisp(el)?{display:"flex"}:{display:"none"}}> */}
                          <View style={style.month}>
                   <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)}, <Text style={style.digit}>{el.month.split("/")[1]}</Text> 
                   {"  "} -  {" "}  
               <Icon name='currency-inr' size={13.5}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
                                    color:'#ec3811',
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
                                 <Text style={{color:'#ec3811'}}>
-                                {/* {el.total} */}
-                             {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
+                                {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
 
                                 </Text>
                   </Text>
                          </View>
-                         {/* </View>:<View></View> */}
-                         {/* } */}
                          {dateFilterArr.map(d=>{
                            return(
                              <View>
                             <View style={style.date}>
-                            {/* <Text style={style.dateText}>{el}  </Text> */}
                             <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
                            <Text style={style.dateText}>
                              <Text style={[style.dateDigit,{color:'#109a7d'}]}>
@@ -584,19 +438,12 @@ addCommas(num) {
                                   </Text>
                                   <Text style={{fontSize:18.5 ,color:"#109a7d",fontWeight:'bold',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {/* {d.total} */}
                              {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
 
                              </Text>
@@ -609,47 +456,17 @@ addCommas(num) {
                            )
                          })}
 
-                        {/* <View style={style.date}> */}
-                        {/* <Text style={style.dateText}>{el}  </Text> */}
-                        {/* <View style={style.date}>
-                         <Text style={style.dateText}><Text style={style.dateDigit}>{el.expences[0].date.slice(0,2)}</Text>  {this.getMonthName(el.expences[0].date).slice(0,3)} {el.expences[0].date.split('/')[2]}, {this.getDayName(el.expences[0].date).slice(0,3)}</Text>
-                       </View>
-                       </View> */}
-
-                     {/* <Text style={style.digit} >{el}</Text> */}
-                     
-                    {/* { el.expences.map(x=>(<ExpenceBlock expences={x}/>))} */}
-                  </View>
+                        </View>
                   )
                 })
                 
                 
             }
 
-            {/* {
-              // expences blocks
-
-            //  this.state.DateArr.forEach(e=>{
-              //  for(i=0;i<expences.length;i++){
-                //  if(expences.date==e){
-
-                  expences.map(expence => (
-                    <ExpenceBlock  expences={expence} />
-        
-                        ))
-                //  }
-              //  }
-            //  }) 
-              
-            } */}
+            
            
 
-            {/* <View style={{alignItems:'center'}}>
-            <TouchableHighlight elevation style={style.button} underlayColor='#9e9e9e94'>
-            <Text style={style.mainText}>+</Text>
-            </TouchableHighlight> */}
-
-            {/* </View> */}
+            
         </View>
         
                 
@@ -671,14 +488,14 @@ addCommas(num) {
                     visible = {this.state.modalVisible}
                     onDismiss = {() => this.setModalVisible() }
                     onRequestClose = {() => this.setModalVisible() }>
-                    {/* <View style = {style.modal}> */}
+                    
                         <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
                         <Button 
                             onPress = {() =>this.setModalVisible()}
                             color="#137863"
                             title="Close" 
                             />
-                    {/* </View> */}
+                   
                 </Modal>
 
 
@@ -708,14 +525,13 @@ else{
                       visible = {this.state.modalVisible}
                       onDismiss = {() => this.setModalVisible() }
                       onRequestClose = {() => this.setModalVisible() }>
-                      {/* <View style = {style.modal}> */}
                           <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
                           <Button 
                               onPress = {() =>this.setModalVisible()}
                               color="#137863"
                               title="Close" 
                               />
-                      {/* </View> */}
+                      
                   </Modal>
   </View>
     )
@@ -744,15 +560,11 @@ const style = StyleSheet.create({
     
     },
     total:{
-      // justifyContent:'space-between',
       alignSelf:'flex-end'
     },
     month:{
-      // flex:1,
         justifyContent:'space-between',
         alignItems:"center",
-        // borderWidth:0.75,
-        // borderRadius:25,
     },
     date:{
         justifyContent:'flex-start'
@@ -765,7 +577,6 @@ const style = StyleSheet.create({
         fontSize:25,
     },
     digit:{
-        // justifyContent:"center",
         fontFamily:'monospace',
         fontWeight:"bold",
     },
@@ -774,18 +585,13 @@ const style = StyleSheet.create({
         color:'white',
         fontFamily:'monospace',
         fontWeight:'bold',
-        // marginVertical: -16,
       },
       button:{
-        // position:'absolute',
-        // top:100,
-        // left:10,
         height:60,
         width:60,
         borderWidth:1,
         borderColor:'white',
         borderRadius:50,
-        // marginTop:75,
         padding:0,
         alignSelf:'flex-end',
         textAlign:'center',

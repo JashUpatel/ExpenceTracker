@@ -1,17 +1,12 @@
-import React, {Component, useState} from 'react';
-import { Text,TextInput, View, StyleSheet, TouchableHighlight,TouchableOpacity, Button,Modal,Alert,Pressable, DatePickerAndroid } from 'react-native';
+import React, {Component} from 'react';
+import { Text,TextInput, View, StyleSheet, TouchableHighlight,TouchableOpacity, Button,Modal,Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { block } from 'react-native-reanimated';
-// import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AddExpence from './AddExpence';
-// import Prompt from 'react-native-prompt';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // import Expences Block
 import ExpenceBlock from './ExpenceBlock';
-// var monthFlag1 = [0,0,0,0,0,0,0,0,0,0,0,0];
-// var s;
 
 var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
@@ -27,15 +22,9 @@ class Expences extends Component{
         this.state={
             modalVisible:false,
             incModalVisible:false,
-            // data:[],
              newIncome: '',
              tempEl:"",
              refresh:false,
-            // promptVisible: false
-            // monthlyTotal:0,
-            // dailyTotal:0,
-            // monthlyFilterArr:[],
-            // dateFilterArr:[]
         }
 
         this.incsetModalVisible=this.incsetModalVisible.bind(this);
@@ -43,19 +32,13 @@ class Expences extends Component{
         this.addFunc=this.addFunc.bind(this);
         this.expenceFilter = this.expenceFilter.bind(this);
         this.sortByDate = this.sortByDate.bind(this);
-        // this.distinctDateExpences = this.distinctDateExpences.bind(this);
         this.getMonthName =  this.getMonthName.bind(this);
         this.getDayName =  this.getDayName.bind(this);
-        // this.monthDisp = this.monthDisp.bind(this);
-        // this.monthYearDisp = this.monthYearDisp.bind(this);
-        // this.something = this.something.bind(this);
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
         this.monthlyTotal = this.monthlyTotal.bind(this);
-        // this.listener = this.listener.bind(this);
         this.getMonthTotal = this.getMonthTotal.bind(this);
         this.getDayTotal= this.getDayTotal.bind(this);
-        // this.showAlert = this.showAlert.bind(this)
         this.setIncome = this.setIncome.bind(this);
         this.delete = this.delete.bind(this);
         this.swipe = this.swipe.bind(this);
@@ -65,66 +48,8 @@ class Expences extends Component{
 
        componentDidMount(){
         console.log("did mount exp" + Date.now())
-        // console.log(this.props.expences)
-        // this.setState({refresh:!this.state.refresh}) 
        }
 
-       componentDidUpdate(prevProps) {
-        // console.log("did update exp")
-
-        // Typical usage (don't forget to compare props):
-        if (this.props.expences.length !== prevProps.expences.length) {
-          // this.fetchData(this.props.userID);
-        // this.setState({refresh:!this.state.refresh}) 
-
-        }
-      }
-
-
-
-      //  remove(expence){
-      //   var arr = this.props.expences
-      //   for( var i = 0; i < arr.length; i++)
-      //   {
-      //     if ( arr[i].date == expence.date && arr[i].desc == expence.desc)
-      //      {
-      //        arr.splice(i, 1);
-      //      }
-      //    }//=> [1, 2, 3, 4, 6, 7, 8, 9, 0]
-
-      //    this.props.expences = arr
-      //   // this.setState({availableColors:arr});
-      //   // this.storeData(this.state.availableColors);
-    
-    
-      // }
-
-
-      // swipe(expence){
-      //   Alert.alert(
-      //     'Expence already Paid',
-      //               'This Expence has already been Paid.',
-      //               [
-      //                   {
-      //                       text: 'Okay',
-      //                       onPress: ()=>console.log('Cancel Pressed'),
-      //                       style: 'cancel'
-      //                   },
-      //                   // {
-      //                   //     text:'Update',
-      //                   //     onPress:()=>{
-      //                   //       // this.props.remove(expence)
-      //                   //       // this.setState({refresh:!this.state.refresh});
-    
-      //                   //     }
-      //                   // }
-    
-      //               ],
-    
-      //               )
-    
-    
-      //   }
 
 
 
@@ -136,7 +61,6 @@ class Expences extends Component{
         {
           if ( arr[i].status==expence.status && arr[i].date == expence.date && arr[i].desc == expence.desc && arr[i].amount == expence.amount && arr[i].paidBy == expence.paidBy && arr[i].splitWith == expence.splitWith)
            {
-            //  arr.splice(i, 1);
             var exp = arr[i]
            }
          }
@@ -202,8 +126,6 @@ class Expences extends Component{
                       {
                           text:'Update',
                           onPress:()=>{
-                            // this.props.remove(expence)
-                            // this.setState({refresh:!this.state.refresh});
                             
                             this.update(expence)
                             this.setState({refresh:!this.state.refresh});
@@ -248,7 +170,6 @@ class Expences extends Component{
         validateIncome(value){
 
           if(value!="." && value.replace(/,/g, "").length<8){
-            // var letters = /^[0-9]+$/;
         if(value!='.' && value!='0' && value.split('.').length<2)
          {
           let dec2 = value.replace(/,/g, "");
@@ -265,18 +186,15 @@ class Expences extends Component{
 
 
        setIncome(){
-        // this.setState({ promptVisible: true})
         var e =  this.state.tempEl;
         e.income=this.state.newIncome;
         
         let incIndx = this.props.income.findIndex((el)=>(e.month==el.month));
-              // var incIndx = incomeArr.findIndex((x)=>(x.month=="05/2021"));
               if(incIndx!=-1){
                 if(this.state.newIncome!=""){
                   console.log("if: newInc" + this.state.newIncome)
 
                 this.props.income[incIndx].income=this.state.newIncome.replace(/,/g,"");
-                // var inc ="2"
                 }
               }
               else{
@@ -291,69 +209,15 @@ class Expences extends Component{
                 this.props.income.push(tempInc);
               }
 
-                // var inc = "-";
-                // var inc = incIndx
-                // var inc = incomeArr[0].income;
-                // var inc = el.date.slice(3,10)
               }
         this.setState({ incModalVisible: false,newIncome:''})
               
 
        }
 
-  //       showAlert = () =>
-  //       //  Alert.prompt("Alert Title", "My Alert Msg", callbackOrButtons?, type?, defaultValue?, keyboardType?)
-  // Alert.prompt(
-  //   "Alert Title",
-  //   "My Alert Msg",
-  //   [
-  //     {
-  //       text: "Cancel",
-  //       onPress: () => Alert.alert("Cancel Pressed"),
-  //       style: "cancel",
-  //     },
-  //   ],
-  //   {
-  //     cancelable: true,
-  //     onDismiss: () =>
-  //       Alert.alert(
-  //         "This alert was dismissed by tapping outside of the alert dialog."
-  //       ),
-  //   }
-  // );
-
 
       
-      //  componentWillUnmount() {
-      //   this.listener.remove();
-      // }
-      // getFlights = () => {
-      //   // getData().then(flights => {
-      //     this.setState({ modalVisible: true });
-      //   // });
-      // };
-      //  componentDidMount(){
-      // //   const data1 = this.props.expences;
-      // // // const addExpence () => (this.props.addExpence);
-      // // this.setState({data:data1});
-      // // // this.forceUpdate();
-
-      // // // return this.state.data;
-
-      // this.listener = this.props.navigation.addListener("didFocus", this.getFlights);
-
-  
-      // }
-
-      // componentDidUpdate(prevProps) {
-      //   this.setState({modalVisible:true});
-      //   // if(this.props.expences===prevProps.expences) // Check if it's a new user, you can also use some unique property, like the ID  (this.props.user.id !== prevProps.user.id)
-      //   // {
-      //   //   this.setState({data:this.props.expences});
-
-      //   // }
-      // } 
-  
+   
       monthlyTotal(monthlyFilterArr){
         var totalObj= monthlyFilterArr.filter(el=>(el.month==today.slice(3,10)))[0]
         var total = totalObj.total;
@@ -366,22 +230,16 @@ class Expences extends Component{
          var monthlyFilterExpence = []
          var incomeArr = this.props.income;
          
-        //  var total=0
          expence.forEach(el=>{
 
 
-              // var incIndx= incomeArr.filter(e=>(e.month==el.date.slice(3,10)))[0]
               let incIndx = incomeArr.findIndex((e)=>(el.date.slice(3,10)==e.month));
-              // var incIndx = incomeArr.findIndex((x)=>(x.month=="05/2021"));
               if(incIndx!=-1){
                 var inc = incomeArr[incIndx].income;
-                // var inc ="2"
+                
               }
               else{
                 var inc = "-";
-                // var inc = incIndx
-                // var inc = incomeArr[0].income;
-                // var inc = el.date.slice(3,10)
               }
               
               if(isNaN(parseInt(inc)-parseInt(el.amount))){
@@ -408,7 +266,6 @@ class Expences extends Component{
           }
           else{
             let indx = monthlyFilterExpence.findIndex((e)=>(el.date.slice(3,10)==e.month));
-            // monthlyFilterExpence[indx].total=Number(monthlyFilterExpence[indx].total)+Number(el.amount)
             let tempSum = Number(monthlyFilterExpence[indx].total)+Number(el.amount)
             monthlyFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
             
@@ -419,9 +276,7 @@ class Expences extends Component{
           }    
 
          });
-        // var total= parseInt(monthlyFilterExpence[0].total);
-        //  this.setState({monthlyFilterArr:monthlyFilterExpence})
-
+        
          return monthlyFilterExpence;
        }
 
@@ -442,7 +297,6 @@ class Expences extends Component{
          }
          else{
            let indx = dateFilterExpence.findIndex((e)=>(el.date==e.date));
-          //  dateFilterExpence[indx].total=Number(dateFilterExpence[indx].total)+Number(el.amount)
           let tempSum = Number(dateFilterExpence[indx].total)+Number(el.amount)
           dateFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
           
@@ -455,48 +309,7 @@ class Expences extends Component{
       }
 
 
-      //  monthYearDisp(el){
-
-      //   // var mmyyyy =[];
-      //   var my = el.split("/")[1]+el.split("/")[2];
-      //   // this.state.mmyyyy = this.state.mmyyyy.filter((v, i, a) => a.indexOf(v) === i);
-      //   if(this.state.mmyyyy.indexOf(my)==-1){
-      //   this.state.mmyyyy.push(my)
-      //     return 1;
-      //   }
-      //   else{
-      //     return 0;
-      //     // return this.state.mmyyyy;
-      //   }
-      //   // this.state.mmyyyy.push(my)
-      //   // var myArray = ['a', 1, 'a', 2, '1'];
-        
-      //  }
-
-      //  monthDisp(el){
-      // // var s=0;
-      // var monthFlag1 = this.state.monthFlag;
-      //   let mm = parseInt(el.split("/")[1]);
-      //   if(monthFlag1[mm-1]==1){
-      //     s=1;
-      //     // monthFlag1[mm-1]=1;
-
-      //     // this.setState({monthFlag:monthFlag1})
-      //     return this.state.monthFlag;
-
-      //   }
-      //   else if(monthFlag1[mm-1]==0){
-      //     s=2;
-      //   monthFlag1[mm-1]=1;
-      //     // this.setState({monthFlag:monthFlag1})
-
-      //     return s;
-          
-      //   }
-      //     // return s;
-        
-      //  }
-
+      
        getDayName(date){
 
         var WeekArr=["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -551,21 +364,11 @@ class Expences extends Component{
 
 
     addFunc(newExpence){
-        // this.props.expences.push(newExpence);
 
 
         this.props.add(newExpence);
         this.setState({refresh:!this.state.refresh})
         
-        // this.state.data.push(newExpence);
-        // this.setState({refresh:"refresh"})
-        
-        // this.setState({data:exp})  
-      //   this.props.expences.sort(function(a, b) {
-      //     var c = new Date(a.date);
-      //     var d = new Date(b.date);
-      //     return c-d;
-      // }).reverse();
     }
 
 // js date sorting comment
@@ -586,36 +389,21 @@ class Expences extends Component{
       return 0;
   }
 
-  //   sortByDate(a, b) {
-  //     if (a.date < b.date) {
-  //         return 1;
-  //     }
-  //     if (a.date > b.date) {
-  //         return -1;
-  //     }
-  //     return 0;
-  // }
 
 
     setModalVisible(value){
-      // this.setState({modalVisible:!this.state.modalVisible});
       this.setState({modalVisible:value});
     }
 
     incsetModalVisible(value){
-      // this.setState({incModalVisible:!this.state.incModalVisible});
       this.setState({incModalVisible:value});
   }
 
     getMonthTotal(mArr,dt){
 
-      // mArr.filter()
-      // let indx = mArr.findIndex((el)=>(el.month==dt.slice(3,10)));
-      // monthTotal=parseInt(mArr[indx].total)
 
       var mTotal = mArr.forEach(el=>{
         if(el.month==dt.slice(3,10)){
-          // return el.total
           mTotal=el.total;
           this.setState({monthlyTotal:mTotal})
         }
@@ -631,7 +419,6 @@ class Expences extends Component{
       this.setState({monthlyTotal:total});
 
       }
-      // var total = totalObj.total;
 
     }
 
@@ -676,8 +463,6 @@ addCommas(num) {
     render(){
       console.log("render exp")
       console.log(this.props.expences)
-    // const data = this.props.expences;
-    // const addExpence () => (this.props.addExpence);
     var expences = this.expenceFilter(this.props.expences);
     expences.sort(this.sortByDate);
     
@@ -685,20 +470,6 @@ addCommas(num) {
     var thismonthlyFilterArrIndx = monthlyFilterArr.findIndex((e)=>(e.month==today.slice(3,10)));
     var monthlyFilterArrDisp = [];
     monthlyFilterArrDisp.push(monthlyFilterArr[thismonthlyFilterArrIndx])
-    // this.setState({monthlyFilterArr:monthlyFilterArr})
-    // this.monthlyTotal(monthlyFilterArr);
-    // var distinctDateMapData = this.distinctDateExpences(expences);
-
-
-
-    // this.setState({DateWiseData:distinctDateMapData});
-    // expences.sort(function(a, b) {
-    //       var c = new Date(a.date);
-    //       var d = new Date(b.date);
-    //       return c-d;
-    //   });
-
-    // var MapKeys = [...distinctDateMapData.keys()]
     
     if(thismonthlyFilterArrIndx!=-1 && monthlyFilterArrDisp.length>0){
 
@@ -706,63 +477,16 @@ addCommas(num) {
     return(
     <View>
     <ScrollView style={{minHeight:'97.5%'}}>
-      {/* <View>
-        <View>
-    <Text>This month total:  {this.getMonthTotal(monthlyFilterArr,today)}</Text>
-    <Text>This date total:  {this.state.monthlyTotal}</Text>
-
-        </View>
-      </View> */}
+      
     
         <View style={style.container}>
 
             
             {/* date display */}
 
-            {/* <View style={style.date}>
-    <Text style={style.dateText}><Text style={style.dateDigit}>{MapKeys.length}</Text>{MapKeys[0]}  </Text>
-            </View> */}
-
-            {/* date diaplay */}
-
-
-            {/*
-             demo date for refernce
-             <View style={style.date}>
-                <Text style={style.dateText}><Text style={style.dateDigit}>16</Text>  Feb 2021, Tue</Text>
-            </View> */}
- 
-            {
-              // display date array 
-              // MapKeys.map((el)=>{return(<Text>{el}</Text>)})
-            }
-
             {
 
 
-
-                // display date wise exp
-                // MapKeys.map(el=>{
-                  
-                //   return(
-                //     <View>
-                //       { this.monthYearDisp(el)!=0?
-                //       // <View style={this.monthDisp(el)?{display:"flex"}:{display:"none"}}>
-                //         <View style={style.month}>
-                // <Text style={style.monthText}>{this.getMonthName(el)}, <Text style={style.digit}>{this.monthYearDisp(el)}</Text></Text>
-                //         {/* </View> */}
-                //         </View>:<View></View>
-                //         }
-                //        <View style={style.date}>
-                //        {/* <Text style={style.dateText}>{el}  </Text> */}
-                //        <View style={style.date}>
-                //         <Text style={style.dateText}><Text style={style.dateDigit}>{el.slice(0,2)}</Text>  {this.getMonthName(el).slice(0,3)} {el.split('/')[2]}, {this.getDayName(el).slice(0,3)}</Text>
-                //       </View>
-                //       </View>
-                //     {/* <Text style={style.digit} >{el}</Text> */}
-                //    { distinctDateMapData.get(el).map(x=>(<ExpenceBlock expences={x}/>))}
-                //  </View>
-                // )})
 
                 monthlyFilterArrDisp.map(el=>{
                   var dateFilterArr=this.dateFilter(el.expences)
@@ -776,7 +500,6 @@ addCommas(num) {
 
 
     <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,}}
-    // accessibilityRole='button'
     activeOpacity={0.6}
     underlayColor="#DDDDDD"
     onLongPress={()=>this.setState({incModalVisible:true,tempEl:el})}
@@ -812,7 +535,6 @@ addCommas(num) {
    
                  <View style={{flexDirection:'row',alignContent:'space-between',marginLeft:-15}}>
                  <View
-                 //not of use
                  style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
 
                  >
@@ -824,19 +546,12 @@ addCommas(num) {
                      
                      }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:-15,
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                {/* {el.total}  */}
                                 {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
                                   </Text>
                  </View>
@@ -844,32 +559,20 @@ addCommas(num) {
                    style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
                  >
                    <Text style={
-                  //    String(el.income).length>7?
-                  //  {fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}
                      
                    el.income>=0?
                    String(el.income).length>7?
                    {fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5}
                    
-                    //  el.income>=0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d',marginLeft:10}:{fontWeight:'bold',fontSize:16.5}
-                    //  :
-                    //  el.income>=0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d',marginLeft:5}:{fontWeight:'bold',fontSize:16.5,marginLeft:-5}
-
+                    
                      }>
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
-                                {/* {el.income}  */}
                                 {el.income.toString().split(".").length==2?this.addCommas(el.income.toString().split(".")[0])+"."+el.income.toString().split(".")[1]:this.addCommas(el.income.toString())}
                               
                                  </Text>
@@ -880,61 +583,34 @@ addCommas(num) {
                    <Text style={
                      String(el.saving).replace(/[-,]/g,"").length>6?
                      el.saving<0?
-                    //  {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d',marginLeft:-5}:el.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5,marginLeft:-5}
                     {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>=0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}
                    :{fontWeight:'bold',fontSize:16,marginLeft:-5}
                     
                     :
                      el.saving<0?
-                    //  {fontWeight:'bold',fontSize:16, color:'#ec3811'}:el.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d'}:el.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5}
                     {fontWeight:'bold',fontSize:16.5, color:'#ec3811'}:el.saving>=0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d'}
                     :{fontWeight:'bold',fontSize:16.5}
                     
                      }
                      >
                    <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
                                 {isNaN(el.saving)?"-":
-                                // el.saving
                                 el.saving>=0?
                                 el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:this.addCommas(el.saving.toString().replace(/[,-]/g,""))
                                 :
                                 el.saving.toString().split(".").length==2?"-"+this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:"-"+this.addCommas(el.saving.toString().replace(/[,-]/g,""))
-                                // el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0][1,])+"."+el.saving.toString().split(".")[1]:this.addCommas(el.saving.toString()[1,])
-
-                    //  el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().replace(/,/g,"").split(".")[0])+"."+el.saving.toString().replace(/,/g,"").split(".")[1]:this.addCommas(el.saving.toString().replace(/,/g,""))
                                 
                                 }    </Text>
                  </View>
    
-                {/* <View style={{flex:1}}><Text style={{fontWeight:'bold'}}>Expence: </Text></View> */}
-                {/* <View style={{flex:2}}><Text >Income: </Text></View> */}
-                {/* <View style={{flex:1}}><Text >Savings: </Text> </View> */}
                 
                  </View>
-                 {/* <View style={{flex:1,flexDirection:'row'}}>
-   
-                 </View> */}
-   
-                   {/* <Text style={style.monthInsight}>February,
-                     <Text style={style.digit}>2021</Text>    -    $5000 </Text>{"\n"} 
-                   <View style={{flex:1,flexDirection:'row'}}>
-                     <Text style={{flex:1,flexDirection:'row'}}><Text style={{fontWeight:'bold'}}>Expence: </Text><Text style={{flex:2}}>Income: </Text><Text style={{flex:3}}>Savings: </Text> </Text>{"\n"}
-                     {/* <Text style={style.insightText}><Text>$500 </Text><Text>$1000 </Text><Text>$500 </Text></Text> */}
-                     {/* </View> */} 
-   
-                   {/* <Text style={style.total,{flex:3,marginLeft:125,marginTop:5,fontWeight:'bold'}}>$500</Text> */}
                    </View>
                </TouchableHighlight>
 
@@ -946,36 +622,20 @@ addCommas(num) {
 
 
 
-                       {/* { this.monthYearDisp(el)!=0? */}
-                        {/* // <View style={this.monthDisp(el)?{display:"flex"}:{display:"none"}}> */}
-                         {/* <View style={style.month}>
-                  <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)},<Text style={style.digit}>{el.month.split("/")[1]}</Text>  -  ${el.total}</Text>
-                         </View> */}
-                         {/* </View>:<View></View> */}
-                         {/* } */}
                          {dateFilterArr.map(d=>{
                            return(
                              <View>
                             <View style={style.date}>
-                            {/* <Text style={style.dateText}>{el}  </Text> */}
                             <View style={style.date,{flexDirection:'row', justifyContent:'space-between'}}>
                            <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)}   </Text>            </Text>
-                           {/* <Text style={{fontSize:16,fontWeight:'bold',marginTop:10}}>-</Text> */}
                            <Text style={{fontSize:18.5 ,fontWeight:'bold',color:'#109a7d',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {/* {d.total} */}
                              {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
                              </Text>
                            </View>
@@ -986,16 +646,7 @@ addCommas(num) {
                            )
                          })}
 
-                        {/* <View style={style.date}> */}
-                        {/* <Text style={style.dateText}>{el}  </Text> */}
-                        {/* <View style={style.date}>
-                         <Text style={style.dateText}><Text style={style.dateDigit}>{el.expences[0].date.slice(0,2)}</Text>  {this.getMonthName(el.expences[0].date).slice(0,3)} {el.expences[0].date.split('/')[2]}, {this.getDayName(el.expences[0].date).slice(0,3)}</Text>
-                       </View>
-                       </View> */}
 
-                     {/* <Text style={style.digit} >{el}</Text> */}
-                     
-                    {/* { el.expences.map(x=>(<ExpenceBlock expences={x}/>))} */}
                   </View>
                   )
                 })
@@ -1003,30 +654,7 @@ addCommas(num) {
                 
             }
 
-            {/* {
-              // expences blocks
-
-            //  this.state.DateArr.forEach(e=>{
-              //  for(i=0;i<expences.length;i++){
-                //  if(expences.date==e){
-
-                  expences.map(expence => (
-                    <ExpenceBlock  expences={expence} />
-        
-                        ))
-                //  }
-              //  }
-            //  }) 
-              
-            } */}
            
-
-            {/* <View style={{alignItems:'center'}}>
-            <TouchableHighlight elevation style={style.button} underlayColor='#9e9e9e94'>
-            <Text style={style.mainText}>+</Text>
-            </TouchableHighlight> */}
-
-            {/* </View> */}
         </View>
         
 
@@ -1048,27 +676,12 @@ addCommas(num) {
                     <View
                     style={{
                       alignItems: 'center',
-                      // justifyContent: 'center',
-                      // flex: 1,
                       flexDirection: 'row',
                     }}>
-                        {/* <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/> */}
-                        {/* <Button 
-                            onPress = {() =>this.incsetModalVisible()}
-                            color="#137863"
-                            title="Close" 
-                            />
-                            <Button 
-                            onPress = {() =>this.setIncome()}
-                            color="#137863"
-                            title="Add" 
-                            />
-
-                             */}
+                        
                         <TouchableOpacity
                             activeOpacity={0.75}
                              style={{borderWidth:1,borderRadius:50,borderColor:'#109a7d',paddingHorizontal:30,paddingVertical:7.5, }}
-                            //  onPress = {()=>this.csetModalVisible()}
                             onPress = {() =>{this.incsetModalVisible(false);this.setState({newIncome:""})}}
                              
                              >
@@ -1078,8 +691,6 @@ addCommas(num) {
                             activeOpacity={0.75}
                             disabled={this.state.newIncome==""?true:false}
                              style={{borderWidth:1,borderRadius:50,backgroundColor:'#109a7d',borderColor:'#109a7d',paddingHorizontal:40,paddingVertical:7.5,marginLeft:15}}
-                            //  onPress = {()=>this.csetModalVisible()}
-                            // onPress = {() =>{if(this.state.selectedValue==''){this.setState({nullCategory:1})}else{this.setState({nullCategory:0});expences.category=this.state.selectedValue;expences.icon=this.state.icon; console.log(this.state.icon);this.csetModalVisible()}console.log("Save : "+this.state.icon)}}
                             onPress = {() =>
                               {
                                 
@@ -1098,14 +709,6 @@ addCommas(num) {
                 </Modal>
 
 
-
-        {/* <Prompt
-            title="Add Income"
-            placeholder="000"
-            defaultValue="0"
-            visible={this.state.promptVisible}
-            onCancel={() => this.setState({ promptVisible: false})}
-            onSubmit={(value)=>this.setState({promptVisible:false,newIncome:value})}/> */}
 
                 
     </ScrollView>
@@ -1126,14 +729,12 @@ addCommas(num) {
                     visible = {this.state.modalVisible}
                     onDismiss = {() => this.setModalVisible(false) }
                     onRequestClose = {() => this.setModalVisible(false) }>
-                    {/* <View style = {style.modal}> */}
                         <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={(value)=>this.setModalVisible(value)}/>
                         <Button 
                             onPress = {() =>this.setModalVisible(false)}
                             color="#137863"
                             title="Close" 
                             />
-                    {/* </View> */}
                 </Modal>
 
 
@@ -1149,10 +750,8 @@ else{
          
          
     <TouchableHighlight style={style.month,{marginVertical:10,paddingHorizontal:35,paddingVertical:12,borderRadius:5,borderWidth:0.75,marginBottom:75}}
-// accessibilityRole='button'
 activeOpacity={0.6}
 underlayColor="#DDDDDD"
-// onLongPress={()=>this.setState({incModalVisible:true})}
 
 >
 <View>
@@ -1185,32 +784,21 @@ underlayColor="#DDDDDD"
 
            <View style={{flexDirection:'row',alignContent:'space-between',marginLeft:-15}}>
            <View
-           //not of use
            style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
 
            >
            
              <Text style={
-              //  String(el.total).length>7?
-              //  {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:
                {fontWeight:'bold',fontSize:16.5}
                
                }>
              <Icon name='currency-inr' size={16} solid={true} raised={true}
-                          // containerStyle={{marginLeft:5}}
                           style={{
-                              // position:'relative',
-                              // top:19,
-                              // left:-25,
-                              // marginLeft:-15,
                               fontStyle:'normal',
                               fontWeight:'bold',
                               flexDirection:'column'
                           }}
-                          // onPress={()=>navigation.toggleDrawer()}
                           />
-                          {/* {el.total}  */}
-                          {/* {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())} */}
                             {" -"}
                             </Text>
            </View>
@@ -1218,79 +806,36 @@ underlayColor="#DDDDDD"
              style={[style.box, { flex:1, alignItems:'center',backgroundColor: "" }]}
            >
              <Text style={
-            //    String(el.income).length>7?
-            //  {fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}
-               
-            //  el.income>=0?
-            //  String(el.income).length>7?
-            //  {fontWeight:'bold',fontSize:16,color:'#109a7d',marginLeft:-5}:{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:
              {fontWeight:'bold',fontSize:16.5}
              
-              //  el.income>=0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d',marginLeft:10}:{fontWeight:'bold',fontSize:16.5}
-              //  :
-              //  el.income>=0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d',marginLeft:5}:{fontWeight:'bold',fontSize:16.5,marginLeft:-5}
-
                }>
              <Icon name='currency-inr' size={16} solid={true} raised={true}
-                          // containerStyle={{marginLeft:5}}
                           style={{
-                              // position:'relative',
-                              // top:19,
-                              // left:-25,
-                              // marginLeft:15
                               fontStyle:'normal',
                               fontWeight:'bold',
                               flexDirection:'column'
                           }}
-                          // onPress={()=>navigation.toggleDrawer()}
                           />
-                          {/* {el.income}  */}
-                          {/* {el.income.toString().split(".").length==2?this.addCommas(el.income.toString().split(".")[0])+"."+el.income.toString().split(".")[1]:this.addCommas(el.income.toString())} */}
-                        {" -"}
+                         {" -"}
                            </Text>
            </View>
            <View
              style={[style.box, { flex:1,alignItems:'center', backgroundColor: "" }]}
            >
              <Text style={
-              //  String(el.saving).replace(/[-,]/g,"").length>6?
-              //  el.saving<0?
-              //  {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d',marginLeft:-5}:el.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5,marginLeft:-5}
-              // {fontWeight:'bold',fontSize:16, color:'#ec3811',marginLeft:-5}:el.saving>0?{fontWeight:'bold',fontSize:16, color:'#109a7d',marginLeft:-5}
-            //  :{fontWeight:'bold',fontSize:16,marginLeft:-5}
-              
-              // :
-              //  el.saving<0?
-              //  {fontWeight:'bold',fontSize:16, color:'#ec3811'}:el.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d'}:el.saving==0?{fontWeight:'bold',fontSize:16.5,color:'#109a7d'}:{fontWeight:'bold',fontSize:16.5}
-              // {fontWeight:'bold',fontSize:16.5, color:'#ec3811'}:el.saving>0?{fontWeight:'bold',fontSize:16.5, color:'#109a7d'}
-              // :
               {fontWeight:'bold',fontSize:16.5}
               
                }
                >
              <Icon name='currency-inr' size={16} solid={true} raised={true}
-                          // containerStyle={{marginLeft:5}}
                           style={{
-                              // position:'relative',
-                              // top:19,
-                              // left:-25,
-                              // marginLeft:15
                               fontStyle:'normal',
                               fontWeight:'bold',
                               flexDirection:'column'
                           }}
-                          // onPress={()=>navigation.toggleDrawer()}
                           />
                           {
-                          // isNaN(el.saving)?"-":
-                          // // el.saving
-                          // el.saving>=0?
-                          // el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:this.addCommas(el.saving.toString().replace(/[,-]/g,""))
-                          // :
-                          // el.saving.toString().split(".").length==2?"-"+this.addCommas(el.saving.toString().split(".")[0].replace(/[,-]/g,""))+"."+el.saving.toString().split(".")[1]:"-"+this.addCommas(el.saving.toString().replace(/[,-]/g,""))
-                          // el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().split(".")[0][1,])+"."+el.saving.toString().split(".")[1]:this.addCommas(el.saving.toString()[1,])
-
-              //  el.saving.toString().split(".").length==2?this.addCommas(el.saving.toString().replace(/,/g,"").split(".")[0])+"."+el.saving.toString().replace(/,/g,"").split(".")[1]:this.addCommas(el.saving.toString().replace(/,/g,""))
+                          
                           " -"
                           }    </Text>
            </View>
@@ -1309,18 +854,13 @@ underlayColor="#DDDDDD"
                         <Text style={{marginBottom:245}}>No Record Found for this month! {"\n\n"}     Tap  {" "}
                         
                         <Ionicons name='add-circle' size={22} solid={true} raised={true}
-                          // containerStyle={{marginLeft:5}}
                           style={{
-                              // position:'relative',
-                              // top:19,
-                              // left:-25,
                               marginLeft:5,
                               color:'#109a7d',
                               fontStyle:'normal',
                               fontWeight:'bold',
                               flexDirection:'column'
                           }}
-                          // onPress={()=>navigation.toggleDrawer()}
                           />
                         
                         {"  "}
@@ -1342,24 +882,13 @@ underlayColor="#DDDDDD"
                     visible = {this.state.modalVisible}
                     onDismiss = {() => this.setModalVisible(false) }
                     onRequestClose = {() => this.setModalVisible(false) }>
-                    {/* <View style = {style.modal}> */}
                         <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={(value)=>this.setModalVisible(value)}/>
                         <Button 
                             onPress = {() =>this.setModalVisible(false)}
                             color="#19443c"
                             title="Close" 
                             />
-                            {/* <TouchableOpacity
-                            activeOpacity={0.75}
-                             style={{borderWidth:1,borderRadius:50,borderColor:'#109a7d',paddingHorizontal:30,paddingVertical:7.5, }}
-                            //  onPress = {()=>this.csetModalVisible()}
-                            onPress = {() =>this.setModalVisible()}
-                             
-                             >
-                              <Text style={{color:'#109a7d', fontWeight:'bold'}}>Close</Text>
-                            </TouchableOpacity> */}
-                            
-                    {/* </View> */}
+                           
                 </Modal>
 </View>
 </ScrollView>
@@ -1384,7 +913,6 @@ const style = StyleSheet.create({
     monthInsight:{
       flex:1,
       width:"100%",
-      // height:100,
       paddingHorizontal:35,
       paddingVertical:15,
       marginVertical:10,
@@ -1394,13 +922,11 @@ const style = StyleSheet.create({
   
   },
   insightText:{
-    // flex:3,
     flexDirection: "row",
     fontWeight:'bold',
     fontSize:15,
     textAlign:'justify',
     alignContent:'space-around',
-    // alignSelf:'center'
     justifyContent:'space-between',
   },
     monthText:{
@@ -1414,15 +940,12 @@ const style = StyleSheet.create({
     
     },
     total:{
-      // justifyContent:'space-between',
       alignSelf:'flex-end'
     },
     month:{
       flex:1,
         justifyContent:'space-between',
         alignItems:"center",
-        // borderWidth:0.75,
-        // borderRadius:25,
     },
     date:{
         justifyContent:'flex-start'
@@ -1435,7 +958,6 @@ const style = StyleSheet.create({
         fontSize:25,
     },
     digit:{
-        // justifyContent:"center",
         fontFamily:'monospace',
         fontWeight:"bold",
     },
@@ -1444,18 +966,13 @@ const style = StyleSheet.create({
         color:'white',
         fontFamily:'monospace',
         fontWeight:'bold',
-        // marginVertical: -16,
       },
       button:{
-        // position:'absolute',
-        // top:100,
-        // left:10,
         height:60,
         width:60,
         borderWidth:1,
         borderColor:'white',
         borderRadius:50,
-        // marginTop:75,
         padding:0,
         alignSelf:'flex-end',
         textAlign:'center',
@@ -1464,7 +981,6 @@ const style = StyleSheet.create({
         backgroundColor:'#1cc29f'
       },
       modal: {
-        // flex:1,
         width:'75%',
         height:'35%',
         alignContent:'center',

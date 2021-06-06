@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { Text, View, StyleSheet, TouchableHighlight,Modal,Button,Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { block } from 'react-native-reanimated';
-// import { Icon } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import AddExpence from './AddExpence';
@@ -12,38 +10,10 @@ import AddExpence from './AddExpence';
 import ExpenceBlock from './ExpenceBlock';
 
 
-// const Receivables=({expences})=>(
-
-//     <ScrollView>
-//         <View style={style.container}>
-
-//             <View style={style.month}>
-//                 <Text style={style.monthText}>February, <Text style={style.digit}>2021</Text></Text>
-//             </View>
-
-//             <View style={style.date}>
-//                 <Text style={style.dateText}><Text style={style.dateDigit}>16</Text>  Feb 21, Tue</Text>
-//             </View>
-//             <ExpenceBlock expences={expences} />
-
-//             {/* {
-//                   this.props.expences.map(expence=>(
-//                     <View style={styles.formRow,{backgroundColor:'Green',flex:1,zIndex:1}}>
-//                     <Text style={{fontSize:15,fontWeight:'bold'}}>{expence.desc}</Text>
-//                     </View>
-//                     )
-//                 )
-//               } */}
-
-//         </View>
-//     </ScrollView>
-// );
-
 class Receivables extends Component{
     
     constructor(props){
         super(props);
-        // const [modalVisible, setModalVisible] = useState(false);
         this.state={
             modalVisible:false,
             refresh:false,
@@ -54,11 +24,8 @@ class Receivables extends Component{
         this.addFunc=this.addFunc.bind(this);
         this.recievableFilter = this.recievableFilter.bind(this);
         this.sortByDate = this.sortByDate.bind(this);
-        // this.distinctDateExpences = this.distinctDateExpences.bind(this);
         this.getMonthName =  this.getMonthName.bind(this);
         this.getDayName =  this.getDayName.bind(this);
-        // this.monthDisp = this.monthDisp.bind(this);
-        // this.monthYearDisp = this.monthYearDisp.bind(this);
         this.monthlyFilter = this.monthlyFilter.bind(this);
         this.dateFilter = this.dateFilter.bind(this);
         this.delete = this.delete.bind(this);
@@ -80,7 +47,6 @@ class Receivables extends Component{
           {
             if ( arr[i].status==expence.status && arr[i].date == expence.date && arr[i].desc == expence.desc && arr[i].amount == expence.amount && arr[i].paidBy == expence.paidBy && arr[i].splitWith == expence.splitWith) 
              {
-              //  arr.splice(i, 1);
               var exp = arr[i]
              }
            }
@@ -147,8 +113,6 @@ class Receivables extends Component{
                         {
                             text:'Update',
                             onPress:()=>{
-                              // this.props.remove(expence)
-                              // this.setState({refresh:!this.state.refresh});
                               
                               this.update(expence)
                               this.setState({refresh:!this.state.refresh});
@@ -206,7 +170,6 @@ class Receivables extends Component{
          }
          else{
            let indx = monthlyFilterExpence.findIndex((e)=>(el.date.slice(4,10)==e.month));
-        //    monthlyFilterExpence[indx].total=Number(monthlyFilterExpence[indx].total)+Number(el.amount)
         let tempSum = Number(monthlyFilterExpence[indx].total)+Number(el.amount)
            monthlyFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
    
@@ -235,7 +198,6 @@ class Receivables extends Component{
         }
         else{
           let indx = dateFilterExpence.findIndex((e)=>(el.date==e.date));
-        //   dateFilterExpence[indx].total=Number(dateFilterExpence[indx].total)+Number(el.amount)
         let tempSum = Number(dateFilterExpence[indx].total)+Number(el.amount)
         dateFilterExpence[indx].total=Math.round((tempSum + Number.EPSILON) * 100) / 100
         dateFilterExpence[indx].expences.push(el)
@@ -320,7 +282,6 @@ class Receivables extends Component{
     }
 
     addFunc(newExpence){
-        // this.props.receivables.push(newExpence);
 
         this.props.add(newExpence);
         this.setState({refresh:!this.state.refresh})
@@ -344,15 +305,6 @@ class Receivables extends Component{
         return 0;
     }
 
-    // sortByDate(a, b) {
-    //     if (a.date < b.date) {
-    //         return 1;
-    //     }
-    //     if (a.date > b.date) {
-    //         return -1;
-    //     }
-    //     return 0;
-    // }
 
 
     setModalVisible(){
@@ -393,11 +345,9 @@ addCommas(num) {
     var paidReceivables = this.paidReceivablesFilter(data);
     receivables.sort(this.sortByDate);
     paidReceivables.sort(this.sortByDate);
-    // var distinctDateMapData = this.distinctDateExpences(receivables);
 
     var monthlyFilterArr = this.monthlyFilter(receivables);
 
-    // var MapKeys = [...distinctDateMapData.keys()]
     var paidReceivablesArr = this.monthlyFilter(paidReceivables)
 
     if(monthlyFilterArr.length>0 || paidReceivablesArr.length>0){
@@ -408,34 +358,8 @@ addCommas(num) {
     
         <View style={style.container}>
 
-            {/* <View style={style.month}>
-                <Text style={style.monthText}>February, <Text style={style.digit}>2021</Text></Text>
-            </View>
 
-            <View style={style.date}>
-                <Text style={style.dateText}><Text style={style.dateDigit}>16</Text>  Feb 21, Tue</Text>
-            </View> */}
-
-            {/* <ExpenceBlock expences={data} /> */}
             
-
-            {
-
-                // display date wise exp
-                // MapKeys.map(el=>(
-                //     <View>
-                //     <View style={style.date}>
-                //     <Text style={style.dateText}>{el}  </Text>
-                //     </View>
-                //     {/* <Text style={style.digit} >{el}</Text> */}
-                // { distinctDateMapData.get(el).map(x=>(<ExpenceBlock expences={x}/>))}
-                // </View>
-                // ))
-
-            }
-
-
-
             {
 
 
@@ -448,19 +372,13 @@ addCommas(num) {
             <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)}, <Text style={style.digit}>{el.month.split("/")[1]}</Text>  
             {"  "} -  {" "}  
               <Icon name='currency-inr' size={13.5}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
                                   color:'#ec3811',
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
                                 <Text style={{color:'#ec3811'}}>
-                                {/* {el.total} */}
+                                
                              {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
 
                                 </Text>
@@ -474,21 +392,16 @@ addCommas(num) {
                     <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)}</Text>   </Text>
                     <Text style={{fontSize:18.5 ,fontWeight:'bold',color:'#1cc29f',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
+                                
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     color:'#ec3811',
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
                              <Text style={{color:'#ec3811'}}>
-                             {/* {el.total} */}
+                             
                              {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
 
                              </Text></Text>
@@ -523,7 +436,6 @@ paidReceivablesArr.length>0?
             {
               
 
-// if(paidReceivablesArr.length>0){
 paidReceivablesArr.map(el=>{
 
 var paidDateFilterArr=this.dateFilter(el.expences)
@@ -534,19 +446,13 @@ return(
 <Text style={style.monthText}>{this.getMonthName(el.expences[0].date)}, <Text style={style.digit}>{el.month.split("/")[1]}</Text> 
 {"  "} -  {" "}  
               <Icon name='currency-inr' size={13.5}
-                                // containerStyle={{marginLeft:5}}
                                 style={{
                                   color:'#ec3811',
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
                                 <Text style={{color:'#ec3811'}}>
-                                {/* {el.total} */}
+                             
                              {el.total.toString().split(".").length==2?this.addCommas(el.total.toString().split(".")[0])+"."+el.total.toString().split(".")[1]:this.addCommas(el.total.toString())}
 
                                 </Text>
@@ -562,19 +468,14 @@ return(
         <Text style={style.dateText}><Text style={[style.dateDigit,{color:'#109a7d'}]}>{d.date.slice(0,2)} </Text>{this.getMonthName(d.date).slice(0,3)} {d.date.split('/')[2]}, <Text style={{color:'#109a7d'}}>{this.getDayName(d.date).slice(0,3)}</Text>   </Text>
         <Text style={{fontSize:18.5 ,fontWeight:'bold',marginTop:10,marginRight:10}}>
                            <Icon name='currency-inr' size={16} solid={true} raised={true}
-                                // containerStyle={{marginLeft:5}}
+                                
                                 style={{
-                                    // position:'relative',
-                                    // top:19,
-                                    // left:-25,
-                                    // marginLeft:15
                                     fontStyle:'normal',
                                     fontWeight:'bold',
                                     flexDirection:'column'
                                 }}
-                                // onPress={()=>navigation.toggleDrawer()}
                                 />
-                             {/* {d.total} */}
+                             
                              {d.total.toString().split(".").length==2?this.addCommas(d.total.toString().split(".")[0])+"."+d.total.toString().split(".")[1]:this.addCommas(d.total.toString())}
 
                              </Text>
@@ -596,27 +497,13 @@ return(
             
             <View>
 
-            {/* <View style={style.month}>
-            <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>
-            </View> */}
              {paidReceivablesArr.map(d=>{
              d.expences.map(x => (<ExpenceBlock reRender={()=>this.props.reRender()} editable={true} expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))
              
              })
             }
           </View>
-
-
-            
-            {/* {
-                receivables.map(expence => (
-            <ExpenceBlock expences={expence} />
-
-                ))
-            } */}
-
-          
-
+      
         </View>
         
                 
@@ -657,12 +544,6 @@ else{
       <View style={{flex:1,marginBottom:18,alignItems:'center',justifyContent:'center'}}>
         <Text>No Receivable Record Found!</Text>
 
-        {/* <View style={style.month}>
-            <Text style={style.monthText}>Received<Text style={style.digit}></Text></Text>
-            </View>
-             {paidReceivablesArr.map(x=>(<ExpenceBlock expences={x} onSelect={(x)=>this.change(x)} onDelete={(x)=>this.delete(x)} onSwipe={(x)=>this.swipe(x)} />))}
-
-            </View> */}
             
         <View style={{flex:1,position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
       <View style={{position:'absolute',bottom:5,right:15,alignSelf:'flex-end'}}>
@@ -680,14 +561,12 @@ else{
                       visible = {this.state.modalVisible}
                       onDismiss = {() => this.setModalVisible() }
                       onRequestClose = {() => this.setModalVisible() }>
-                      {/* <View style = {style.modal}> */}
                           <AddExpence addFunc={(newExpence)=>this.addFunc(newExpence)} modalFlag={()=>this.setModalVisible()}/>
                           <Button 
                               onPress = {() =>this.setModalVisible()}
                               color="#137863"
                               title="Close" 
                               />
-                      {/* </View> */}
                   </Modal>
   </View>
     )
@@ -718,8 +597,6 @@ const style = StyleSheet.create({
     month:{
         justifyContent:"center",
         alignItems:"center",
-        // borderWidth:0.75,
-        // borderRadius:25,
     },
     date:{
         justifyContent:'flex-start'
@@ -732,7 +609,6 @@ const style = StyleSheet.create({
         fontSize:25,
     },
     digit:{
-        // justifyContent:"center",
         fontFamily:'monospace',
         fontWeight:"bold",
     },
@@ -741,18 +617,13 @@ const style = StyleSheet.create({
         color:'white',
         fontFamily:'monospace',
         fontWeight:'bold',
-        // marginVertical: -16,
       },
       button:{
-        // position:'absolute',
-        // top:100,
-        // left:10,
         height:60,
         width:60,
         borderWidth:1,
         borderColor:'white',
         borderRadius:50,
-        // marginTop:75,
         padding:0,
         alignSelf:'flex-end',
         textAlign:'center',

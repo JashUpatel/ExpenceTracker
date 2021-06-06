@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
-import { View,Image,Linking, Text,Platform,Share, ScrollView, Dimensions, KeyboardAvoidingView, StyleSheet, Alert, TouchableHighlight, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import { Icon, Card,SocialIcon ,Button } from 'react-native-elements';
+import { View,Image,Linking, Text,Share, ScrollView, StyleSheet } from 'react-native';
+import { SocialIcon  } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
-
-// import ColorButton from './colorButton';
-// import ColorForm from './ColorForm';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
-// const screenHeight = Dimensions.get('window').height
-
-// const availableColors=['red','salmon','yellow','cyan','magenta','purple','green','blue','pink'];
 
 
 class Contact extends Component {
